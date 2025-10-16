@@ -1,9 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
-
-const client = generateClient<Schema>();
+import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-todos',
@@ -13,7 +10,8 @@ const client = generateClient<Schema>();
   styleUrl: './todos.component.css',
 })
 export class TodosComponent implements OnInit {
-  todos: any[] = [];
+  todos = signal<any[]>([]);
+  clientService = inject(ClientService);
 
   ngOnInit(): void {
     this.listTodos();
@@ -21,9 +19,9 @@ export class TodosComponent implements OnInit {
 
   listTodos() {
     try {
-      client.models.Todo.observeQuery().subscribe({
+      this.clientService.client.models.Todo.observeQuery().subscribe({
         next: ({ items, isSynced }) => {
-          this.todos = items;
+          this.todos.set(items);
         },
       });
     } catch (error) {
@@ -33,7 +31,7 @@ export class TodosComponent implements OnInit {
 
   createTodo() {
     try {
-      client.models.Todo.create({
+      this.clientService.client.models.Todo.create({
         content: window.prompt('Todo content'),
       });
       this.listTodos();
@@ -44,6 +42,6 @@ export class TodosComponent implements OnInit {
 
     
   deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+    this.clientService.client.models.Todo.delete({ id })
   }
 }

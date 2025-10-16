@@ -1,65 +1,199 @@
+@import '@aws-amplify/ui/styles.css';
+
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+/* Fix Tailwind reset removing bold/italic from semantic HTML tags */
+strong, b {
+  font-weight: 500;
+}
+
+em, i {
+  font-style: italic;
+}
+
+.flash-anim {
+  animation: flash 2s linear infinite;
+}
+
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+* {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+  
+}
+
 body {
-    margin: 0;
-    background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255));
-    display: flex;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    height: 100vh;
-    width: 100vw;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    color: white;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
-  
-  ul {
-    padding-inline-start: 0;
-    margin-block-start: 0;
-    margin-block-end: 0;
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    margin: 8px 0;
-    border: 1px solid black;
-    gap: 1px;
-    background-color: black;
-    border-radius: 8px;
-    overflow: auto;
-  }
-  
-  li {
-    background-color: white;
-    padding: 8px;
-  }
-  
-  li:hover {
-    background: #dadbf9;
-  }
-  
-  a {
-    font-weight: 800;
-    text-decoration: none;
-  }
+  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-700), #00C7B2);
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background {
+  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-700), #00C7B2);
+}
+
+.btn {
+  @apply mt-2 px-6 py-3 rounded text-[var(--color-font-primary)] bg-primary-500 font-bold;
+}
+
+.main-btn {
+  @apply mt-2 px-6 py-3 rounded bg-primary hover:bg-primary-600 text-white font-bold;
+}
+
+.small-btn {
+  @apply mt-2 px-4 py-2 rounded text-white hover:bg-primary-600 bg-primary-500 font-bold text-sm;
+}
+
+.btn-cta {
+  @apply py-4 rounded-lg font-bold text-lg text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all transform hover:scale-102 disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-xl
+}
+
+.card-bg {
+  @apply bg-gradient-to-r from-primary-100 to-primary-200;
+}
+
+.card {
+  @apply bg-white backdrop-blur-md rounded-lg shadow-md;
+}
+
+:root {
+  --color-primary: var(--color-primary-500);
+  --color-primary-fg: 255 255 255;     
+  --color-secondary: 16 185 129;
+  --color-secondary-fg: 0 0 0;
+}
+
+/* Auto-link default styling */
+.auto-link {
+  /* Support both rgb triplet and hex variable flavors */
+  color: rgb(var(--color-secondary-700));
+  color: var(--color-secondary-700);
+  text-decoration: underline;
+}
+
+.auto-link:hover {
+  color: var(--color-secondary-800, var(--color-secondary));
+}
+
+/* Prepend an emoji to auto-links */
+.auto-link::before {
+  content: "🔗 ";
+  text-decoration: none;
+}
+
+
+@theme {
+  /* PRIMARY */
+  --color-primary-500: #333e7e;
+  --color-primary: var(--color-primary-500);
+  --color-primary-fg-500: var(--color-primary-500);       /* fallback */
+  --color-primary-fg: var(--color-primary-500);       /* fallback */
+
+  /* Auto shades derived from -500 */
+  --color-primary-50:  color-mix(in oklab, var(--color-primary-500), white 95%);
+  --color-primary-100: color-mix(in oklab, var(--color-primary-500), white 90%);
+  --color-primary-200: color-mix(in oklab, var(--color-primary-500), white 80%);
+  --color-primary-300: color-mix(in oklab, var(--color-primary-500), white 70%);
+  --color-primary-400: color-mix(in oklab, var(--color-primary-500), white 50%);
+  --color-primary-600: color-mix(in oklab, var(--color-primary-500), black 10%);
+  --color-primary-700: color-mix(in oklab, var(--color-primary-500), black 20%);
+  --color-primary-800: color-mix(in oklab, var(--color-primary-500), black 30%);
+  --color-primary-900: color-mix(in oklab, var(--color-primary-500), black 40%);
+
+  /* SECONDARY */
+  --color-secondary-500: #00C7B2;          /* fallback */
+  --color-secondary: var(--color-secondary-500);
+  --color-secondary-50:  color-mix(in oklab, var(--color-secondary-500), white 95%);
+  --color-secondary-100: color-mix(in oklab, var(--color-secondary-500), white 90%);
+  --color-secondary-200: color-mix(in oklab, var(--color-secondary-500), white 80%);
+  --color-secondary-300: color-mix(in oklab, var(--color-secondary-500), white 70%);
+  --color-secondary-400: color-mix(in oklab, var(--color-secondary-500), white 50%);
+  --color-secondary-600: color-mix(in oklab, var(--color-secondary-500), black 10%);
+  --color-secondary-700: color-mix(in oklab, var(--color-secondary-500), black 20%);
+  --color-secondary-800: color-mix(in oklab, var(--color-secondary-500), black 30%);
+  --color-secondary-900: color-mix(in oklab, var(--color-secondary-500), black 40%);
+
+  /* FONT COLORS */
+  --color-font-primary: #000000;       /* fallback */
+  --color-font-secondary: #000000;           /* fallback */
+
+}
+
+
+.main-full {
+  min-height: 100vh; 
+  min-height: -webkit-fill-available;
+}
+
+/* ----------------------- THEMED UI SHELL ----------------------- */
+/* Header */
+.ui-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+  color: white;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-primary-700), black 10%);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.ui-header__brand { display: flex; align-items: center; gap: .5rem; }
+.ui-header__title { font-weight: 700; letter-spacing: .2px; }
+.ui-header__center { display: flex; justify-content: center; }
+.ui-header__actions { display: flex; justify-content: end; gap: .5rem; }
+
+/* Sidebar */
+.ui-sidebar {
+  width: 240px;
+  background: white;
+  color: #111827;
+  border-right: 1px solid #e5e7eb;
+  padding: .75rem;
+}
+.ui-sidebar.collapsed { width: 64px; }
+.ui-sidebar .collapse-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 8px; background: var(--color-primary-50);
+}
+.ui-sidebar__item { display: flex; align-items: center; gap: .5rem; padding: .5rem; border-radius: .5rem; }
+.ui-sidebar__item:hover { background: var(--color-primary-50); }
+.ui-sidebar__item .icon { width: 1.25rem; text-align: center; }
+
+/* Footer */
+.ui-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1rem; background: white; border-top: 1px solid #e5e7eb;
+}
+
+/* Menu */
+.menu-link { color: rgb(var(--color-primary-fg-500)); opacity: .9; padding: .35rem .6rem; border-radius: .5rem; }
+.menu-link:hover { background: color-mix(in oklab, var(--color-primary-700), white 85%); opacity: 1; }
+.menu-link.active { background: color-mix(in oklab, var(--color-primary-700), white 80%); font-weight: 600; }
+
+/* Dropdown */
+.btn-select {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem .75rem; border-radius: .5rem; background: white; border: 1px solid #e5e7eb;
+}
+.dropdown-panel { position: absolute; margin-top: .25rem; min-width: 12rem; background: white; border: 1px solid #e5e7eb; border-radius: .5rem; box-shadow: 0 10px 25px rgba(0,0,0,.08); z-index: 30; padding: .25rem; }
+.dropdown-item { width: 100%; text-align: left; padding: .5rem .75rem; border-radius: .375rem; }
+.dropdown-item:hover { background: var(--color-primary-50); }
+.dropdown-item.active { background: var(--color-primary-100); font-weight: 600; }
+
