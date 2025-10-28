@@ -1,5 +1,9 @@
 
 
+
+
+export type PlanName = 'free' | 'pro' | '' | 'pro_cancelling';
+
 export interface User {
   id: string;
   company: string | null;

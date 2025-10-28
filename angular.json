@@ -21,8 +21,10 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "src/assets"
+              }
             ],
             "styles": [
               "node_modules/@aws-amplify/ui-angular/theme.css",

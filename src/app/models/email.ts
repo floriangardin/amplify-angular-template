@@ -6,17 +6,18 @@ export interface Email {
   content: string;
   category: string;
   isUrgent: boolean;
-  choices: ChoiceDict;
-  priority: number;
+  choices: Choice[];
   default: boolean;
-}
-export interface ChoiceDict {
-  // Keys are choice identifiers (names). They are used as strings in templates.
-  [name: string]: Choice;
 }
 
 export interface Impact {
   [name: string]: number;
+}
+
+export interface Outcome {
+    description: string;
+    impact: Impact;
+    next?: string[]; // Force next email to send
 }
 export interface Choice {
   name: string;
@@ -24,10 +25,5 @@ export interface Choice {
   bonus?: string;
   bonusUrl?: string;
   bonusReadText?: string;
-  outcome: {
-    description: string;
-    dataQualityImpact: number;
-    impact: Impact;
-    next?: string[]; // Force next email to send
-  };
+  outcome: Outcome;
 } 

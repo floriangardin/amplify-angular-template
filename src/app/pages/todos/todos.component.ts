@@ -18,30 +18,30 @@ export class TodosComponent implements OnInit {
   }
 
   listTodos() {
-    try {
-      this.clientService.client.models.Todo.observeQuery().subscribe({
-        next: ({ items, isSynced }) => {
-          this.todos.set(items);
-        },
-      });
-    } catch (error) {
-      console.error('error fetching todos', error);
-    }
+    // try {
+    //   this.clientService.client.models.Todo.observeQuery().subscribe({
+    //     next: ({ items, isSynced }) => {
+    //       this.todos.set(items);
+    //     },
+    //   });
+    // } catch (error) {
+    //   console.error('error fetching todos', error);
+    // }
   }
 
   createTodo() {
-    try {
-      this.clientService.client.models.Todo.create({
-        content: window.prompt('Todo content'),
-      });
-      this.listTodos();
-    } catch (error) {
-      console.error('error creating todos', error);
-    }
+    // try {
+    //   this.clientService.client.models.Todo.create({
+    //     content: window.prompt('Todo content'),
+    //   });
+    //   this.listTodos();
+    // } catch (error) {
+    //   console.error('error creating todos', error);
+    // }
   }
 
     
   deleteTodo(id: string) {
-    this.clientService.client.models.Todo.delete({ id })
+    // this.clientService.client.models.Todo.delete({ id })
   }
 }
