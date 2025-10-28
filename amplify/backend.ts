@@ -7,6 +7,7 @@ import { createCheckoutSession } from './functions/create-checkout-session/resou
 import { cancelSubscription } from './functions/cancel-subscription/resource';
 import { reinstateSubscription } from './functions/reinstate-subscription/resource';
 import { verifySubscription } from './functions/verify-subscription/resource';
+import { listInvoices } from './functions/list-invoices/resource';
 
 import * as iam from "aws-cdk-lib/aws-iam";
 
@@ -20,6 +21,7 @@ const backend = defineBackend({
   cancelSubscription,
   reinstateSubscription,
   verifySubscription,
+  listInvoices,
 });
 
 

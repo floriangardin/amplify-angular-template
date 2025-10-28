@@ -1,0 +1,24 @@
+{
+  "Statement": [
+    {
+      "Action": [
+        "cognito-idp:AdminCreateUser",
+        "cognito-idp:AdminAddUserToGroup"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:cognito-idp:us-east-1:425098138009:userpool/us-east-1_igkLqepef"
+    },
+    {
+      "Action": [
+        "ssm:PutParameter",
+        "ssm:GetParameter"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:ssm:*:*:parameter/amplify/amplifyangulartemplate/floriangardin-sandbox-e5a3f80812/*",
+        "arn:aws:ssm:*:*:parameter/amplify/shared/amplify-angular-template/*"
+      ]
+    }
+  ],
+  "Version": "2012-10-17"
+}

@@ -6,6 +6,7 @@ import { createCheckoutSession } from '../functions/create-checkout-session/reso
 import { cancelSubscription } from '../functions/cancel-subscription/resource';
 import { reinstateSubscription } from '../functions/reinstate-subscription/resource';
 import { verifySubscription } from '../functions/verify-subscription/resource';
+import { listInvoices } from '../functions/list-invoices/resource';
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
@@ -14,6 +15,16 @@ specifies that any user authenticated via an API key can "create", "read",
 =========================================================================*/
 
 export const schema = a.schema({
+  InvoiceSummary: a.customType({
+    id: a.string().required(),
+    number: a.string().required(),
+    hostedInvoiceUrl: a.string().required(),
+    invoicePdf: a.string().required(),
+    currency: a.string().required(),
+    total: a.integer().required(),
+    created: a.string().required(),
+    status: a.string().required(),
+  }),
   
     createCheckoutSession: a
     .query()
@@ -44,6 +55,13 @@ export const schema = a.schema({
   .returns(a.string())
   .authorization(allow => [allow.authenticated()])
   .handler(a.handler.function(verifySubscription)),
+
+  listInvoices: a
+  .query()
+  .arguments({})
+  .returns(a.ref('InvoiceSummary').array().required())
+  .authorization(allow => [allow.authenticated()])
+  .handler(a.handler.function(listInvoices)),
 
   sayHello: a
     .query()
@@ -107,9 +125,12 @@ export const schema = a.schema({
     title: a.string().required(), // "Data Steward simulator"
     scenarioTitle: a.string().required(), // "<q>The Duplicate Dilemma</q>"
     gameTitle: a.string().required(), // "Data Steward Simulator"
+    plan: a.string().required(), // "free" | "pro"
+    role: a.string().required(), // "Your Role as Data Steward"
     // JSON field is 'headerGameText'
     headerGameText: a.string().required(), // "Data Steward Simulator"
     introText: a.string().required(),
+    description: a.string().required(),
     cdoRole: a.string().required(), // "Your Role as Data Steward"
     startTutorial: a.string().required(),
     logo: a.ref('LogoRef').required(),

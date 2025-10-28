@@ -1,0 +1,1 @@
+npx dotenvx run --env-file=.env.local -- ampx sandbox --stream-function-logs

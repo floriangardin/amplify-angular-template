@@ -6,6 +6,7 @@ import { ClientService } from '../services/client.service';
 import { UserService } from '../services/user.service';
 import { Scenario } from '../models/game-content';
 import { ConfirmDialogComponent } from '../ui/elements/confirm-dialog.component';
+import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
 import { Router } from '@angular/router';
 import {StripeService} from '../services/stripe.service'
 // UI KIT HOME PAGE DEMO
@@ -16,23 +17,24 @@ import {StripeService} from '../services/stripe.service'
   <app-header [email]="email()" [planName]="planName()"
    (settings)="onSettings()"
    (signOut)="onSignOut()" (goPro)="goPro()"></app-header>
-  <div class=" p-0 md:p-0 space-y-8 flex flex-col">
+  <div class="p-0 md:p-0 space-y-8 flex flex-col md:m-xl p-8 max-w-4xl mx-auto">
     @for(scenario of scenarios(); track scenario) {
-      <div class="border card rounded-lg p-4 m-4 shadow-lg">
-        <div class="flex items-start justify-between gap-4">
-          <h1 class="text-2xl font-bold mb-2">{{scenario.title}}</h1>
-          @if(isAdmin()){
-            <button
-              type="button"
-              class="text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
-              aria-label="Delete scenario"
-              (click)="promptDelete(scenario)"
-              title="Delete"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          }
-        </div>
+      <div class="relative m-4">
+        <app-scenario-card
+          [scenario]="scenario"
+          (play)="onPlay(scenario)"
+        />
+        @if(isAdmin()){
+          <button
+            type="button"
+            class="absolute top-2 right-2 text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
+            aria-label="Delete scenario"
+            (click)="promptDelete(scenario)"
+            title="Delete"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        }
       </div>
     }
   </div>
@@ -55,6 +57,7 @@ import {StripeService} from '../services/stripe.service'
     CommonModule,
     HeaderComponent,
     ConfirmDialogComponent,
+    ScenarioCardComponent,
   ],
 })
 export class HomeComponent implements OnInit{
@@ -77,9 +80,11 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['/settings']);
   }
   async getScenarios() {
+    // Example Angular usage
     const scenarios = await this.clientService.client.models.Scenario.list({
     selectionSet: [
-      'id', 'name', 'title', 'scenarioTitle', 'gameTitle',
+      'id', 'name', 'title', 'scenarioTitle', 'gameTitle', 'plan', 'role',
+      'description', 
       'headerGameText', 'introText', 'cdoRole', 'startTutorial',
       'nodes.*', 'indicators.*',
       'termsLinks.*', 'endResources.*', 'logo.*', 'logoCompany.*'
@@ -114,7 +119,20 @@ export class HomeComponent implements OnInit{
     // SCENARIOS
 
     await this.userService.init();
-    const scenarios = await this.getScenarios();
+    let scenarios = await this.getScenarios();
+
+    if(scenarios.data.length > 0){
+
+      // MOCK DATA
+      const duplicateScenario = JSON.parse(JSON.stringify(scenarios.data[0]));
+      duplicateScenario.plan = 'free';
+      scenarios.data.push(duplicateScenario);
+      // MOCK DATA END
+    }
+
+    // Sort scenario to free first.
+    scenarios.data.sort((a, b) => (a.plan === 'free' ? -1 : 1));
+
     this.scenarios.set(scenarios.data as Scenario[]);
     if(scenarios.data && scenarios.data.length === 0){
       await this.clientService.client.queries.seedScenario({});
@@ -161,6 +179,11 @@ export class HomeComponent implements OnInit{
       console.error('Stripe checkout failed', err);
       // optionally show a toast
     });
+  }
+  
+  onPlay(scenario: Scenario){
+    // TODO: implement scenario start
+    console.log('Play scenario', scenario);
   }
   
 
