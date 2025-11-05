@@ -1,6 +1,7 @@
 import { Component, input, output, signal, computed, effect, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-
+import { getUrl, uploadData } from 'aws-amplify/storage';
+import {resource, Signal} from '@angular/core';
 type Transform = { w?: number; h?: number; fmt?: string };
 
 @Component({
@@ -87,7 +88,6 @@ export class EditableImageComponent {
   transform = input<Transform | null>(null);
   isEditable = input<boolean>(false);
   
-  
 
   // Local mirrored state for immediate UI updates
   private currentAssetId = signal<string | null>(null);
@@ -107,14 +107,32 @@ export class EditableImageComponent {
 
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
 
-  src = computed(() => {
+  imageUrlResource = resource({
+    // Define a reactive computation.
+    // The params value recomputes whenever any read signals change.
+    params: () => ({id: this.currentAssetId()}),
+    // Define an async loader that retrieves data.
+    // The resource calls this function every time the `params` value changes.
+    loader: ({params}) => params.id ? getUrl({path: params.id}) : Promise.resolve(null),
+  });
+
+  src = computed( () => {
     const local = this.previewUrl();
     if (local) return local;
     const id = this.currentAssetId();
     if (!id) return '';
-    const t = this.transform() ?? {};
-    return '/assets/' + id 
+    if(this.imageUrlResource.hasValue()){
+      const imageUrl =  this.imageUrlResource.value()?.url;
+      console.log("Fetched image URL:", imageUrl);
+      console.log("Href:", imageUrl?.href);
+      return imageUrl?.href || '';
+
+    }
+    return '';
   });
+
+
+
 
   startEditing() {
     if (!this.isEditable()) return;
@@ -165,13 +183,33 @@ export class EditableImageComponent {
     this.editing.set(false);
   }
 
-  onValidate() {
+  async onValidate() {
     if(!this.hasSelection()) this.onCancel();
     const file = this.selectedFile();
     if (!file) return;
     this.uploading.set(true);
+    await this.uploadPreview(file);
+    this.uploading.set(false);
+    this.editing.set(false);
+    this.clearSelection();
     this.uploadError.set(null);
     console.log('Uploading file', file);
     
   }
+
+
+  async uploadPreview(file: File): Promise<void> {
+    let id = this.currentAssetId();
+     if(!id) {
+        return Promise.reject('No assetId defined');
+     }
+    console.log("Uploading to assetId:", id);
+    let result = await uploadData({
+          data: file,
+          path: id
+      });
+    console.log("Upload complete");
+    console.log(result);
+  }
+
 }

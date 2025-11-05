@@ -23,3 +23,12 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
+
+## Seed
+To create admin user
+
+```bash
+npx ampx sandbox secret set username       
+npx ampx sandbox secret set password                                   
+amplify-angular-template % npx ampx sandbox seed                                                       
+```

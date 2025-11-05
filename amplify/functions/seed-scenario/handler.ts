@@ -41,6 +41,7 @@ export const handler: Schema["seedScenario"]["functionHandler"] = async (event) 
     startTutorial: payload.startTutorial,
     logo: { assetId: payload.logo.assetId },
     logoCompany: { assetId: payload.logoCompany.assetId },
+    logoId: payload.logoId,
   });
 
   if (scenarioErrors?.length || !scenario) {

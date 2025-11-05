@@ -137,6 +137,7 @@ export const schema = a.schema({
     logoCompany: a.ref('LogoRef').required(),
     // Relations (reverse fields on child models)
     nodes: a.hasMany('Node', 'scenarioId'),
+    logoId: a.string().required(),
     indicators: a.hasMany('Indicator', 'scenarioId'),
     // JSON uses 'termsLinks' (plural 'terms')
     termsLinks: a.hasMany('TermLink', 'scenarioId'),

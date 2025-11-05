@@ -36,6 +36,7 @@ export interface Scenario {
   gameTitle: string;
   headerGameText: string;
   logo: Image;
+  logoId: string;
   logoCompany: Image;
   scenarioTitle: string;
   startTutorial: string;

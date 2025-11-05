@@ -17,26 +17,56 @@ import {StripeService} from '../services/stripe.service'
   <app-header [email]="email()" [planName]="planName()"
    (settings)="onSettings()"
    (signOut)="onSignOut()" (goPro)="goPro()"></app-header>
-  <div class="p-0 md:p-0 space-y-8 flex flex-col md:m-xl p-8 max-w-4xl mx-auto">
-    @for(scenario of scenarios(); track scenario) {
-      <div class="relative m-4">
-        <app-scenario-card
-          [scenario]="scenario"
-          (play)="onPlay(scenario)"
-        />
-        @if(isAdmin()){
-          <button
-            type="button"
-            class="absolute top-2 right-2 text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
-            aria-label="Delete scenario"
-            (click)="promptDelete(scenario)"
-            title="Delete"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
+
+  <div class="mx-32 my-8">
+      <h1 class="text-2xl space-y-8 font-bold text-white mb-8 w-full">For data stewards ...</h1>
+      <div class="p-0 md:p-0 space-x-8 flex flex-row justify-left max-w-4xl">
+        @for(scenario of scenarios(); track scenario) {
+          <div class="relative">
+            <app-scenario-card
+              [scenario]="scenario"
+              (play)="onPlay(scenario)"
+              [isAdmin]="isAdmin()"
+            />
+            @if(isAdmin()){
+              <button
+                type="button"
+                class="absolute top-2 left-2 text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
+                aria-label="Delete scenario"
+                (click)="promptDelete(scenario)"
+                title="Delete"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            }
+          </div>
         }
-      </div>
-    }
+    </div>
+  </div>
+    <div class="mx-32 my-8">
+      <h1 class="text-2xl space-y-8 font-bold text-white mb-8 w-full">Based on your profile</h1>
+      <div class="p-0 md:p-0 space-x-8 flex flex-row justify-left max-w-4xl">
+        @for(scenario of scenarios(); track scenario) {
+          <div class="relative">
+            <app-scenario-card
+              [scenario]="scenario"
+              (play)="onPlay(scenario)"
+              [isAdmin]="isAdmin()"
+            />
+            @if(isAdmin()){
+              <button
+                type="button"
+                class="absolute top-2 left-2 text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
+                aria-label="Delete scenario"
+                (click)="promptDelete(scenario)"
+                title="Delete"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            }
+          </div>
+        }
+    </div>
   </div>
   @if(showConfirm()){
     <app-confirm-dialog
@@ -83,7 +113,7 @@ export class HomeComponent implements OnInit{
     // Example Angular usage
     const scenarios = await this.clientService.client.models.Scenario.list({
     selectionSet: [
-      'id', 'name', 'title', 'scenarioTitle', 'gameTitle', 'plan', 'role',
+      'id', 'name', 'title', 'scenarioTitle', 'gameTitle', 'plan', 'role', 'logoId',
       'description', 
       'headerGameText', 'introText', 'cdoRole', 'startTutorial',
       'nodes.*', 'indicators.*',

@@ -1027,6 +1027,7 @@
   ],
 
   "logo": {"assetId": "data_steward.png"},
+  "logoId": "duplicate_dilemma",
   "headerGameText": "Data Steward Simulator",
   "title": "Data Steward simulator",
   "scenarioTitle": "<q>The Duplicate Dilemma</q>",
