@@ -161,7 +161,7 @@ export const schema = a.schema({
       category: a.ref('Categories').required(),
       isUrgent: a.boolean().required(),
       // branching
-      choices: a.ref('Choice').array().required(),
+      choices: a.ref('Choice').required().array().required(),
   }),
 
   CurrencyEnum: a.enum(['percentage', 'dollars']),
@@ -170,6 +170,7 @@ export const schema = a.schema({
       scenarioId: a.id().required(),
       scenario: a.belongsTo('Scenario', 'scenarioId'),
       name: a.string().required(), // display name
+      nameId: a.string().required(), // id name for mapping
       emoji: a.string().required(),
       initial: a.integer().required(),
       min: a.integer().required(),
@@ -201,14 +202,13 @@ export const schema = a.schema({
   source: a.ref('SourceType').required(),
   })
 })
-.authorization((allow) => [allow.authenticated().to(['create', 'read', 'delete']), allow.resource(seedScenario).to(['mutate', 'query', 'listen'])]);
+.authorization((allow) => [allow.authenticated().to(['read']), allow.groups(['ADMIN']).to(['create', 'delete']), allow.resource(seedScenario).to(['mutate', 'query', 'listen'])]);
 
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
-  
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
     // API Key is used for a.allow.public() rules

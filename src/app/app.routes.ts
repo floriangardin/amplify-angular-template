@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
-import { UIKit } from './pages/uikit.component';
 import { HomeComponent } from './pages/home.component';
 import { SettingsComponent } from './pages/settings.component';
-
+import { gamesRoutes } from './pages/games/games.routes';
 export const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'settings', component: SettingsComponent},
-    {path: 'ui-kit', component: UIKit}
+    {path: 'games', children: gamesRoutes}
 ];

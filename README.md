@@ -32,3 +32,29 @@ npx ampx sandbox secret set username
 npx ampx sandbox secret set password                                   
 amplify-angular-template % npx ampx sandbox seed                                                       
 ```
+
+### Seed scenarios (all JSON files)
+
+Seed all files in `amplify/static/scenarios` into the backend referenced by `amplify_outputs.json`.
+
+Sandbox (using `.env.local` for credentials):
+
+```bash
+npx dotenvx run --env-file=.env.local -- npm run seed:scenarios
+```
+
+Inline credentials (any environment):
+
+```bash
+SEED_USERNAME="you@example.com" SEED_PASSWORD="yourpassword" npm run seed:scenarios
+```
+
+Notes:
+- Provide a valid Cognito user with permissions (authenticated users can create/read/delete per schema).
+- Make sure `amplify_outputs.json` points to the desired environment (Sandbox running, or correct branch checked out).
+
+## Run sandbox
+
+```bash
+npx dotenvx run --env-file=.env.local -- ampx sandbox --stream-function-logs
+```

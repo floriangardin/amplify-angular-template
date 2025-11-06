@@ -8,6 +8,7 @@ export interface Email {
   isUrgent: boolean;
   choices: Choice[];
   default: boolean;
+  priority?: number;
 }
 
 export interface Impact {

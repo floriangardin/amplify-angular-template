@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "seed:scenarios": "tsx scripts/seed-scenarios.ts",
+    "seed:images": "tsx scripts/seed-images.ts"
   },
   "private": true,
   "dependencies": {

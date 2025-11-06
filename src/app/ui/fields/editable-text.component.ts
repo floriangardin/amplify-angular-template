@@ -79,7 +79,7 @@ export class EditableTextComponent implements OnInit {
   contentClass = input<string>('');
   isMarkdown = input<boolean>(true);
   // Optional: map of terms to links to auto-wrap occurrences in the rendered output
-  linkTerms = input<Record<string, LinkSpec> | undefined>(undefined);
+  linkTerms = input<LinkSpec[] | undefined>(undefined);
   // Optional: whether term matching is case-sensitive (default true)
   linkCaseSensitive = input<boolean>(true);
   newText = output<string>();
@@ -97,6 +97,7 @@ export class EditableTextComponent implements OnInit {
     if (!raw) return '';
     const html = marked.parse(raw, { breaks: true }) as string;
   const map = this.linkTerms();
+  console.log('linkTerms:', map); // --- IGNORE ---
   return map ? linkifyHtml(html, map, this.linkCaseSensitive()) : html;
   });
 
@@ -161,12 +162,14 @@ export class EditableTextComponent implements OnInit {
 
   // Capture clicks on auto-linked <a> tags to let parent handle (e.g., open popup)
   onWrapperClick(event: MouseEvent) {
+    console.log('Wrapper click event:', event);
     const target = event.target as HTMLElement | null;
     if (!target) return;
     // Walk up to find the nearest anchor with class 'auto-link'
     let el: HTMLElement | null = target;
     while (el && el !== (event.currentTarget as HTMLElement)) {
       if (el.tagName === 'A' && el.classList.contains('auto-link')) {
+        console.log('Clicked on auto-link:', el);
         event.preventDefault();
         event.stopPropagation();
         const a = el as HTMLAnchorElement;

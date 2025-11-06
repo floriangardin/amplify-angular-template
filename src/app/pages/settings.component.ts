@@ -17,7 +17,7 @@ import {StripeService} from '../services/stripe.service'
   selector: 'app-settings',
   standalone: true,
   template: `
-  <app-header [email]="email()" [planName]="planName()" (signOut)="onSignOut()" (goPro)="goPro()" ></app-header>
+  <app-header></app-header>
   <div class="card-dark p-0 space-y-8 flex flex-col items-center mt-8 md:m-16 p-8">
     
     <h1 class="text-3xl font-bold mb-8">Account Settings</h1>
@@ -92,7 +92,7 @@ import {StripeService} from '../services/stripe.service'
   `,
   host: { class: 'w-full block' },
   styles: [`
-    :host { display: block; }
+    :host { display: block; width: 100vw; height: 100vh; }
   `],
   imports: [
     CommonModule,

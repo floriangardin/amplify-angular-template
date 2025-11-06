@@ -4,6 +4,7 @@ export interface Indicator {
   name: string;
   emoji: string;
   initial: number;
+  nameId: string;
   min: number;
   max: number;
   type: 'percentage' | 'dollars' | 'points';

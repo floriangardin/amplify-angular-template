@@ -1,0 +1,109 @@
+import { Component, input, output, inject, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { GameStateService } from '../services/game-state.service';
+import { GameStatsService } from '../services/game-stats.service';
+import { StatDisplayComponent } from '../../../../ui/elements/stat-display.component';
+import { ProgressStatComponent } from '../../../../ui/elements/progress-stat.component';
+import { SoundToggleComponent } from '../../../../ui/elements/sound-toggle.component';
+import { EditableTextComponent } from '../../../../ui/fields/editable-text.component';
+import { EditableImageComponent } from '../../../../ui/fields/editable-image.component';
+import { formatCurrency } from '../utils/game-formatters';
+
+@Component({
+  selector: 'app-game-stats-header',
+  standalone: true,
+  imports: [CommonModule, StatDisplayComponent, ProgressStatComponent, SoundToggleComponent, EditableTextComponent, EditableImageComponent],
+  template: `
+
+    <div class="relative bg-primary text-white text-center p-1 hidden md:flex flex-row  items-center justify-center">
+      <app-editable-text 
+        [text]="headerText()"
+        [isEditable]="isEditable()"
+        [contentClass]="'text-xs lg:text-sm'"
+        [isMarkdown]="true"
+        (newText)="{}"
+      ></app-editable-text>
+      <div> &nbsp; - &nbsp;</div>
+        <app-editable-text 
+        [text]="scenarioTitle()"
+        [isEditable]="isEditable()"
+        [contentClass]="'text-xs lg:text-sm'"
+        [isMarkdown]="true"
+        (newText)="{}"
+      ></app-editable-text>
+
+      <app-sound-toggle
+        class="hidden md:block absolute right-2"
+        [isMuted]="isMusicMuted()"
+        (toggle)="soundToggled.emit()"
+      />
+
+    </div>
+
+    <div class="flex justify-start items-center px-2 py-2 md:p-4 lg:p-4 bg-gray-100 border-b border-gray-300 flex-wrap gap-2 md:gap-4 shrink-0">
+          
+    <app-editable-image
+        [assetId]="logoAssetId()"
+        [isEditable]="isEditable()"
+        [imgClass]="'h-8 w-8 object-cover mr-8 hidden md:flex items-center'"
+        [transform]="{ w: 256, h: 256, fmt: 'png' }"
+        class="h-full"
+        (newAssetId)="{}">
+    </app-editable-image>
+        
+    @for (ind of displayedIndicators(); track ind.key) {
+        @if (ind.type === 'percentage' || ind.type === 'points') {
+          <app-progress-stat
+             class="border-r-1 border-gray-300 pr-4 last:border-r-0 last:flex-1"
+            [icon]="ind.emoji || '📊'"
+            [label]="ind.name"
+            [value]="valueAsPercent(ind.key)"
+            [color]="ind.color || 'primary'"
+          />
+    } @else {
+          <app-stat-display
+          class="border-r-1 border-gray-300 pr-4 last:border-r-0 last:flex-1"
+            [icon]="ind.emoji || '📈'"
+            [label]="ind.name"
+            [value]="statsService.value(ind.key)"
+            [formatter]="ind.type === 'dollars' ? currencyFormatter : numberFormatter"
+          />
+        }
+      }
+
+    </div>
+  `
+})
+export class GameStatsHeaderComponent {
+  private gameState = inject(GameStateService);
+  protected statsService = inject(GameStatsService);
+  isMusicMuted = input.required<boolean>();
+  
+  isEditable = input<boolean>(false);
+  soundToggled = output<void>();
+
+  displayedIndicators = computed(() => {
+    const defs = this.gameState.content()?.indicators || [];
+
+    return defs
+      .filter(def => def.displayed)
+      .map(def => ({ key: def.nameId, ...def }));
+  });
+
+  headerText = computed(() => this.gameState.content()['headerGameText']);
+  scenarioTitle = computed(() => this.gameState.content()['scenarioTitle'] || '');
+  logoAssetId = computed(() => this.gameState.content()['logo']?.['assetId'] || null);
+  valueAsPercent = (key: string): number => {
+    const defs = this.gameState.content()?.indicators || [];
+    const def = defs.find(d => d.nameId === key);
+    if (!def) return 0;
+    const value = this.statsService.value(key);
+    const min = def.min ?? 0;
+    const max = def.max ?? 100;
+    if (max === min) return 0;
+    const pct = ((value - min) / (max - min)) * 100;
+    return Math.max(0, Math.min(100, Math.round(pct)));
+  }
+  currencyFormatter = (v: number) => formatCurrency(v);
+  numberFormatter = (v: number) => String(v);
+}

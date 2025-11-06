@@ -28,7 +28,7 @@ export interface ChoiceValidation {
           [isEditable]="isEditable()" 
           [isMarkdown]="true"
           [text]="choiceText()" 
-          [linkTerms]="termsLinks"
+          [linkTerms]="termsLinks()"
           (linkClick)="onLinkClick($event)"
           (newText)="textChanged.emit($event)" 
         />
@@ -60,7 +60,8 @@ export class ChoiceButtonComponent {
   showImpacts = input<boolean>(true);
   content = input<any>(null);
   
-  termsLinks = this.content()?.terms_links || {};
+  // Compute term links reactively from provided content
+  termsLinks = computed(() => this.content()?.termsLinks || []);
   choiceSelected = output<Choice>();
   textChanged = output<string>();
   linkClicked = output<{ label: string; href: string }>();

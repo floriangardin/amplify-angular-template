@@ -7,7 +7,7 @@
   "default": true,
   "sender": "Leah Park, Marketing Manager",
   "title": "Pre-Campaign Check – Possible Duplicate Customer Records",
-  "content": "Hi {first_name},<br/><br/>Before we launch our new 'Winter Protection' campaign, the Marketing team ran a quick data validation and noticed several customers appear more than once in the mailing list.<br/><br/>For example, we have both 'Daniel Smith' and 'Danielle Smyth' with the same email address but different customer IDs.<br/><br/>Could you please take a look before we send out the campaign? We want to avoid confusing customers or damaging the brand's credibility.<br/><br/>Thanks,\nLeah",
+  "content": "Hi {first_name},<br/><br/>Before we ${MDM} launch our new 'Winter Protection' campaign, the Marketing team ran a quick data validation and noticed several customers appear more than once in the mailing list.<br/><br/>For example, we have both 'Daniel Smith' and 'Danielle Smyth' with the same email address but different customer IDs.<br/><br/>Could you please take a look before we send out the campaign? We want to avoid confusing customers or damaging the brand's credibility.<br/><br/>Thanks,\nLeah",
   "category": "scenario",
   "isUrgent": true,
   "choices": {
@@ -1032,7 +1032,7 @@
   "title": "Data Steward simulator",
   "scenarioTitle": "<q>The Duplicate Dilemma</q>",
   "cdoRole": "Your Role as Data Steward",
-  "plan": "pro",
+  "plan": "free",
   "role": "Data Steward",
   "gameTitle": "Data Steward Simulator",
   "introText": "Welcome to the <b>Data Steward Simulator</b>, a training environment that mirrors real-life data governance challenges. <br/><br/>In this simulation, you'll take the role of the **Customer Data Steward**, working within the **Sales team**, the business owner of customer data.<br/><br/>Recently, the Marketing team reported a serious issue : they found duplicate customer records... <br/><br/>You're the **Data Steward** responsible for investigating and restoring data trust without disrupting daily operations.",

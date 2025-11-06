@@ -36,6 +36,7 @@ export const handler: Schema["seedScenario"]["functionHandler"] = async (event) 
     plan: payload.plan,
     role: payload.role,
     introText: payload.introText,
+
     description: payload.description,
     cdoRole: payload.cdoRole,
     startTutorial: payload.startTutorial,
@@ -106,6 +107,7 @@ export const handler: Schema["seedScenario"]["functionHandler"] = async (event) 
         max: ind.max,
         type: ind.type as any,
         displayed: Boolean(ind.displayed),
+        nameId: ind.nameId,
         color: ind.color,
       })
     )

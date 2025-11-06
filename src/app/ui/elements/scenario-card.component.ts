@@ -28,7 +28,7 @@ import { EditableImageComponent } from '../fields/editable-image.component';
               [assetId]="assetPath()"
               [alt]="scenario()?.scenarioTitle || 'Scenario'"
               [imgClass]="'inset-0 h-36 w-64 object-cover'"
-              [isEditable]="false"
+              [isEditable]="isAdmin()"
             ></app-editable-image>
           } @else {
             <div class="absolute inset-0 grid place-items-center bg-gradient-to-br from-gray-100 to-gray-200 text-gray-400">

@@ -1027,10 +1027,10 @@
   ],
 
   "logo": {"assetId": "data_steward.png"},
-  "logoId": "duplicate_dilemma",
+  "logoId": "trouble_in_the_mdm",
   "headerGameText": "Data Steward Simulator",
-  "title": "Data Steward simulator",
-  "scenarioTitle": "<q>The Duplicate Dilemma</q>",
+  "title": "Trouble in the MDM",
+  "scenarioTitle": "Trouble in the MDM",
   "cdoRole": "Your Role as Data Steward",
   "plan": "pro",
   "role": "Data Steward",

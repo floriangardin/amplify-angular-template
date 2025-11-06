@@ -9,14 +9,14 @@ import { ConfirmDialogComponent } from '../ui/elements/confirm-dialog.component'
 import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
 import { Router } from '@angular/router';
 import {StripeService} from '../services/stripe.service'
+import { GameStateService } from './games/bestcdo/services/game-state.service';
+import { StateService } from '../services/state.service';
 // UI KIT HOME PAGE DEMO
 @Component({
   selector: 'app-home',
   standalone: true,
   template: `
-  <app-header [email]="email()" [planName]="planName()"
-   (settings)="onSettings()"
-   (signOut)="onSignOut()" (goPro)="goPro()"></app-header>
+  <app-header></app-header>
 
   <div class="mx-32 my-8">
       <h1 class="text-2xl space-y-8 font-bold text-white mb-8 w-full">For data stewards ...</h1>
@@ -26,6 +26,7 @@ import {StripeService} from '../services/stripe.service'
             <app-scenario-card
               [scenario]="scenario"
               (play)="onPlay(scenario)"
+              (select)="onPlay(scenario)"
               [isAdmin]="isAdmin()"
             />
             @if(isAdmin()){
@@ -81,7 +82,7 @@ import {StripeService} from '../services/stripe.service'
   `,
   host: { class: 'w-full block' },
   styles: [`
-    :host { display: block; }
+    :host { display: block; width: 100vw; height: 100vh;}
   `],
   imports: [
     CommonModule,
@@ -94,6 +95,8 @@ export class HomeComponent implements OnInit{
 
   clientService = inject(ClientService);
   stripeService = inject(StripeService);
+  stateService = inject(StateService);
+  gameStateService = inject(GameStateService);
   userService = inject(UserService);
   isAdmin = this.userService.isAdmin;
   isPro = this.userService.isPro;
@@ -109,21 +112,7 @@ export class HomeComponent implements OnInit{
   async onSettings() {
     this.router.navigate(['/settings']);
   }
-  async getScenarios() {
-    // Example Angular usage
-    const scenarios = await this.clientService.client.models.Scenario.list({
-    selectionSet: [
-      'id', 'name', 'title', 'scenarioTitle', 'gameTitle', 'plan', 'role', 'logoId',
-      'description', 
-      'headerGameText', 'introText', 'cdoRole', 'startTutorial',
-      'nodes.*', 'indicators.*',
-      'termsLinks.*', 'endResources.*', 'logo.*', 'logoCompany.*'
-    ],
-    limit: 1000, // raise as needed (AppSync caps apply)
-    });
-    console.log('Fetched scenarios:', scenarios);
-    return scenarios;
-  }
+  
   async ngOnInit(): Promise<void> {
     // USER
     // Detect return from Stripe checkout to refresh token/groups immediately
@@ -149,25 +138,14 @@ export class HomeComponent implements OnInit{
     // SCENARIOS
 
     await this.userService.init();
-    let scenarios = await this.getScenarios();
-
-    if(scenarios.data.length > 0){
-
-      // MOCK DATA
-      const duplicateScenario = JSON.parse(JSON.stringify(scenarios.data[0]));
-      duplicateScenario.plan = 'free';
-      scenarios.data.push(duplicateScenario);
-      // MOCK DATA END
-    }
+    let scenarios = await this.stateService.getScenarios();
 
     // Sort scenario to free first.
-    scenarios.data.sort((a, b) => (a.plan === 'free' ? -1 : 1));
+    scenarios.sort((a, b) => (a.plan === 'free' ? -1 : 1));
 
-    this.scenarios.set(scenarios.data as Scenario[]);
-    if(scenarios.data && scenarios.data.length === 0){
-      await this.clientService.client.queries.seedScenario({});
-      this.scenarios.set((await this.getScenarios()).data as Scenario[]);
-    } 
+    this.scenarios.set(scenarios as Scenario[]);
+    console.log('Loaded scenarios', scenarios);
+    
   }
 
   onSignOut() {
@@ -212,7 +190,8 @@ export class HomeComponent implements OnInit{
   }
   
   onPlay(scenario: Scenario){
-    // TODO: implement scenario start
+    // Navigate with scenario id in query params; game will fetch content based on id
+    this.router.navigate(['/games/bestcdo/start'], { queryParams: { id: scenario.id } });
     console.log('Play scenario', scenario);
   }
   

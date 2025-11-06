@@ -123,8 +123,6 @@ export class EditableImageComponent {
     if (!id) return '';
     if(this.imageUrlResource.hasValue()){
       const imageUrl =  this.imageUrlResource.value()?.url;
-      console.log("Fetched image URL:", imageUrl);
-      console.log("Href:", imageUrl?.href);
       return imageUrl?.href || '';
 
     }
@@ -193,7 +191,6 @@ export class EditableImageComponent {
     this.editing.set(false);
     this.clearSelection();
     this.uploadError.set(null);
-    console.log('Uploading file', file);
     
   }
 
@@ -203,13 +200,10 @@ export class EditableImageComponent {
      if(!id) {
         return Promise.reject('No assetId defined');
      }
-    console.log("Uploading to assetId:", id);
     let result = await uploadData({
           data: file,
           path: id
       });
-    console.log("Upload complete");
-    console.log(result);
   }
 
 }

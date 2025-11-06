@@ -1,18 +1,21 @@
-import { Component, ElementRef, HostListener, OnInit, output, signal, inject, input } from '@angular/core';
+import { Component, ElementRef, HostListener, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth';
+import { signOut } from 'aws-amplify/auth';
 import type { PlanName } from '../models/user';
 import { PlanComponent } from '../ui/elements/plan.component';
+import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { StripeService } from '../services/stripe.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, PlanComponent],
   template: `
-    <header class="p-4 w-screen flex items-center justify-between bg-gray-800 text-white relative">
+    <header class="p-4 w-full flex items-center justify-between bg-gray-800 text-white relative">
       <div class="flex flex-row items-center gap-3">
-        <img src="/assets/maketools_logo.png" alt="Logo" class="h-12" />
-        <app-plan [planName]="planName()" (goPro)="goPro.emit()"></app-plan>
+        <img src="/assets/maketools_logo.png" alt="Logo" class="h-12" (click)="goHome()" />
+        <app-plan [planName]="planName()" (goPro)="goPro()"></app-plan>
       </div>
 
       <div class="relative" #menuWrapper>
@@ -63,26 +66,23 @@ import { PlanComponent } from '../ui/elements/plan.component';
   `]
 })
 export class HeaderComponent {
-
-    signOut = output<void>();
-    settings = output<void>();
-    goPro = output<void>();
+    private router = inject(Router);
+    private userService = inject(UserService);
+    private stripeService = inject(StripeService);
+    private host = inject(ElementRef<HTMLElement>);
 
     // UI state
     menuOpen = signal(false);
-    email = input<string>('');
-    planName = input<PlanName>('');
-    
+    // Derive global state from services (no inputs)
+    email = computed(() => this.userService.email());
+    planName = computed<PlanName>(() => this.userService.planName());
 
-
-    private host = inject(ElementRef<HTMLElement>);
-
-    onSignOut() {
-        this.signOut.emit();
+    async onSignOut() {
+      try { await signOut(); } catch {}
     }
 
     onSettings() {
-        this.settings.emit();
+      this.router.navigate(['/settings']);
     }
 
     toggleMenu() {
@@ -97,5 +97,14 @@ export class HeaderComponent {
     @HostListener('document:keydown.escape')
     onEscape() {
       if (this.menuOpen()) this.closeMenu();
+    }
+    goHome() {
+      this.router.navigate(['/']);
+    }
+
+    goPro() {
+      this.stripeService.startCheckout().catch(err => {
+        console.error('Stripe checkout failed', err);
+      });
     }
 }
