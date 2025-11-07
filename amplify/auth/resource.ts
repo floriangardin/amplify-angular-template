@@ -1,4 +1,4 @@
-import { defineAuth } from '@aws-amplify/backend';
+import { defineAuth, secret } from '@aws-amplify/backend';
 import { preTokenGeneration } from './pre-token-generation/resource';
 
 /**
@@ -6,8 +6,32 @@ import { preTokenGeneration } from './pre-token-generation/resource';
  * @see https://docs.amplify.aws/gen2/build-a-backend/auth
  */
 export const auth = defineAuth({
-  loginWith: {
+loginWith: {
     email: true,
+    externalProviders: {
+      oidc: [
+        {
+          name: 'MicrosoftEntraID',
+          clientId: secret('IDP_ID'),
+          clientSecret: secret('IDP_SECRET'),
+          issuerUrl: 'https://cognito-idp.eu-west-3.amazonaws.com/eu-west-3_56ULmUGvT',
+        },
+      ],
+      // Important: Cognito requires exact matches, including trailing slash.
+      // Include both with and without trailing slash for local and prod.
+      logoutUrls: [
+        'http://localhost:4200',
+        'http://localhost:4200/',
+        'https://mywebsite.com',
+        'https://mywebsite.com/',
+      ],
+      callbackUrls: [
+        'http://localhost:4200',
+        'http://localhost:4200/',
+        'https://mywebsite.com',
+        'https://mywebsite.com/',
+      ],
+    },
   },
   groups: ['ADMIN', 'PRO', 'PRO_CANCELLING'],
   userAttributes: {

@@ -24,7 +24,7 @@ type Transform = { w?: number; h?: number; fmt?: string };
           }
           @if(isEditable()){
             <button type="button" class="icon-button edit-btn absolute top-2 right-2"
-                    (click)="startEditing()" aria-label="Edit image">
+                    (click)="startEditing($event)" aria-label="Edit image">
               <i class="fa fa-pen"></i>
             </button>
           }
@@ -53,10 +53,10 @@ type Transform = { w?: number; h?: number; fmt?: string };
             </div>
 
             <div class="flex gap-2">
-              <button type="button" class="icon-button validate-btn" (click)="onValidate()" [disabled]="uploading()" aria-label="Validate image">
+              <button type="button" class="icon-button validate-btn" (click)="onValidate($event)" [disabled]="uploading()" aria-label="Validate image">
                 <i class="fa fa-check"></i>
               </button>
-              <button type="button" class="icon-button cancel-btn" (click)="onCancel()" [disabled]="uploading()" aria-label="Cancel">
+              <button type="button" class="icon-button cancel-btn" (click)="onCancel($event)" [disabled]="uploading()" aria-label="Cancel">
                 <i class="fa fa-times"></i>
               </button>
             </div>
@@ -113,7 +113,10 @@ export class EditableImageComponent {
     params: () => ({id: this.currentAssetId()}),
     // Define an async loader that retrieves data.
     // The resource calls this function every time the `params` value changes.
-    loader: ({params}) => params.id ? getUrl({path: params.id}) : Promise.resolve(null),
+    loader: async ({params}) => {
+      //await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate loading delay
+      return params.id ? getUrl({path: params.id}) : Promise.resolve(null);
+    },  
   });
 
   src = computed( () => {
@@ -129,11 +132,10 @@ export class EditableImageComponent {
     return '';
   });
 
-
-
-
-  startEditing() {
+  startEditing(event: Event) {
     if (!this.isEditable()) return;
+    event.stopPropagation();
+    event.preventDefault();
     this.editing.set(true);
   }
 
@@ -176,13 +178,17 @@ export class EditableImageComponent {
     this.previewUrl.set(null);
   }
 
-  onCancel() {
+  onCancel(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
     this.clearSelection();
     this.editing.set(false);
   }
 
-  async onValidate() {
-    if(!this.hasSelection()) this.onCancel();
+  async onValidate(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+    if(!this.hasSelection()) this.onCancel(event);
     const file = this.selectedFile();
     if (!file) return;
     this.uploading.set(true);
@@ -190,10 +196,8 @@ export class EditableImageComponent {
     this.uploading.set(false);
     this.editing.set(false);
     this.clearSelection();
-    this.uploadError.set(null);
-    
+    this.uploadError.set(null); 
   }
-
 
   async uploadPreview(file: File): Promise<void> {
     let id = this.currentAssetId();

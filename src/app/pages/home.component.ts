@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import {StripeService} from '../services/stripe.service'
 import { GameStateService } from './games/bestcdo/services/game-state.service';
 import { StateService } from '../services/state.service';
+// Note: sign-in is handled by the Authenticator in AppComponent via external provider
+
 // UI KIT HOME PAGE DEMO
 @Component({
   selector: 'app-home',
