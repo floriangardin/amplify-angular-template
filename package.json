@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "seed:scenarios": "tsx scripts/seed-scenarios.ts",
-    "seed:images": "tsx scripts/seed-images.ts"
+    "seed:images": "tsx scripts/seed-images.ts",
+    "configure:cognito-domain": "tsx scripts/configure-cognito-domain.ts"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +27,8 @@
     "marked": "^12.0.2",
     "rxjs": "~7.8.0",
     "stripe": "^19.1.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.670.0",
+    "@aws-sdk/client-route-53": "^3.670.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

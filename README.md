@@ -58,3 +58,9 @@ Notes:
 ```bash
 npx dotenvx run --env-file=.env.local -- ampx sandbox --stream-function-logs
 ```
+
+
+## Configure custom domain
+
+To add to amplify.yml
+        - npm run configure:cognito-domain || true
