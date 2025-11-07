@@ -22,14 +22,14 @@ loginWith: {
       logoutUrls: [
         'http://localhost:4200',
         'http://localhost:4200/',
-        'https://mywebsite.com',
-        'https://mywebsite.com/',
+        'https://app-qual.maketools.ai/',
+        'https://app.maketools.ai/',
       ],
       callbackUrls: [
         'http://localhost:4200',
         'http://localhost:4200/',
-        'https://mywebsite.com',
-        'https://mywebsite.com/',
+        'https://app-qual.maketools.ai/',
+        'https://app.maketools.ai/',
       ],
     },
   },
