@@ -18,7 +18,7 @@ export class AppComponent {
     
   constructor() {}
 
-  async signInWithMicrosoft() {
+  async signInWithCompany() {
     // Trigger Hosted UI sign-in with the custom OIDC provider configured as 'MicrosoftEntraID'
     await signInWithRedirect({
       provider: { custom: 'MicrosoftEntraID' },

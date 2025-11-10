@@ -53,23 +53,42 @@ export const handler: PreTokenGenerationTriggerHandler = async (event) => {
     // a) Do NOT override token groups to preserve non-plan groups (e.g., admin).
     //    Instead, add plan-related claims for immediate availability.
     event.response.claimsOverrideDetails = event.response.claimsOverrideDetails || {};
+    // Map preferred_username from incoming attributes (OIDC) into tokens as well
+    const attrs = event.request.userAttributes || {} as any;
+    const emailAttr = attrs['email'] as string | undefined;
+    const preferredFromOidc =
+      (attrs['preferred_username'] as string | undefined) ||
+      (attrs['nickname'] as string | undefined) ||
+      (attrs['custom:preferred_username'] as string | undefined) ||
+      (emailAttr ? emailAttr.split('@')[0] : undefined);
+
     event.response.claimsOverrideDetails.claimsToAddOrOverride = {
       ...(event.response.claimsOverrideDetails.claimsToAddOrOverride || {}),
       plan: state, // added
       periodEnd: periodEndIso,
       'custom:periodEnd': periodEndIso,
+  // Include a debug flag to confirm trigger execution; remove later
+  debug_pre_token: '1',
+  ...(preferredFromOidc ? { preferred_username: preferredFromOidc } : {}),
     };
 
     // b) Update custom attributes for convenience
-    await client.send(
-      new AdminUpdateUserAttributesCommand({
-        UserPoolId: event.userPoolId,
-        Username: event.userName,
-        UserAttributes: [
-          { Name: 'custom:periodEnd', Value: periodEndIso || '' },
-        ],
-      }),
-    );
+    const userAttributesToUpdate: { Name: string; Value: string }[] = [
+      { Name: 'custom:periodEnd', Value: periodEndIso || '' },
+    ];
+    if (preferredFromOidc) {
+      // Also persist to the Cognito standard attribute so future tokens include it
+      userAttributesToUpdate.push({ Name: 'preferred_username', Value: preferredFromOidc });
+    }
+    if (userAttributesToUpdate.length) {
+      await client.send(
+        new AdminUpdateUserAttributesCommand({
+          UserPoolId: event.userPoolId,
+          Username: event.userName,
+          UserAttributes: userAttributesToUpdate,
+        }),
+      );
+    }
 
     // c) Sync actual Cognito Group membership (keeps things consistent)
     //    This may not reflect immediately in this token; the 'plan' claim above is immediate.

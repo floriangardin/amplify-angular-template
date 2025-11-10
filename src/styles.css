@@ -68,6 +68,10 @@ body {
   @apply bg-white backdrop-blur-md rounded-lg shadow-md;
 }
 
+.card-transparent {
+  @apply backdrop-blur-md rounded-lg shadow-md;
+}
+
 .card-dark {
   @apply bg-gray-800 backdrop-blur-md rounded-lg shadow-md text-white;
 }

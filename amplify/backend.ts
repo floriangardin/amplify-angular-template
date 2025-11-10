@@ -33,3 +33,11 @@ if (domainPrefix)
 backend.auth.resources.userPool.addDomain('cognito-domain', {
   cognitoDomain: { domainPrefix: domainPrefix },
 });
+
+// Deactivate self signup
+const { cfnUserPool } = backend.auth.resources.cfnResources
+
+cfnUserPool.adminCreateUserConfig = {
+  // disables self sign-up for non-federated users
+  allowAdminCreateUserOnly: true,
+}

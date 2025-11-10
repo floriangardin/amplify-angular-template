@@ -1,15 +1,15 @@
 <amplify-authenticator amplifyZonelessBridge class="m-auto flex flex-col items-center justify-center p-4 bg-gray-50 h-screen bg-transparent">
   <!-- Custom sign-in view that forces external provider only -->
   <ng-template amplifySlot="sign-in">
-    <div class="min-h-screen w-full flex flex-col items-center justify-center gap-6">
+    <div class="min-h-screen bg-transparent w-full flex flex-col items-center justify-center gap-6">
       <h1 class="text-2xl font-semibold text-white">Sign in</h1>
       <button
         type="button"
-        (click)="signInWithMicrosoft()"
+        (click)="signInWithCompany()"
         class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white shadow"
-        aria-label="Continue with Microsoft Entra ID"
+        aria-label="Continue with Company login"
       >
-        Continue with Microsoft
+        Continue with Company login
       </button>
     </div>
   </ng-template>
@@ -18,7 +18,7 @@
     let-user="user"
     let-signOut="signOut"
   >
-  <div class="min-h-screen">    
+  <div class="min-h-screen min-w-screen">    
         <router-outlet></router-outlet>
   </div>
 </ng-template>

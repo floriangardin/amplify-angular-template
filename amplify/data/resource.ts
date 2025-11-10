@@ -201,6 +201,28 @@ export const schema = a.schema({
   href: a.string().required(),
   source: a.ref('SourceType').required(),
   })
+,
+
+  // LeaderboardEntry model: stores best profit per user per scenario
+  LeaderboardEntry: a
+    .model({
+      userId: a.string().required(), // Cognito sub
+      username: a.string().required(), // display username (denormalized, updated on username change)
+      scenarioId: a.id().required(),
+      profit: a.integer().required(), // best profit achieved
+    })
+    // Composite identifier ensures 1 row per (userId, scenarioId)
+    .identifier(['userId', 'scenarioId'])
+    // Secondary index to query top scores for a scenario ordered by profit
+    .secondaryIndexes(index => [
+      index('scenarioId').sortKeys(['profit']).queryField('listLeaderboardByScenario')
+    ])
+    .authorization(allow => [
+      // Any signed-in user can read the leaderboard
+      allow.authenticated().to(['read']),
+      // Only the owner (userId == identity) can create/update their entry
+      allow.ownerDefinedIn('userId').to(['create','update','delete'])
+    ])
 })
 .authorization((allow) => [allow.authenticated().to(['read']), allow.groups(['ADMIN']).to(['create', 'delete']), allow.resource(seedScenario).to(['mutate', 'query', 'listen'])]);
 

@@ -26,7 +26,7 @@ import { StripeService } from '../services/stripe.service';
           [attr.aria-expanded]="menuOpen()"
           (click)="toggleMenu()"
         >
-          <span class="truncate max-w-[180px]" title="{{ email() || 'Account' }}">{{ email() || 'Account' }}</span>
+          <span class="truncate max-w-[180px]" title="{{ displayName() }}">{{ displayName() }}</span>
           <i class="fa-solid" [ngClass]="{ 'fa-caret-up': menuOpen(), 'fa-caret-down': !menuOpen() }"></i>
         </button>
 
@@ -74,8 +74,10 @@ export class HeaderComponent {
     // UI state
     menuOpen = signal(false);
     // Derive global state from services (no inputs)
-    email = computed(() => this.userService.email());
-    planName = computed<PlanName>(() => this.userService.planName());
+  email = computed(() => this.userService.email());
+  preferredUsername = computed(() => this.userService.preferredUsername());
+  displayName = computed(() => this.preferredUsername() || this.email() || 'Account');
+  planName = computed<PlanName>(() => this.userService.planName());
 
     async onSignOut() {
       try { await signOut(); } catch {}

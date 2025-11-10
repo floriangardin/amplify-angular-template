@@ -97,7 +97,6 @@ export class EditableTextComponent implements OnInit {
     if (!raw) return '';
     const html = marked.parse(raw, { breaks: true }) as string;
   const map = this.linkTerms();
-  console.log('linkTerms:', map); // --- IGNORE ---
   return map ? linkifyHtml(html, map, this.linkCaseSensitive()) : html;
   });
 

@@ -13,6 +13,7 @@ export class UserService {
     isAdmin = signal<boolean>(false);
     isPro = signal<boolean>(false);
     email = signal<string>('Unknown');
+    preferredUsername = signal<string>('');
     planName = signal<PlanName>('');
     periodEnd = signal<string | null>(null);
 
@@ -26,10 +27,17 @@ export class UserService {
     async refreshNow(showWarnings: boolean = true): Promise<void> {
         try {
             const { tokens } = await fetchAuthSession({ forceRefresh: true });
-            const email = (tokens?.idToken?.payload?.['email'] as string | undefined)
-              || (tokens?.accessToken?.payload?.['username'] as string | undefined)
-              || '';
-            this.email.set(email);
+                        const payload = tokens?.idToken?.payload || {};
+                        const accessPayload = tokens?.accessToken?.payload || {};
+                        const email = (payload?.['email'] as string | undefined)
+                            || (accessPayload?.['username'] as string | undefined)
+                            || '';
+                        this.email.set(email);
+                        console.log('Use payload', payload);
+                        const preferred = (payload?.['preferred_username'] as string | undefined)
+                            || (payload?.['nickname'] as string | undefined)
+                            || (email ? email.split('@')[0] : '');
+                        this.preferredUsername.set(preferred);
             let plan = tokens?.idToken?.payload?.['plan'] as PlanName | "free";
             const groups = (tokens?.idToken?.payload?.['cognito:groups'] as string[] | undefined) ?? [];
             this.isAdmin.set(groups.includes('ADMIN'));

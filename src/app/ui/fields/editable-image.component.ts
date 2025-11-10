@@ -2,6 +2,7 @@ import { Component, input, output, signal, computed, effect, inject, ElementRef,
 import { CommonModule, NgClass } from '@angular/common';
 import { getUrl, uploadData } from 'aws-amplify/storage';
 import {resource, Signal} from '@angular/core';
+import { ImageCacheService } from '../../services/image-cache.service';
 type Transform = { w?: number; h?: number; fmt?: string };
 
 @Component({
@@ -91,8 +92,15 @@ export class EditableImageComponent {
 
   // Local mirrored state for immediate UI updates
   private currentAssetId = signal<string | null>(null);
+  private refreshToken = signal(0);
   constructor() {
     effect(() => this.currentAssetId.set(this.assetId()));
+    // Proactively warm the browser image cache for the current asset id so by the time
+    // the global loading spinner disappears the image bytes are already fetched.
+    effect(() => {
+      const id = this.assetId();
+      if (id) void this.imageCache.prefetch(id);
+    });
   }
 
   // Outputs
@@ -107,15 +115,17 @@ export class EditableImageComponent {
 
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
 
+  private imageCache = inject(ImageCacheService);
+
   imageUrlResource = resource({
     // Define a reactive computation.
     // The params value recomputes whenever any read signals change.
-    params: () => ({id: this.currentAssetId()}),
+    params: () => ({ id: this.currentAssetId(), t: this.refreshToken() }),
     // Define an async loader that retrieves data.
     // The resource calls this function every time the `params` value changes.
     loader: async ({params}) => {
-      //await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate loading delay
-      return params.id ? getUrl({path: params.id}) : Promise.resolve(null);
+      // Start a background prefetch so bytes are loading even before <img> binds
+      return params.id ? this.imageCache.prefetch(params.id) : Promise.resolve(null);
     },  
   });
 
@@ -125,9 +135,8 @@ export class EditableImageComponent {
     const id = this.currentAssetId();
     if (!id) return '';
     if(this.imageUrlResource.hasValue()){
-      const imageUrl =  this.imageUrlResource.value()?.url;
-      return imageUrl?.href || '';
-
+      const href = this.imageUrlResource.value() as string | null;
+      return href || '';
     }
     return '';
   });
@@ -197,6 +206,12 @@ export class EditableImageComponent {
     this.editing.set(false);
     this.clearSelection();
     this.uploadError.set(null); 
+    // Invalidate cached URL for this asset and refresh the resource
+    const id = this.currentAssetId();
+    if (id) {
+      this.imageCache.invalidate(id);
+      this.refreshToken.update(n => n + 1);
+    }
   }
 
   async uploadPreview(file: File): Promise<void> {

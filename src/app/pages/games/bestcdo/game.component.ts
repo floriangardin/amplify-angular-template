@@ -21,8 +21,7 @@ import { GameEngineService } from './services/game-engine.service';
 import { formatCurrency, getImpactColor } from './utils/game-formatters';
 import { changeAndSetEmail } from './utils/change-emails';
 import { HeaderComponent } from '../../../components/header.component';
-
-
+import { LeaderboardService } from '../../../services/leaderboard.service';
 
 export interface CompanyContext {
   name: string;
@@ -50,7 +49,7 @@ export interface CompanyContext {
   template: `
       
     @if (!content()) {
-      <app-header></app-header>
+      <app-header class="md:fixed top-0 static left-0 w-screen"></app-header>
       <div class="min-h-screen flex items-center justify-center text-white">Loading game…</div>
     } @else {
     <!-- Parent fills the viewport; horizontal padding responsive -->
@@ -58,7 +57,7 @@ export interface CompanyContext {
       <!-- Child uses a percentage of the small-viewport height; structured as a flex column -->
       <div class="w-full h-[100vh] md:h-[75svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
         <!-- Top notice -->
-        <app-header></app-header>
+        <app-header class="md:fixed top-0 left-0 static w-screen"></app-header>
         @if (statValue('reputation') <= 30 && !isMobile()) {
           <div class="w-full h-8 z-10 bg-primary-500 text-white pointer-events-none flex items-center justify-center shrink-0">
             Welcome to the Data Steward Simulator !
@@ -128,6 +127,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   gameStatsService = inject(GameStatsService);
   emailQueueService = inject(EmailQueueService);
   gameEngineService = inject(GameEngineService);
+  leaderboardService = inject(LeaderboardService);
 
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
@@ -506,12 +506,22 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.isEnding.set(true);
     // Stop the engine so no more emails arrive
     this.gameEngineService.stop();
+    // Save best score before navigating
+    const scenarioId = this.currentScenarioId();
+    const profit = this.statValue('profit');
+    if (scenarioId) {
+      this.leaderboardService.saveMyBestScore(scenarioId, profit).catch(err => console.warn('Save score failed', err));
+    }
     // After 5 seconds, fade out then navigate
     this.endTimeoutHandle = setTimeout(() => {
       this.fadeOut.set(true);
       // Allow CSS transition (700ms as per template) to play before navigation
       this.navigateTimeoutHandle = setTimeout(() => {
-        this.router.navigate(['/last']);
+        if (scenarioId) {
+          this.router.navigate(['/leaderboard', scenarioId]);
+        } else {
+          this.router.navigate(['/']);
+        }
       }, 750);
     }, 5000);
   }

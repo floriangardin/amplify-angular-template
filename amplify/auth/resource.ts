@@ -6,7 +6,7 @@ import { preTokenGeneration } from './pre-token-generation/resource';
  * @see https://docs.amplify.aws/gen2/build-a-backend/auth
  */
 export const auth = defineAuth({
-loginWith: {
+  loginWith: {
     email: true,
     externalProviders: {
       oidc: [
@@ -15,6 +15,14 @@ loginWith: {
           clientId: secret('IDP_ID'),
           clientSecret: secret('IDP_SECRET'),
           issuerUrl: 'https://cognito-idp.eu-west-3.amazonaws.com/eu-west-3_56ULmUGvT',
+          // Map incoming IdP claims to Cognito user attributes
+          // Adjust left side keys if your Entra ID token uses different claim names (e.g. upn)
+          attributeMapping: {
+            email: 'email',
+            preferredUsername: 'preferred_username',
+            givenName: 'given_name',
+            familyName: 'family_name',
+          },
         },
       ],
       // Important: Cognito requires exact matches, including trailing slash.

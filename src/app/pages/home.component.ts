@@ -6,11 +6,14 @@ import { ClientService } from '../services/client.service';
 import { UserService } from '../services/user.service';
 import { Scenario } from '../models/game-content';
 import { ConfirmDialogComponent } from '../ui/elements/confirm-dialog.component';
-import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
 import { Router } from '@angular/router';
 import {StripeService} from '../services/stripe.service'
 import { GameStateService } from './games/bestcdo/services/game-state.service';
 import { StateService } from '../services/state.service';
+import { MainLoadingComponent } from '../ui/elements/main-loading.component';
+import { ImageCacheService } from '../services/image-cache.service';
+import { CarouselComponent } from '../ui/elements/carousel.component';
+import { ResponsiveService } from '../services/responsive.service';
 // Note: sign-in is handled by the Authenticator in AppComponent via external provider
 
 // UI KIT HOME PAGE DEMO
@@ -18,68 +21,39 @@ import { StateService } from '../services/state.service';
   selector: 'app-home',
   standalone: true,
   template: `
-  <app-header></app-header>
+  @if(loading()) {
+    <app-main-loading [text]="'Preparing your data governance experience'"></app-main-loading>
+  } @else {
+    <app-header></app-header>
 
-  <div class="mx-32 my-8">
-      <h1 class="text-2xl space-y-8 font-bold text-white mb-8 w-full">For data stewards ...</h1>
-      <div class="p-0 md:p-0 space-x-8 flex flex-row justify-left max-w-4xl">
-        @for(scenario of scenarios(); track scenario) {
-          <div class="relative">
-            <app-scenario-card
-              [scenario]="scenario"
-              (play)="onPlay(scenario)"
-              (select)="onPlay(scenario)"
-              [isAdmin]="isAdmin()"
-            />
-            @if(isAdmin()){
-              <button
-                type="button"
-                class="absolute top-2 left-2 text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
-                aria-label="Delete scenario"
-                (click)="promptDelete(scenario)"
-                title="Delete"
-              >
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            }
-          </div>
-        }
+    <div class="my-8">
+        <h1 class="pl-[3.25rem] text-2xl space-y-8 font-bold text-white mb-8">For data stewards ...</h1>
+        <app-carousel [scenarios]="scenarios()" [isAdmin]="isAdmin()"
+          (playScenario)="onPlay($event)"
+          (leaderboardScenario)="onLeaderboard($event)"
+          [pageSize]="pageSize()"
+          [isPro]="isPro()"></app-carousel>
     </div>
-  </div>
-    <div class="mx-32 my-8">
-      <h1 class="text-2xl space-y-8 font-bold text-white mb-8 w-full">Based on your profile</h1>
-      <div class="p-0 md:p-0 space-x-8 flex flex-row justify-left max-w-4xl">
-        @for(scenario of scenarios(); track scenario) {
-          <div class="relative">
-            <app-scenario-card
-              [scenario]="scenario"
-              (play)="onPlay(scenario)"
-              [isAdmin]="isAdmin()"
-            />
-            @if(isAdmin()){
-              <button
-                type="button"
-                class="absolute top-2 left-2 text-red-600 hover:text-red-700 p-2 rounded-md hover:bg-red-50"
-                aria-label="Delete scenario"
-                (click)="promptDelete(scenario)"
-                title="Delete"
-              >
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            }
-          </div>
-        }
+      <div class="my-8">
+        <h1 class="pl-[3.25rem] text-2xl space-y-8 font-bold text-white mb-8">Based on your profile</h1>
+        <app-carousel [scenarios]="scenarios()" [isAdmin]="isAdmin()"
+          (playScenario)="onPlay($event)"
+          [pageSize]="pageSize()"
+          (leaderboardScenario)="onLeaderboard($event)"
+          [isPro]="isPro()"></app-carousel>
+          
+        
     </div>
-  </div>
-  @if(showConfirm()){
-    <app-confirm-dialog
-      [title]="'Delete scenario'"
-      [message]="confirmMessage()"
-      [confirmLabel]="deleting() ? 'Deleting…' : 'Delete'"
-      [cancelLabel]="'Cancel'"
-      (confirmed)="confirmDelete()"
-      (cancelled)="cancelDelete()"
-    />
+    @if(showConfirm()){
+      <app-confirm-dialog
+        [title]="'Delete scenario'"
+        [message]="confirmMessage()"
+        [confirmLabel]="deleting() ? 'Deleting…' : 'Delete'"
+        [cancelLabel]="'Cancel'"
+        (confirmed)="confirmDelete()"
+        (cancelled)="cancelDelete()"
+      />
+    }
   }
   `,
   host: { class: 'w-full block' },
@@ -90,7 +64,8 @@ import { StateService } from '../services/state.service';
     CommonModule,
     HeaderComponent,
     ConfirmDialogComponent,
-    ScenarioCardComponent,
+    MainLoadingComponent,
+    CarouselComponent
   ],
 })
 export class HomeComponent implements OnInit{
@@ -100,12 +75,17 @@ export class HomeComponent implements OnInit{
   stateService = inject(StateService);
   gameStateService = inject(GameStateService);
   userService = inject(UserService);
+  imageCache = inject(ImageCacheService);
+  responsiveService = inject(ResponsiveService);
   isAdmin = this.userService.isAdmin;
   isPro = this.userService.isPro;
   planName = this.userService.planName;
   email = this.userService.email;
   router = inject(Router);
   scenarios = signal<Scenario[]>([]);
+  pageSize = this.responsiveService.carouselPageSize;
+  // Loading state gates initial render until user & scenarios fetched
+  loading = signal<boolean>(true);
   showConfirm = signal(false);
   deleting = signal(false);
   scenarioToDelete = signal<Scenario | null>(null);
@@ -139,14 +119,33 @@ export class HomeComponent implements OnInit{
 
     // SCENARIOS
 
-    await this.userService.init();
-    let scenarios = await this.stateService.getScenarios();
+    try {
+      await this.userService.init();
+      const scenarios = await this.stateService.getScenarios();
+      // Sort scenario to free first.
+      scenarios.sort((a, b) => (a.plan === 'free' ? -1 : 1));
+      // Create 10 copies of scenarios
+      const scenarioCopies = scenarios.flatMap(scenario => Array(10).fill({ ...scenario }));
 
-    // Sort scenario to free first.
-    scenarios.sort((a, b) => (a.plan === 'free' ? -1 : 1));
+      this.scenarios.set(scenarioCopies as Scenario[]);
 
-    this.scenarios.set(scenarios as Scenario[]);
-    console.log('Loaded scenarios', scenarios);
+      // Wait until the first visible images are ready (decoded) before leaving loading.
+      // Limit to a reasonable number to avoid long initial waits.
+      const firstVisible = scenarioCopies
+        .slice(0, 8)
+        .map(s => (s as any).logoId as string | undefined)
+        .filter((id): id is string => !!id)
+        .map(id => `previews/${id}`);
+      try {
+        await this.imageCache.awaitReady(firstVisible, { timeoutMs: 8000, limit: 8 });
+      } catch {}
+
+      // Everything ready: user, plan, scenarios and above-the-fold images available
+      this.loading.set(false);
+    } catch (err) {
+      console.error('Failed to load initial data', err);
+      // Keep loading until data can be fetched properly, as requested
+    }
     
   }
 
@@ -195,6 +194,10 @@ export class HomeComponent implements OnInit{
     // Navigate with scenario id in query params; game will fetch content based on id
     this.router.navigate(['/games/bestcdo/start'], { queryParams: { id: scenario.id } });
     console.log('Play scenario', scenario);
+  }
+  
+  onLeaderboard(scenario: Scenario){
+    this.router.navigate(['/leaderboard', scenario.id]);
   }
   
 
