@@ -2,14 +2,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
-/* Fix Tailwind reset removing bold/italic from semantic HTML tags */
-strong, b {
-  font-weight: 500;
-}
 
-em, i {
-  font-style: italic;
-}
 
 .flash-anim {
   animation: flash 2s linear infinite;
@@ -23,14 +16,22 @@ em, i {
 
 * {
   font-family: "IBM Plex Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
   
 }
 
+::-webkit-scrollbar {
+      width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-gray-200);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-500);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
 body {
   background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-700), #00C7B2);

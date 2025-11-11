@@ -5,9 +5,10 @@
   "name": "data_1",
   "end": false,
   "default": true,
+  "hints": ["org_chart"],
   "sender": "Leah Park, Marketing Manager",
   "title": "Pre-Campaign Check – Possible Duplicate Customer Records",
-  "content": "Hi {first_name},<br/><br/>Before we ${MDM} launch our new 'Winter Protection' campaign, the Marketing team ran a quick data validation and noticed several customers appear more than once in the mailing list.<br/><br/>For example, we have both 'Daniel Smith' and 'Danielle Smyth' with the same email address but different customer IDs.<br/><br/>Could you please take a look before we send out the campaign? We want to avoid confusing customers or damaging the brand's credibility.<br/><br/>Thanks,\nLeah",
+  "content": "Hi {first_name},<br/><br/>Before we launch our new 'Winter Protection' campaign, the Marketing team ran a quick data validation and noticed several customers appear more than once in the mailing list.<br/><br/>For example, we have both 'Daniel Smith' and 'Danielle Smyth' with the same email address but different customer IDs.<br/><br/>Could you please take a look before we send out the campaign? We want to avoid confusing customers or damaging the brand's credibility.<br/><br/>Thanks,\nLeah",
   "category": "scenario",
   "isUrgent": true,
   "choices": {
@@ -980,63 +981,32 @@
     {"name": "CDO Budget", "nameId": "cdoBudget", "emoji": "💰", "initial": 1000000, "min": 0, "max": 10000000, "type": "dollars", "displayed": false, "color": "#9c27b0"},
     {"name": "Reputation", "nameId": "reputation", "emoji": "⭐", "initial": 50, "min": 0, "max": 100, "type": "percentage", "displayed": false, "color": "#9c27b0"}
   ],
-  "termsLinks":[
-    {
-      "name": "MDM",
-      "text": "MDM definition",
-      "href": "mdm.html",
-      "source": "local"
-    },
-    {
-      "name": "matching rules",
-      "text": "Matching rules definition",
-      "href": "mdm.html",
-      "source": "local"
-    },
-    {
-      "name": "matching rule",
-      "text": "Matching rule definition",
-      "href": "mdm.html",
-      "source": "local"
-    },
-    { "name": "2",
-      "text": "Matching rules definition",
-      "href": "mdm.html",
-      "source": "local"
-    },
-    { "name": "2",
-      "text": "Matching logic definition",
-      "href": "mdm.html",
-      "source": "local"
-    }
+  
+  "nameId": "duplicate_dilemma",
+  "library": [
+    {"nameId": "org_chart"}
   ],
-   
-  "endResources": [
-    {
-      "name": "2",
-      "text": "The big confusion about Data Governance roles",
-      "href": "big_confusion_about_data_governance_roles.html",
-      "source": "local"
+  "card": {
+    "plan": "free",
+    "title": "Welcome to the Data Governance Office",
+    "shortDescription": "It's your first week as a Data Steward. You receive a welcome email from the Chief Data Officer introducing the governance framework and your mission. You must identify key roles, understand your responsibilities, and know who to contact for specific data issues.",
+    "difficulty": "Beginner",
+    "skillsAcquired": [
+      "Understand data governance roles (CDO, Data Owner, Steward, IT)",
+      "Recognize governance processes and communication channels",
+      "Identify your position in the data management chain"
+    ],
+    "context": {
+      "program": "Data Governance Program recently launched",
+      "domains": "Each data domain (Customer, Product, Finance) has a Data Owner and Steward.",
+      "roleFocus": "Customer Data Domain",
+      "objective": "Clarify reporting lines and understand who does what"
     },
-    {
-      "name": "3",
-      "text": "MDM definition",
-      "href": "mdm.html",
-      "source": "local"
+    "metadata": {
+      "category": "onboarding",
+      "estimatedDurationMinutes": 10,
+      "track": "Data Steward Beginner Track"
     }
-  ],
+  }
 
-  "logo": {"assetId": "data_steward.png"},
-  "logoId": "duplicate_dilemma",
-  "headerGameText": "Data Steward Simulator",
-  "title": "Data Steward simulator",
-  "scenarioTitle": "<q>The Duplicate Dilemma</q>",
-  "cdoRole": "Your Role as Data Steward",
-  "plan": "free",
-  "role": "Data Steward",
-  "gameTitle": "Data Steward Simulator",
-  "introText": "Welcome to the <b>Data Steward Simulator</b>, a training environment that mirrors real-life data governance challenges. <br/><br/>In this simulation, you'll take the role of the **Customer Data Steward**, working within the **Sales team**, the business owner of customer data.<br/><br/>Recently, the Marketing team reported a serious issue : they found duplicate customer records... <br/><br/>You're the **Data Steward** responsible for investigating and restoring data trust without disrupting daily operations.",
-  "description": "In this simulation, you'll take the role of the **Customer Data Steward**, working within the **Sales team**, the business owner of customer data.<br/><br/>Recently, the Marketing team reported a serious issue : they found duplicate customer records... <br/><br/>You're the **Data Steward** responsible for investigating and restoring data trust without disrupting daily operations.",
-  "logoCompany": {"assetId": "maketools_logo.png"},
-  "startTutorial": "🔎 <b>Investigate the impact</b> : identify what is affected and root causes.\n 🧹 <b>Coordinate the cleanup</b> : decide how to fix the issue and who to involve.\n🤝  <b>Restore trust</b> : maintain your credibility with stakeholders."
 }

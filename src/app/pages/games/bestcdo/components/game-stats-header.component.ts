@@ -6,24 +6,16 @@ import { StatDisplayComponent } from '../../../../ui/elements/stat-display.compo
 import { ProgressStatComponent } from '../../../../ui/elements/progress-stat.component';
 import { SoundToggleComponent } from '../../../../ui/elements/sound-toggle.component';
 import { EditableTextComponent } from '../../../../ui/fields/editable-text.component';
-import { EditableImageComponent } from '../../../../ui/fields/editable-image.component';
 import { formatCurrency } from '../utils/game-formatters';
 
 @Component({
   selector: 'app-game-stats-header',
   standalone: true,
-  imports: [CommonModule, StatDisplayComponent, ProgressStatComponent, SoundToggleComponent, EditableTextComponent, EditableImageComponent],
+  imports: [CommonModule, StatDisplayComponent, ProgressStatComponent, SoundToggleComponent, EditableTextComponent],
   template: `
 
     <div class="relative bg-primary text-white text-center p-1 hidden md:flex flex-row  items-center justify-center">
-      <app-editable-text 
-        [text]="headerText()"
-        [isEditable]="isEditable()"
-        [contentClass]="'text-xs lg:text-sm'"
-        [isMarkdown]="true"
-        (newText)="{}"
-      ></app-editable-text>
-      <div> &nbsp; - &nbsp;</div>
+      
         <app-editable-text 
         [text]="scenarioTitle()"
         [isEditable]="isEditable()"
@@ -42,14 +34,7 @@ import { formatCurrency } from '../utils/game-formatters';
 
     <div class="flex justify-start items-center px-2 py-2 md:p-4 lg:p-4 bg-gray-100 border-b border-gray-300 flex-wrap gap-2 md:gap-4 shrink-0">
           
-    <app-editable-image
-        [assetId]="logoAssetId()"
-        [isEditable]="isEditable()"
-        [imgClass]="'h-8 w-8 object-cover mr-8 hidden md:flex items-center'"
-        [transform]="{ w: 256, h: 256, fmt: 'png' }"
-        class="h-full"
-        (newAssetId)="{}">
-    </app-editable-image>
+    
         
     @for (ind of displayedIndicators(); track ind.key) {
         @if (ind.type === 'percentage' || ind.type === 'points') {
@@ -90,9 +75,7 @@ export class GameStatsHeaderComponent {
       .map(def => ({ key: def.nameId, ...def }));
   });
 
-  headerText = computed(() => this.gameState.content()['headerGameText']);
-  scenarioTitle = computed(() => this.gameState.content()['scenarioTitle'] || '');
-  logoAssetId = computed(() => this.gameState.content()['logo']?.['assetId'] || null);
+  scenarioTitle = computed(() => this.gameState.content().card.title);
   valueAsPercent = (key: string): number => {
     const defs = this.gameState.content()?.indicators || [];
     const def = defs.find(d => d.nameId === key);

@@ -1,6 +1,6 @@
 import '../../amplify-config';
 import { Injectable, signal } from '@angular/core';
-import { uploadData } from "aws-amplify/storage";
+import { uploadData, getUrl} from "aws-amplify/storage";
 
 
 
@@ -16,6 +16,12 @@ export class StorageService {
             data: data,
             path: path
         });
+    }
+
+
+    async getLibraryItemUrl(path: string): Promise<URL> {
+        const properties = await getUrl({ path: 'content/' + path });
+        return properties.url;
     }
 
     

@@ -6,7 +6,7 @@ import { ContentDialogComponent } from '../../../../ui/elements/content-dialog.c
 import { Email, Choice } from '../../../../models/email';
 import { Stats } from '../../../../models/stats';
 import { getImpactColor, formatCurrency } from '../utils/game-formatters';
-import { Scenario } from '../../../../models/game-content';
+import { Scenario, LibraryItem } from '../../../../models/game-content';
 
 export interface OutcomeData {
   message: string;
@@ -18,20 +18,14 @@ export interface OutcomeData {
 @Component({
   selector: 'app-email-viewer',
   standalone: true,
-  imports: [CommonModule, EditableTextComponent, ChoiceButtonComponent, ContentDialogComponent],
+  imports: [CommonModule, EditableTextComponent, ChoiceButtonComponent],
   template: `
-    @if (showDialog()) {
-      <app-content-dialog
-        [title]="dialogTitle()"
-        [href]="dialogHref()"
-        (closed)="closeDialog()"
-      />
-    }
+    
     @if (email()) {
       <!-- Email Header -->
       <div class="py-2 px-4 md:py-4 border-b border-gray-200 bg-gray-50 relative shrink-0">
         @if (isMobile()) {
-          <button 
+          <button
             class="bg-primary-500 text-white rounded px-3 py-1 text-sm mb-3" 
             (click)="backClicked.emit()"
           >
@@ -41,12 +35,10 @@ export interface OutcomeData {
 
         <div class="text-sm font-semibold flex flex-wrap gap-3 items-center mb-3">
           <app-editable-text 
-            [contentClass]="'text-base md:text-xl font-semibold'" 
+            [contentClass]="'text-base md:text-xl font-normal'" 
             [isEditable]="isEditable()" 
             [isMarkdown]="true"
-            [linkTerms]="termLinks()"
             [text]="emailTitle()" 
-            (linkClick)="handleLink($event)"
             (newText)="titleChanged.emit($event)" 
           />
         </div>
@@ -58,9 +50,7 @@ export interface OutcomeData {
               [contentClass]="'text-sm text-gray-700'" 
               [isEditable]="isEditable()" 
               [isMarkdown]="true"
-              [linkTerms]="termLinks()"
               [text]="emailSender()" 
-              (linkClick)="handleLink($event)"
               (newText)="senderChanged.emit($event)" 
             />
           </div>
@@ -80,15 +70,33 @@ export interface OutcomeData {
               [contentClass]="'text-gray-700'" 
               [isEditable]="isEditable()" 
               [isMarkdown]="true"
-              [linkTerms]="termLinks()"
               [text]="formattedEmailContent()" 
-              (linkClick)="handleLink($event)"
               (newText)="contentChanged.emit($event)" 
             />
           </div>
 
+          <!-- Hints under content -->
+          @if (email()?.hints?.length) {
+            <div class="pt-3 mt-2 border-t border-dashed border-gray-200">
+              <div class="text-xs uppercase tracking-wide text-gray-500 mb-2">Hints</div>
+              <div class="flex flex-wrap gap-2">
+                @for (hint of resolvedHints(); track hint.nameId) {
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-50 text-primary-700 border border-primary-200 hover:bg-primary-100 hover:border-primary-300 transition-colors text-xs"
+                    (click)="onHintClick(hint)"
+                    title="Open hint"
+                  >
+                    <span class="text-base leading-none">{{ hint.emoji || '💡' }}</span>
+                    <div class="font-semibold">{{ hint.title }}</div>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
           <!-- Choices -->
-          <div class="pt-5 mt-2 border-t border-gray-300">
+          <div class="pt-5 mt-2 border-t border-gray-300 bg-gray-100 p-4 rounded-lg">
             <div class="text-base font-semibold mb-4">Your Response:</div>
             @for (choice of emailChoices(); track choice.name; let i = $index) {
               <app-choice-button
@@ -99,7 +107,6 @@ export interface OutcomeData {
                 [showImpacts]="showImpacts()"
                 [content]="content()"
                 (choiceSelected)="choiceSelected.emit($event)"
-                (linkClicked)="handleLink($event)"
                 (textChanged)="choiceTextChanged.emit({ choice: choice.name, text: $event })"
               />
             }
@@ -116,9 +123,7 @@ export interface OutcomeData {
               [contentClass]="'text-sm mb-8!'" 
               [isEditable]="isEditable()" 
               [isMarkdown]="true"
-              [linkTerms]="termLinks()"
               [text]="outcomeData()!.message" 
-              (linkClick)="handleLink($event)"
               (newText)="outcomeDescriptionChanged.emit($event)" 
             />
 
@@ -183,9 +188,7 @@ export interface OutcomeData {
 export class EmailViewerComponent {
   // Terms to auto-link in displayed texts (title, sender, content, outcomes)
   content = input<Scenario>();
-  termLinks = computed(() => {
-    return this.content()?.termsLinks || [];
-  });
+  
   // Dialog state for opening local resources like on the last screen
   showDialog = signal(false);
   dialogTitle = signal('Resource');
@@ -212,6 +215,7 @@ export class EmailViewerComponent {
   contentChanged = output<string>();
   choiceTextChanged = output<{ choice: string; text: string }>();
   outcomeDescriptionChanged = output<string>();
+  hintSelected = output<LibraryItem>();
 
   recipientName = computed(() => {
     return 'player';
@@ -229,6 +233,25 @@ export class EmailViewerComponent {
     return emailContent.replace('{first_name}', 'player');
 
   });
+
+  resolvedHints = computed<LibraryItem[]>(() => {
+    const raw = (this.email() as any)?.hints as (string[] | LibraryItem[] | undefined);
+    const lib = this.content()?.library || [];
+    if (!raw || raw.length === 0) return [];
+    if (typeof raw[0] === 'object') return raw as LibraryItem[];
+    const ids = raw as string[];
+    const out: LibraryItem[] = [];
+    for (const id of ids) {
+      const match = lib.find((l) => l.nameId === id);
+      if (match) out.push(match);
+      else out.push({ nameId: id, title: id, description: id, emoji: '💡' });
+    }
+    return out;
+  });
+
+  onHintClick(item: LibraryItem) {
+    this.hintSelected.emit(item);
+  }
 
   getChoiceText(choice: Choice): string {
     const email = this.email();
@@ -274,33 +297,10 @@ export class EmailViewerComponent {
       }
       items.push({ key, label: `${def.emoji || ''} ${def.name}:`, value: delta, formatted });
     }
-    console.log('terms link', this.termLinks);
     return items;
   });
 
-  // Handle clicks on auto-linked terms and open dialog for local resources
-  handleLink(payload: { label: string; href: string }) {
-    const label = (payload.label || '').trim();
-    const spec = this.termLinks().find(link => link.name === label) as { text?: string; href?: string; source?: string } | undefined;
-    console.log('Term links', this.termLinks());
-    console.log('handleLink clicked:', payload, 'found spec:', spec);
-    if (spec && spec.source === 'local' && spec.href) {
-      this.dialogTitle.set(spec.text || label || 'Resource');
-      this.dialogHref.set(spec.href);
-      this.showDialog.set(true);
-      return;
-    }
-    // Fallback: open the clicked href in a new tab
-    const url = payload.href;
-    try {
-      const abs = new URL(url, window.location.origin).toString();
-      window.open(abs, '_blank', 'noopener,noreferrer');
-    } catch {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  }
+  
 
-  closeDialog() {
-    this.showDialog.set(false);
-  }
+
 }

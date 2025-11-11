@@ -25,7 +25,7 @@ import type { Schema } from '../../../../amplify/data/resource';
       @if (scenario()) {
         <app-editable-text
           class="text-sm text-gray-300 pb-32"
-          [text]=" 'Scenario: ' + (scenario()?.scenarioTitle || scenario()?.title) "
+          [text]=" 'Scenario: ' + scenario()!.card.title "
           [isEditable]="false"
         ></app-editable-text>
       }

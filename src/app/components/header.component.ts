@@ -14,7 +14,7 @@ import { StripeService } from '../services/stripe.service';
   template: `
     <header class="p-4 w-full flex items-center justify-between bg-gray-800 text-white relative">
       <div class="flex flex-row items-center gap-3">
-        <img src="/assets/maketools_logo.png" alt="Logo" class="h-12" (click)="goHome()" />
+        <i class="fa-solid fa-home text-2xl cursor-pointer md:ml-8" title="Home" (click)="goHome()"></i>
         <app-plan [planName]="planName()" (goPro)="goPro()"></app-plan>
       </div>
 
@@ -68,7 +68,7 @@ import { StripeService } from '../services/stripe.service';
 export class HeaderComponent {
     private router = inject(Router);
     private userService = inject(UserService);
-    private stripeService = inject(StripeService);
+  private stripeService = inject(StripeService);
     private host = inject(ElementRef<HTMLElement>);
 
     // UI state
@@ -105,8 +105,7 @@ export class HeaderComponent {
     }
 
     goPro() {
-      this.stripeService.startCheckout().catch(err => {
-        console.error('Stripe checkout failed', err);
-      });
+      // Route to plans page as an intermediary before checkout
+      this.router.navigate(['/plans']);
     }
 }

@@ -18,11 +18,11 @@ import { CommonModule } from '@angular/common';
             [style.width.%]="value()"
           ></div>
         </div>
-        <span class="text-sm font-bold ml-2">{{ value() }} %</span>
-
+        <span class="text-sm font-semibold ml-2">{{ value() }} %</span>
+  
         @if (showDelta()) {
           <span 
-            class="absolute right-0 -top-4 text-sm font-bold pointer-events-none float-up"
+            class="absolute right-0 -top-4 text-sm font-semibold pointer-events-none float-up"
             [class.text-green-600]="lastDelta() > 0"
             [class.text-red-600]="lastDelta() < 0"
             [style.animationDuration.ms]="deltaAnimDurationMs()"

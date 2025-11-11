@@ -31,7 +31,9 @@ import { ResponsiveService } from '../services/responsive.service';
         <app-carousel [scenarios]="scenarios()" [isAdmin]="isAdmin()"
           (playScenario)="onPlay($event)"
           (leaderboardScenario)="onLeaderboard($event)"
+          (upgrade)="onUpgrade()"
           [pageSize]="pageSize()"
+
           [isPro]="isPro()"></app-carousel>
     </div>
       <div class="my-8">
@@ -40,6 +42,7 @@ import { ResponsiveService } from '../services/responsive.service';
           (playScenario)="onPlay($event)"
           [pageSize]="pageSize()"
           (leaderboardScenario)="onLeaderboard($event)"
+          (upgrade)="onUpgrade()"
           [isPro]="isPro()"></app-carousel>
           
         
@@ -123,9 +126,9 @@ export class HomeComponent implements OnInit{
       await this.userService.init();
       const scenarios = await this.stateService.getScenarios();
       // Sort scenario to free first.
-      scenarios.sort((a, b) => (a.plan === 'free' ? -1 : 1));
+      scenarios.sort((a, b) => ((a as any)?.card?.plan === 'free' ? -1 : 1));
       // Create 10 copies of scenarios
-      const scenarioCopies = scenarios.flatMap(scenario => Array(10).fill({ ...scenario }));
+      const scenarioCopies = scenarios.flatMap(scenario => Array(4).fill({ ...scenario }));
 
       this.scenarios.set(scenarioCopies as Scenario[]);
 
@@ -138,6 +141,7 @@ export class HomeComponent implements OnInit{
         .map(id => `previews/${id}`);
       try {
         await this.imageCache.awaitReady(firstVisible, { timeoutMs: 8000, limit: 8 });
+        console.log('Initial images ready');
       } catch {}
 
       // Everything ready: user, plan, scenarios and above-the-fold images available
@@ -155,7 +159,7 @@ export class HomeComponent implements OnInit{
 
   promptDelete(scenario: Scenario){
     this.scenarioToDelete.set(scenario);
-    this.confirmMessage.set(`Are you sure you want to delete "${scenario.title}"? This action cannot be undone.`);
+    this.confirmMessage.set(`Are you sure you want to delete "${scenario.card.title}"? This action cannot be undone.`);
     this.showConfirm.set(true);
   }
 
@@ -192,12 +196,17 @@ export class HomeComponent implements OnInit{
   
   onPlay(scenario: Scenario){
     // Navigate with scenario id in query params; game will fetch content based on id
-    this.router.navigate(['/games/bestcdo/start'], { queryParams: { id: scenario.id } });
+    this.router.navigate(['/games/bestcdo/play'], { queryParams: { id: scenario.id } });
     console.log('Play scenario', scenario);
   }
   
   onLeaderboard(scenario: Scenario){
     this.router.navigate(['/leaderboard', scenario.id]);
+  }
+
+  onUpgrade(){
+    // Intermediary screen before checkout
+    this.router.navigate(['/plans']);
   }
   
 

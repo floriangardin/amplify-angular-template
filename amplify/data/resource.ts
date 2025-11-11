@@ -1,7 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { ResourceType } from 'aws-cdk-lib/aws-config';
 import { sayHello } from "../functions/say-hello/resource"
-import { seedScenario } from "../functions/seed-scenario/resource"
 import { createCheckoutSession } from '../functions/create-checkout-session/resource';
 import { cancelSubscription } from '../functions/cancel-subscription/resource';
 import { reinstateSubscription } from '../functions/reinstate-subscription/resource';
@@ -72,13 +71,6 @@ export const schema = a.schema({
     .authorization(allow => [allow.authenticated()])
     .handler(a.handler.function(sayHello)),
 
-  // Returns a Scenario
-  seedScenario: a
-    .query()
-    .arguments({})
-  .returns(a.ref('Scenario'))
-  .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(seedScenario)),
 
   // ===== Enums =====
   NodeCategory: a.enum(['scenario', 'sales_support', 'culture']),
@@ -117,31 +109,49 @@ export const schema = a.schema({
     assetId: a.string().required(), // e.g., "data_steward.png"
   }),
 
+  // ===== Card types =====
+  CardContext: a.customType({
+    program: a.string().required(),
+    domains: a.string().required(),
+    roleFocus: a.string().required(),
+    objective: a.string().required(),
+  }),
+
+  CardMetadata: a.customType({
+    category: a.string().required(),
+    estimatedDurationMinutes: a.integer().required(),
+    track: a.string().required(),
+  }),
+
+  PlanEnum: a.enum(['free','pro']),
+
+  Card: a.customType({
+    plan: a.ref('PlanEnum').required(),
+    title: a.string().required(),
+    shortDescription: a.string().required(),
+    difficulty: a.string().required(),
+    skillsAcquired: a.string().array().required(),
+    context: a.ref('CardContext').required(),
+    metadata: a.ref('CardMetadata').required(),
+  }),
+  // Library items can be global (no scenarioId) or linked to a specific Scenario (scenarioId populated)
+  LibraryItem: a.model({
+    scenarioId: a.id(), // optional so we can seed global library content first
+    scenario: a.belongsTo('Scenario', 'scenarioId'),
+    nameId: a.string().required(),
+    title: a.string().required(),
+    emoji: a.string().required(),
+    description: a.string().required(),
+  }),
+
   // ===== Models =====
   Scenario: a
     .model({
-    // Note: JSON uses 'title' and doesn't include a top-level 'name'. Make 'name' optional.
-    name: a.string(), // e.g., "Data Steward simulator"
-    title: a.string().required(), // "Data Steward simulator"
-    scenarioTitle: a.string().required(), // "<q>The Duplicate Dilemma</q>"
-    gameTitle: a.string().required(), // "Data Steward Simulator"
-    plan: a.string().required(), // "free" | "pro"
-    role: a.string().required(), // "Your Role as Data Steward"
-    // JSON field is 'headerGameText'
-    headerGameText: a.string().required(), // "Data Steward Simulator"
-    introText: a.string().required(),
-    description: a.string().required(),
-    cdoRole: a.string().required(), // "Your Role as Data Steward"
-    startTutorial: a.string().required(),
-    logo: a.ref('LogoRef').required(),
-    logoCompany: a.ref('LogoRef').required(),
-    // Relations (reverse fields on child models)
+    nameId: a.string().required(),
+    card: a.ref('Card').required(),
     nodes: a.hasMany('Node', 'scenarioId'),
-    logoId: a.string().required(),
     indicators: a.hasMany('Indicator', 'scenarioId'),
-    // JSON uses 'termsLinks' (plural 'terms')
-    termsLinks: a.hasMany('TermLink', 'scenarioId'),
-        endResources: a.hasMany('EndResource', 'scenarioId'),
+    library: a.hasMany('LibraryItem', 'scenarioId'),
     }),
 
   Categories: a.enum(['scenario', 'sales_support', 'culture']),
@@ -154,6 +164,8 @@ export const schema = a.schema({
       name: a.string().required(), // "data_1", "data_2A", ...
       // email/scenario content
       end: a.boolean().required(),
+      // store hint references as library nameIds (strings)
+      hints: a.string().array(),
       default: a.boolean().required(), // optional true on the initial node(s)
       sender: a.string().required(), // "Leah Park, Marketing Manager"
       title: a.string().required(),
@@ -179,30 +191,6 @@ export const schema = a.schema({
       displayed: a.boolean().required(),
       color: a.string().required(), // hex or token
   }),
-
-  TermLink: a
-    .model({
-      scenarioId: a.id().required(),
-      scenario: a.belongsTo('Scenario', 'scenarioId'),
-  // Align with JSON: objects inside 'termsLinks' carry name/text/href/source directly
-  name: a.string().required(), // e.g., "MDM"
-  text: a.string().required(), // display text
-  href: a.string().required(), // e.g., "mdm.html"
-  source: a.ref('SourceType').required(), // "local" | "external"
-  }),
-
-  EndResource: a
-    .model({
-      scenarioId: a.id().required(),
-      scenario: a.belongsTo('Scenario', 'scenarioId'),
-  // Align with JSON: entries in 'endResources' carry name/text/href/source directly
-  name: a.string().required(), // e.g., "2", "3"
-  text: a.string().required(),
-  href: a.string().required(),
-  source: a.ref('SourceType').required(),
-  })
-,
-
   // LeaderboardEntry model: stores best profit per user per scenario
   LeaderboardEntry: a
     .model({
@@ -224,7 +212,7 @@ export const schema = a.schema({
       allow.ownerDefinedIn('userId').to(['create','update','delete'])
     ])
 })
-.authorization((allow) => [allow.authenticated().to(['read']), allow.groups(['ADMIN']).to(['create', 'delete']), allow.resource(seedScenario).to(['mutate', 'query', 'listen'])]);
+.authorization((allow) => [allow.authenticated().to(['read']), allow.groups(['ADMIN']).to(['create', 'delete'])]);
 
 
 export type Schema = ClientSchema<typeof schema>;

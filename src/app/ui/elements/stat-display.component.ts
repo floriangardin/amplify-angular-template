@@ -13,7 +13,7 @@ import { formatCurrency } from '../utils/game-formatters';
         <span 
           [class.text-primary-500]="value() >= 0" 
           [class.text-red-600]="value() < 0" 
-          class="text-sm font-bold inline-block"
+          class="text-sm font-semibold inline-block"
           [class.value-bump]="bump()"
         >
           {{ formattedValue() }}
@@ -21,7 +21,7 @@ import { formatCurrency } from '../utils/game-formatters';
 
         @if (showDelta()) {
           <span 
-            class="absolute right-0 -top-2 text-xs font-bold pointer-events-none float-up"
+            class="absolute right-0 -top-2 text-xs pointer-events-none float-up"
             [class.text-green-600]="lastDelta() > 0"
             [class.text-red-600]="lastDelta() < 0"
           >

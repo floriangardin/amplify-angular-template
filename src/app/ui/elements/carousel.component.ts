@@ -44,6 +44,7 @@ let nextId: number = 0;
                     [isPro]="isPro()"
                     (select)="onSelectScenario(scenario)"
                     (play)="onPlayScenario(scenario)"
+                    (upgrade)="onUpgrade(scenario)"
                     (leaderboard)="onLeaderboardScenario(scenario)"
                   ></app-scenario-card>
                 </div>
@@ -157,6 +158,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   // Outputs to bubble child card events
   selectScenario = output<Scenario>();
   playScenario = output<Scenario>();
+  upgrade = output<Scenario>();
   leaderboardScenario = output<Scenario>();
 
   public currentPage: number = 0;
@@ -243,5 +245,8 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
   onLeaderboardScenario(scenario: Scenario) {
     this.leaderboardScenario.emit(scenario);
+  }
+  onUpgrade(scenario: Scenario) {
+    this.upgrade.emit(scenario);
   }
 }

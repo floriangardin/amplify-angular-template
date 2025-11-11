@@ -1,7 +1,6 @@
 import { Component, computed, input, output, signal, OnInit, OnDestroy, ElementRef, ViewChild, TemplateRef, inject, ViewContainerRef } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { Scenario } from '../../models/game-content';
-import { EditableTextComponent } from '../fields/editable-text.component';
 import { EditableImageComponent } from '../fields/editable-image.component';
 import { OverlayModule, Overlay, OverlayRef, ConnectedPosition } from '@angular/cdk/overlay';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
@@ -10,7 +9,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
 @Component({
   selector: 'app-scenario-card',
   standalone: true,
-  imports: [CommonModule, NgClass, EditableTextComponent, EditableImageComponent, OverlayModule, PortalModule],
+  imports: [CommonModule, NgClass, EditableImageComponent, OverlayModule, PortalModule],
   template: `
   <div
     #anchor
@@ -30,7 +29,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
           <app-editable-image
             class="cursor-pointer"
             [assetId]="assetPath()"
-            [alt]="scenario()?.scenarioTitle || 'Scenario'"
+            [alt]="scenario()!.card.title || 'Scenario'"
             [imgClass]="'block h-full w-full object-cover'"
             [isEditable]="isAdmin()"
           ></app-editable-image>
@@ -52,7 +51,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
 
     <!-- Overlay template (rendered via CDK Overlay when expanded) -->
     <ng-template #flyoutTpl>
-      <div class="relative md:rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 overflow-y-scroll w-[100vw] h-[100vh] md:h-auto md:w-[640px] lg:w-[500px] md:max-h-[80vh] flyout-enter"
+      <div class="relative md:rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 overflow-y-scroll w-[100vw] h-[100vh] md:h-auto md:w-[640px] lg:w-[800px] md:max-h-[80vh] flyout-enter"
            (mouseenter)="onOverlayEnter()" (mouseleave)="onOverlayLeave()" (click)="$event.stopPropagation()">
         <!-- Mobile header -->
         <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-gray-200">
@@ -65,12 +64,12 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
           }
         </div>
         <!-- Image -->
-        <div class="relative w-full">
-          <div class="relative w-full align-middle md:align-top mx-auto">
+        <div class="relative w-full bg-black">
+          <div class="relative w-full md:w-1/2 align-middle md:align-top mx-auto">
             @if (hasLogo()) {
               <app-editable-image
                 [assetId]="assetPath()"
-                [alt]="scenario()?.scenarioTitle || 'Scenario'"
+                [alt]="scenario()!.card.title || 'Scenario'"
                 [imgClass]="'block h-full w-full object-cover object-center'"
                 [isEditable]="isAdmin()"
               ></app-editable-image>
@@ -86,47 +85,72 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
         </div>
         <!-- Details -->
         <div class="p-4 md:p-5 md:overflow-y-auto md:max-h-[calc(80vh-4rem)]">
-          <div class="hidden md:flex items-start justify-between gap-3">
-            <app-editable-text
-              class="block flex-1"
-              [text]="scenario()?.scenarioTitle || scenario()?.title || scenario()?.name || 'Untitled scenario'"
-              [isMarkdown]="true"
-              [isEditable]="isAdmin()"
-              [contentClass]="'prose prose-gray max-w-none text-gray-900 prose-h1:my-0 prose-h1:text-xl md:prose-h1:text-2xl prose-p:my-0'"
-            />
-            @if (scenarioPlan() === 'pro') {
-              <span class="ml-2 shrink-0 self-start rounded-full bg-yellow-500 px-2.5 py-1 text-[11px] font-semibold text-gray-900">PRO</span>
-            }
-          </div>
-          @if (scenario()?.role) {
-            <div class="mt-2 text-sm md:text-base text-gray-600">
-              <span class="font-medium text-gray-700">Role: </span>
-              <span>{{ scenario()?.role }}</span>
-            </div>
-          }
-          @if (scenario()?.description) {
-            <div class="mt-3 md:mt-4">
-              <app-editable-text
-                [text]="scenario()?.description || ''"
-                [isMarkdown]="true"
-                [isEditable]="isAdmin()"
-                [contentClass]="'text-sm prose prose-sm md:prose-base max-w-none text-gray-700'"
-              />
-            </div>
-          }
           @if (locked()) {
             <div class="text-xs md:text-sm text-gray-500 mt-4">This scenario requires a Pro plan.</div>
           }
           <div class="mt-4 flex items-center gap-3">
-            <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="locked()" (click)="onPlay($event)" aria-label="Play scenario">
-              <i class="fa-solid fa-play"></i>
-              <span>Play</span>
-            </button>
+            @if (!locked()) {
+              <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="locked()" (click)="onPlay($event)" aria-label="Play scenario">
+                <i class="fa-solid fa-play"></i>
+                <span>Play</span>
+              </button>
+            }@else {
+              <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-yellow-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
+              (click)="onUpgrade($event)" aria-label="Play scenario">
+                <i class="fa-solid fa-arrow-up"></i>
+                <span>Upgrade</span>
+              </button>
+            }
             <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" (click)="onLeaderboard($event)" aria-label="View leaderboard">
               <i class="fa-solid fa-ranking-star"></i>
               <span>Leaderboard</span>
             </button>
           </div>
+          <!-- Card info -->
+          @if (scenario()?.card) {
+            <div class="mt-4 space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-800 border border-gray-200" *ngIf="scenario()?.card?.difficulty as diff">
+                  <i class="fa-solid fa-signal mr-1"></i>{{ diff }}
+                </span>
+                <span class="inline-flex items-center rounded-full bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-700 border border-primary-200" *ngIf="scenario()?.card?.metadata?.category as cat">
+                  <i class="fa-solid fa-hashtag mr-1"></i>{{ cat }}
+                </span>
+                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 border border-emerald-200" *ngIf="scenario()?.card?.metadata?.estimatedDurationMinutes as dur">
+                  <i class="fa-regular fa-clock mr-1"></i>{{ dur }} min
+                </span>
+              </div>
+              <div class="text-sm md:text-sm font-semibold text-gray-900">{{ scenario()?.card?.title }}</div>
+              <div  class="text-xs md:text-sm text-gray-700">{{ scenario()?.card?.shortDescription }}</div>
+              <div>
+                <div class="text-xs font-medium text-gray-600 mb-1">Skills you will practice</div>
+                <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                  <li *ngFor="let s of scenario()?.card?.skillsAcquired">{{ s }}</li>
+                </ul>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="rounded-lg border border-gray-200 p-3" *ngIf="scenario()?.card?.context?.program as prog">
+                  <div class="text-xs font-semibold text-gray-600 mb-1">Program</div>
+                  <div class="text-sm text-gray-800">{{ prog }}</div>
+                </div>
+                <div class="rounded-lg border border-gray-200 p-3" *ngIf="scenario()?.card?.context?.domains as domains">
+                  <div class="text-xs font-semibold text-gray-600 mb-1">Domains</div>
+                  <div class="text-sm text-gray-800">{{ domains }}</div>
+                </div>
+                <div class="rounded-lg border border-gray-200 p-3" *ngIf="scenario()?.card?.context?.roleFocus as rf">
+                  <div class="text-xs font-semibold text-gray-600 mb-1">Role focus</div>
+                  <div class="text-sm text-gray-800">{{ rf }}</div>
+                </div>
+                <div class="rounded-lg border border-gray-200 p-3" *ngIf="scenario()?.card?.context?.objective as obj">
+                  <div class="text-xs font-semibold text-gray-600 mb-1">Objective</div>
+                  <div class="text-sm text-gray-800">{{ obj }}</div>
+                </div>
+              </div>
+            </div>
+          }
+
+
         </div>
       </div>
     </ng-template>
@@ -140,7 +164,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
       0% { opacity: 0; }
       100% { opacity: 1; }
     }
-    .flyout-enter { animation: flyoutIn 500ms ease-out; }
+    .flyout-enter { animation: flyoutIn 1000ms ease-out; }
   `]
 })
 export class ScenarioCardComponent implements OnInit, OnDestroy {
@@ -153,13 +177,14 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
   // Outputs
   select = output<void>();
   play = output<void>();
+  upgrade = output<void>();
   leaderboard = output<void>();
 
   isAdmin = input<boolean>(false);
   isPro = input<boolean>(false);
 
 
-  scenarioPlan = computed(() => (this.scenario() as any)?.plan as string | undefined);
+  scenarioPlan = computed(() => (this.scenario() as any)?.card?.plan as string | undefined);
 
   locked = computed(() => {
     const explicit = this.disabled();
@@ -171,8 +196,8 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
   });
 
   // Thumbnail handling
-  hasLogo = computed(() => !!this.scenario()?.logoId);
-  assetPath = computed(() => this.scenario()?.logoId ? `previews/${this.scenario()!.logoId}` : null);
+  hasLogo = computed(() => !!this.scenario()?.nameId);
+  assetPath = computed(() => this.scenario()?.nameId ? `previews/${this.scenario()!.nameId}` : null);
 
   // Hover/expand state
   private hoverTimer: any = null;
@@ -201,7 +226,6 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
   }
 
   onMouseEnter() {
-    if (this.locked()) return; // still allow hover UI? Keep simple: no expand if locked
     this.overCard.set(true);
     this.clearHoverTimer();
     // Delay ~1.2s before expanding (Netflix-like)
@@ -288,7 +312,7 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
   }
 
   private openOverlay() {
-    if (this.overlayRef || this.locked()) return;
+    if (this.overlayRef) return;
     this.flyoutRegistry.requestOpen(this);
     const isMobile = window.innerWidth < 768;
     if (isMobile) {
@@ -303,16 +327,18 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
       });
       this.overlayRef.backdropClick().subscribe(() => this.close());
     } else {
-      const positions: ConnectedPosition[] = [
-        { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: 8 },
-        { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -8 }
+            const positions: ConnectedPosition[] = [
+        // Prefer above with a smaller gap
+        { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -4 },
+        // Fallback below with a smaller gap
+        { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: 4 }
       ];
       const positionStrategy = this.overlay
         .position()
         .flexibleConnectedTo(this.anchorRef.nativeElement)
         .withPositions(positions)
         .withPush(true)
-        .withViewportMargin(8);
+        .withViewportMargin(4);
       this.overlayRef = this.overlay.create({
         hasBackdrop: false,
         positionStrategy,
@@ -355,6 +381,11 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
       this.close();
     }
   };
+
+  onUpgrade(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.upgrade.emit();
+  }
 
   // Guard to prevent flicker close right after opening while animation stabilizes
   private recentlyOpened = false;

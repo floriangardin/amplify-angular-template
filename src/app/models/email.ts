@@ -1,3 +1,5 @@
+import type { LibraryItem } from './game-content';
+
 export interface Email {
   name: string;
   end: boolean;
@@ -9,6 +11,8 @@ export interface Email {
   choices: Choice[];
   default: boolean;
   priority?: number;
+  // Hint references by library nameId resolved client-side to LibraryItem objects
+  hints?: string[] | LibraryItem[];
 }
 
 export interface Impact {

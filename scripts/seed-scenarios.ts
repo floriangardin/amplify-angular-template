@@ -62,23 +62,33 @@ async function tryLoadEnvLocalOnce(rootDir: string) {
 
 type DemoJson = {
   // minimal shape needed by seeding logic
-  title: string;
-  scenarioTitle: string;
-  gameTitle: string;
-  headerGameText: string;
-  plan: string;
-  role: string;
-  introText: string;
-  description: string;
-  cdoRole: string;
-  startTutorial: string;
-  logo: { assetId: string };
-  logoCompany: { assetId: string };
-  logoId: string;
+  nameId: string;
+  library?: Array<{
+    nameId: string;
+    description?: string;
+    title: string;
+    emoji: string;
+  }>;
+  card: {
+    plan: 'free' | 'pro';
+    title: string;
+    shortDescription: string;
+    difficulty: string;
+    skillsAcquired: string[];
+    context: {
+      program: string;
+      domains: string;
+      roleFocus: string;
+      objective: string;
+    };
+    metadata: {
+      category: string;
+      estimatedDurationMinutes: number;
+      track: string;
+    };
+  };
   nodes?: Array<any>;
   indicators?: Array<any>;
-  termsLinks?: Array<any>;
-  endResources?: Array<any>;
 };
 
 function toChoices(choicesObj: any | undefined): any[] {
@@ -125,41 +135,29 @@ async function listAllIndicators(client: ReturnType<typeof generateClient<Schema
   return items;
 }
 
-async function listAllTermLinks(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
+async function listAllLibraryItems(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
   let nextToken: string | undefined = undefined;
   const items: any[] = [];
   do {
-    const page: any = await client.models.TermLink.list({ filter: { scenarioId: { eq: scenarioId } }, nextToken });
+    const page: any = await client.models.LibraryItem.list({ filter: { scenarioId: { eq: scenarioId } }, nextToken });
     items.push(...page.data);
     nextToken = (page as any).nextToken;
   } while (nextToken);
   return items;
 }
 
-async function listAllEndResources(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
-  let nextToken: string | undefined = undefined;
-  const items: any[] = [];
-  do {
-    const page: any = await client.models.EndResource.list({ filter: { scenarioId: { eq: scenarioId } }, nextToken });
-    items.push(...page.data);
-    nextToken = (page as any).nextToken;
-  } while (nextToken);
-  return items;
-}
 
 async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
   // Delete children first, then the scenario
-  const [nodes, indicators, termLinks, endResources] = await Promise.all([
+  const [nodes, indicators, libs] = await Promise.all([
     listAllNodes(client, scenarioId),
     listAllIndicators(client, scenarioId),
-    listAllTermLinks(client, scenarioId),
-    listAllEndResources(client, scenarioId),
+    listAllLibraryItems(client, scenarioId),
   ]);
 
   await Promise.all(nodes.map(n => client.models.Node.delete({ id: n.id })));
   await Promise.all(indicators.map(i => client.models.Indicator.delete({ id: i.id })));
-  await Promise.all(termLinks.map(t => client.models.TermLink.delete({ id: t.id })));
-  await Promise.all(endResources.map(e => client.models.EndResource.delete({ id: e.id })));
+  await Promise.all(libs.map(l => client.models.LibraryItem.delete({ id: l.id })));
 
   await client.models.Scenario.delete({ id: scenarioId });
 }
@@ -170,39 +168,30 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
 
   // idempotency: skip if a Scenario with same title exists
   const existing = await client.models.Scenario.list({
-    filter: { title: { eq: payload.title } },
+    filter: { nameId: { eq: payload.nameId } },
   });
 
   if (existing.data.length > 0) {
     if (!force) {
       const s = existing.data[0]!;
-      console.log(`- Skipped (exists): ${payload.title} [id=${s.id}]`);
+      console.log(`- Skipped (exists): ${payload.card.title} [id=${s.id}]`);
       return s;
     }
     // Force: delete all matching scenarios and their children
     for (const s of existing.data) {
       await deleteScenarioDeep(client, s.id);
-      console.log(`- Deleted existing: ${payload.title} [id=${s.id}]`);
+      console.log(`- Deleted existing: ${payload.card.title} [id=${s.id}]`);
     }
   }
 
+  
   // Create Scenario
   const { data: scenario, errors: scenarioErrors } = await client.models.Scenario.create({
-    name: (payload as any).name, // optional
-    title: payload.title,
-    scenarioTitle: payload.scenarioTitle,
-    gameTitle: payload.gameTitle,
-    headerGameText: payload.headerGameText,
-    plan: payload.plan,
-    role: payload.role,
-    introText: payload.introText,
-    description: payload.description,
-    cdoRole: payload.cdoRole,
-    startTutorial: payload.startTutorial,
-    logo: { assetId: payload.logo.assetId },
-    logoCompany: { assetId: payload.logoCompany.assetId },
-    logoId: payload.logoId,
+    nameId: payload.nameId,
+    card: payload.card
   });
+
+  
 
   if (scenarioErrors?.length || !scenario) {
     const msg = scenarioErrors?.map((e: any) => e?.message ?? JSON.stringify(e)).join('; ') || 'Unknown error creating Scenario';
@@ -210,30 +199,7 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
   }
 
   const scenarioId = scenario.id;
-
-  // Create Nodes
-  const nodeResults = await Promise.all(
-    (payload.nodes ?? []).map((n: any) =>
-      client.models.Node.create({
-        scenarioId,
-        name: n.name,
-        end: Boolean(n.end),
-        default: Boolean(n.default ?? false),
-        sender: n.sender,
-        title: n.title,
-        content: n.content,
-        category: n.category as any,
-        isUrgent: Boolean(n.isUrgent),
-        choices: toChoices(n.choices) as any,
-      })
-    )
-  );
-
-  const nodeErrors = nodeResults.flatMap((r) => r.errors ?? []);
-  if (nodeErrors.length) {
-    const msg = nodeErrors.map((e: any) => e?.message ?? JSON.stringify(e)).join('; ');
-    throw new Error(`Failed to create Nodes: ${msg}`);
-  }
+  // We need scenario-scoped library items before creating nodes so hints can be included at creation time (no update required).
 
   // Create Indicators
   const indicatorResults = await Promise.all(
@@ -259,45 +225,74 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
     throw new Error(`Failed to create Indicators: ${msg}`);
   }
 
-  // Create Term Links
-  const termLinkResults = await Promise.all(
-    (payload.termsLinks ?? []).map((t: any) =>
-      client.models.TermLink.create({
-        scenarioId,
-        name: t.name,
-        text: t.text,
-        href: t.href,
-        source: t.source as any,
-      })
-    )
-  );
+  // Link Library items (optional)
+  if (Array.isArray(payload.library) && payload.library.length) {
+    for (const libRef of payload.library) {
+      const nameId = String(libRef.nameId);
+      // Try to find a global library item (no scenarioId) with this nameId
+      const { data: existingByName } = await client.models.LibraryItem.list({
+        filter: { nameId: { eq: nameId } },
+      });
 
-  const termLinkErrors = termLinkResults.flatMap((r) => r.errors ?? []);
-  if (termLinkErrors.length) {
-    const msg = termLinkErrors.map((e: any) => e?.message ?? JSON.stringify(e)).join('; ');
-    throw new Error(`Failed to create TermLinks: ${msg}`);
+      const global = existingByName.find((it: any) => !it.scenarioId);
+      const description = libRef.description ?? global?.description ?? nameId;
+      const title = libRef.title ?? global?.title ?? nameId;
+      const emoji = libRef.emoji ?? global?.emoji ?? '📄';
+
+      const { errors } = await client.models.LibraryItem.create({
+        scenarioId,
+        nameId,
+        description,
+        title,
+        emoji,
+
+
+      });
+      if (errors?.length) {
+        const msg = errors.map((e: any) => e?.message ?? JSON.stringify(e)).join('; ');
+        throw new Error(`Failed to link LibraryItem '${nameId}' to Scenario: ${msg}`);
+      }
+    }
+  }
+  // Create Nodes including validated hints (no update needed -> avoids authorization on update)
+  const scenarioLibItems = await listAllLibraryItems(client as any, scenarioId);
+  const scenarioLibNameIds = new Set<string>(scenarioLibItems.map((it: any) => String(it.nameId)));
+
+  for (const n of (payload.nodes ?? [])) {
+    // Validate hints: allow only nameIds that exist either in scenario library or as a global library item
+    let validHints: string[] = [];
+    if (Array.isArray(n.hints) && n.hints.length) {
+      for (const raw of n.hints) {
+        const nameId = String(raw);
+        let ok = scenarioLibNameIds.has(nameId);
+        if (!ok) {
+          const { data: globalLookup } = await client.models.LibraryItem.list({ filter: { nameId: { eq: nameId } } });
+            ok = globalLookup.some((it: any) => !it.scenarioId);
+        }
+        if (ok) validHints.push(nameId);
+      }
+    }
+    const { data: nodeCreated, errors: nodeErrors } = await client.models.Node.create({
+      scenarioId,
+      name: n.name,
+      end: Boolean(n.end),
+      default: Boolean(n.default ?? false),
+      sender: n.sender,
+      title: n.title,
+      content: n.content,
+      category: n.category as any,
+      isUrgent: Boolean(n.isUrgent),
+      choices: toChoices(n.choices) as any,
+      hints: validHints as any,
+    });
+    if (nodeErrors?.length || !nodeCreated) {
+      const msg = nodeErrors?.map((e: any) => e?.message ?? JSON.stringify(e)).join('; ');
+      throw new Error(`Failed to create Node '${n.name}': ${msg}`);
+    }
   }
 
-  // Create End Resources
-  const endResourceResults = await Promise.all(
-    (payload.endResources ?? []).map((e: any) =>
-      client.models.EndResource.create({
-        scenarioId,
-        name: e.name,
-        text: e.text,
-        href: e.href,
-        source: (e as any).source ?? 'local',
-      })
-    )
-  );
 
-  const endResourceErrors = endResourceResults.flatMap((r) => r.errors ?? []);
-  if (endResourceErrors.length) {
-    const msg = endResourceErrors.map((e: any) => e?.message ?? JSON.stringify(e)).join('; ');
-    throw new Error(`Failed to create EndResources: ${msg}`);
-  }
-
-  console.log(`- Seeded: ${payload.title} [id=${scenarioId}]`);
+  console.log(`- Seeded: ${payload.card.title} [id=${scenarioId}]`);
   return scenario;
 }
 

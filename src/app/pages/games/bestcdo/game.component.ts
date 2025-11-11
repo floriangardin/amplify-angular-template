@@ -11,6 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Email, Choice } from '../../../models/email';
 import {Stats, DefeatReason, DefeatStats} from '../../../models/stats';
+import { LibraryItem } from '../../../models/game-content';
 import { BaseCDOComponent } from './base.component';
 import { GameStatsHeaderComponent } from './components/game-stats-header.component';
 import { EmailInboxComponent } from './components/email-inbox.component';
@@ -22,6 +23,8 @@ import { formatCurrency, getImpactColor } from './utils/game-formatters';
 import { changeAndSetEmail } from './utils/change-emails';
 import { HeaderComponent } from '../../../components/header.component';
 import { LeaderboardService } from '../../../services/leaderboard.service';
+import { ContentDialogComponent } from '../../../ui/elements/content-dialog.component';
+import { StorageService } from '../../../services/storage.service';
 
 export interface CompanyContext {
   name: string;
@@ -37,7 +40,7 @@ export interface CompanyContext {
 @Component({
   selector: 'app-bestcdo-game',
   standalone: true,
-  imports: [CommonModule, GameStatsHeaderComponent, EmailInboxComponent, EmailViewerComponent, HeaderComponent],
+  imports: [CommonModule, GameStatsHeaderComponent, ContentDialogComponent, EmailInboxComponent, EmailViewerComponent, HeaderComponent],
   providers: [GameStatsService, EmailQueueService, GameEngineService],
   styles: [`
     :host {
@@ -47,22 +50,22 @@ export interface CompanyContext {
     }
   `],
   template: `
-      
+    @if (showDialog()) {
+      <app-content-dialog
+        [title]="dialogTitle()"
+        [url]="dialogUrl()"
+        (closed)="closeDialog()"
+      />
+    }
     @if (!content()) {
       <app-header class="md:fixed top-0 static left-0 w-screen"></app-header>
       <div class="min-h-screen flex items-center justify-center text-white">Loading game…</div>
     } @else {
     <!-- Parent fills the viewport; horizontal padding responsive -->
     <div class="min-h-screen flex items-center justify-center md:px-16 lg:px-32">
-      <!-- Child uses a percentage of the small-viewport height; structured as a flex column -->
       <div class="w-full h-[100vh] md:h-[75svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
         <!-- Top notice -->
         <app-header class="md:fixed top-0 left-0 static w-screen"></app-header>
-        @if (statValue('reputation') <= 30 && !isMobile()) {
-          <div class="w-full h-8 z-10 bg-primary-500 text-white pointer-events-none flex items-center justify-center shrink-0">
-            Welcome to the Data Steward Simulator !
-          </div>
-        }
         <!-- Header bar with stats -->
         <app-game-stats-header
           [isMusicMuted]="sounds.isMusicMuted()"
@@ -75,10 +78,12 @@ export interface CompanyContext {
           @if (showInbox()) {
             <app-email-inbox
               [emails]="inbox()"
+              [library]="content().library"
               [selectedEmailName]="selectedEmail()?.name || null"
               [companyLogo]="content()['logo_company']?.['assetId'] || null"
               [isEditable]="isEditable()"
               (emailSelected)="selectEmail($event)"
+              (libraryItemSelected)="libraryItemSelected($event)"
               [ngClass]="inboxPanelClasses()"
             />
           }
@@ -100,11 +105,7 @@ export interface CompanyContext {
             (backClicked)="back()"
             (choiceSelected)="choose($event)"
             (startGameClicked)="startGame()"
-            (titleChanged)="changeEmailField('title', $event)"
-            (senderChanged)="changeEmailField('sender', $event)"
-            (contentChanged)="changeEmailField('content', $event)"
-            (choiceTextChanged)="handleChoiceTextChange($event)"
-            (outcomeDescriptionChanged)="handleOutcomeDescriptionChange($event)"
+            (hintSelected)="libraryItemSelected($event)"
             [ngClass]="mainPanelClasses()"
           />
         </div>
@@ -128,6 +129,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   emailQueueService = inject(EmailQueueService);
   gameEngineService = inject(GameEngineService);
   leaderboardService = inject(LeaderboardService);
+  storageService = inject(StorageService);
+
 
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
@@ -226,6 +229,14 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       this.emailQueueService.initialize([]);
     }
   });
+
+  public async libraryItemSelected(item: LibraryItem): Promise<void> {
+    // Handle the selected library item here
+    let url: URL = await this.storageService.getLibraryItemUrl(item.nameId);
+    this.dialogTitle.set(item.title);
+    this.dialogUrl.set(url);
+    this.showDialog.set(true);
+  }
 
   /* ──────────────── lifecycle ───────────── */
   override ngOnInit(): void {
@@ -445,50 +456,6 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       return this.replacePlaceholders(raw);
     }
     return raw;
-  }
-
-  changeEmailField(field: 'title' | 'sender' | 'content', newText: string): void {
-    const email = this.selectedEmail();
-    if (!email) return;
-    this.changeAndSetEmail(newText, 'replace', `/email/${email.name}/${field}`);
-  }
-
-  handleChoiceTextChange(event: { choice: string; text: string }): void {
-    const email = this.selectedEmail();
-    if (!email) return;
-    this.changeAndSetEmail(
-      event.text,
-      'replace',
-      `/email/${email.name}/choices/${event.choice}/text`
-    );
-  }
-
-  handleOutcomeDescriptionChange(newText: string): void {
-    const email = this.selectedEmail();
-    const choiceInfo = this.choiceId();
-    if (!email || !choiceInfo) return;
-    this.changeAndSetEmail(
-      newText,
-      'replace',
-      `/email/${email.name}/choices/${choiceInfo.choice}/outcome/description`
-    );
-  }
-
-  changeAndSetEmail(newText: string, op: 'replace' | 'add' | 'remove', path: string): void {
-    // Apply external/global change logic (likely updates the authoritative content signal)
-    //this.change(newText, op, path);
-    const emailName = changeAndSetEmail(
-      this.selectedEmail,
-      this.gameStateService.content,
-      newText,
-      op,
-      path)
-
-    if (!emailName) return;
-    // Update email queue if email is in available pool
-    this.emailQueueService.updateEmail(emailName, {
-      ...this.emailQueueService.getAllAvailable().find(e => e.name === emailName)!
-    });
   }
 
   private replacePlaceholders(text: string): string {

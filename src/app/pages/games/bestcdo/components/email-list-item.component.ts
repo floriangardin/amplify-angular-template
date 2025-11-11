@@ -17,7 +17,7 @@ import { marked } from 'marked';
       (click)="emailClick.emit(email())"
     >
       <div class="flex justify-between items-center gap-2 min-w-0">
-        <span class="font-semibold text-sm truncate flex-1 min-w-0">{{ email().title }}</span>
+        <span class="font-medium text-sm truncate flex-1 min-w-0">{{ email().title }}</span>
         <span 
           class="text-xs text-white px-2 py-0.5 rounded-full uppercase font-medium whitespace-nowrap flex-shrink-0"
           [ngClass]="getCategoryClass(email().category)"

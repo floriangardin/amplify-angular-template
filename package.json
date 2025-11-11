@@ -8,7 +8,11 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "seed:scenarios": "tsx scripts/seed-scenarios.ts",
+    "delete:scenarios": "tsx scripts/delete-scenarios.ts",
     "seed:images": "tsx scripts/seed-images.ts",
+    "seed:static-images": "tsx scripts/seed-static-images.ts",
+    "seed:content": "tsx scripts/seed-content.ts",
+    "seed:library": "tsx scripts/seed-library.ts",
     "configure:cognito-domain": "tsx scripts/configure-cognito-domain.ts"
   },
   "private": true,

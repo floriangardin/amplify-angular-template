@@ -23,26 +23,42 @@ export interface EndResource {
 export interface Image {
   assetId: string;
 }
+
+export interface ScenarioCardContext {
+  program: string;
+  domains: string;
+  roleFocus: string;
+  objective: string;
+}
+
+export interface ScenarioCardMetadata {
+  category: string;
+  estimatedDurationMinutes: number;
+  track: string;
+}
+
+export interface ScenarioCard {
+  plan: 'free' | 'pro';
+  title: string;
+  shortDescription: string;
+  difficulty: string;
+  skillsAcquired: string[];
+  context: ScenarioCardContext;
+  metadata: ScenarioCardMetadata;
+}
+export interface LibraryItem {
+  nameId: string;
+  description: string;
+  title: string;
+  emoji: string;
+}
 export interface Scenario {
   id: string;
-  introText: string;
-  termsLinks: EndResource[];
-  endResources: EndResource[];
+  library: LibraryItem[]; 
   nodes: Email[];
   indicators: Indicator[];
-  cdoRole: string;
-  description?: string;
-  plan: string;
-  role: string;
-  gameTitle: string;
-  headerGameText: string;
-  logo: Image;
-  logoId: string;
-  logoCompany: Image;
-  scenarioTitle: string;
-  startTutorial: string;
-  title: string;
-  name: string;
+  card: ScenarioCard;
+  nameId: string;
   [key: string]: any; // Allow for additional properties
 }
 

@@ -21,10 +21,18 @@ export class BaseCDOComponent implements OnInit {
   public Object = Object;
   public content = this.gameStateService.content;
 
+  showDialog = signal(false);
+  dialogTitle = signal<string>('');
+  dialogUrl = signal<URL | null>(null);
+
   isMobile = signal<boolean>(window.innerWidth < 768);
 
   toggleMute() {
     this.sounds.toggleMute();
+  }
+
+  closeDialog() {
+    this.showDialog.set(false);
   }
   
   ngOnInit(): void {

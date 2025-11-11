@@ -18,7 +18,7 @@ import { EditableImageComponent } from '../../../ui/fields/editable-image.compon
     @else{
       <div class="flex flex-col md:flex-row items-center gap-4">
         <app-editable-image
-        [assetId]="'previews/' +content()['logoId'] || null"
+        [assetId]="'previews/' +content()['nameId'] || null"
         alt="Data Stewardship Simulator logo"
         [imgClass]="'w-20 h-20 rounded-full object-cover'"
         [transform]="{ w: 256, h: 256, fmt: 'png' }"
@@ -29,22 +29,17 @@ import { EditableImageComponent } from '../../../ui/fields/editable-image.compon
         <div class="flex flex-col items-center">
         <app-editable-text 
         contentClass="text-3xl md:text-4xl font-bold text-primary-500 text-center" 
-        [isEditable]="isEditable()" [text]="content()['gameTitle'] || ''" 
+        [isEditable]="isEditable()" [text]="content().card.title" 
         class="text-gray-700 text-center mb-2"></app-editable-text>
-        <app-editable-text 
-        contentClass="text-xl md:text-2xl font-bold text-gray-900 mt-2 text-center mb-4" 
-        [isEditable]="isEditable()" [text]="content()['scenarioTitle'] || ''"  
-        class="text-gray-700 text-center mb-4"></app-editable-text>
-        </div>
+      </div>
 
         <button (click)="toggleMute()" class="absolute top-2 right-2 w-9 h-9 p-4 flex items-center justify-center rounded-full border bg-gray-100">
           {{ muted() ? '🔇' : '🔊' }}
         </button>
       </div>
       <app-editable-text [contentClass]="'text-gray-700 text-justify pb-4 leading-relaxed'"
-       [isEditable]="isEditable()" [text]="content()['introText'] || ''"
+       [isEditable]="isEditable()" [text]="content().card.shortDescription || ''"
        class="text-gray-700 text-center mb-4"></app-editable-text>
-
       <div class="w-full p-6 card-bg rounded-lg border border-primary-200 mb-8">
         <div class="flex items-start gap-3">
           <div class="flex-shrink-0 mt-1">
@@ -52,12 +47,16 @@ import { EditableImageComponent } from '../../../ui/fields/editable-image.compon
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
+          <div class="flex flex-col">
+            <h2 class="text-lg font-semibold text-primary-700 mb-2">Skills involved</h2>
+            @for(skill of content().card.skillsAcquired; track skill){
+              <li class="text-gray-700 text-sm">
+                {{ skill }}
+            </li>
+            } 
+
+          </div>
           <div class="flex-1">
-          <app-editable-text [contentClass]="'text-lg font-semibold text-gray-900 pb-2'" 
-          
-          [isEditable]="isEditable()" [text]="content()['cdoRole'] || ''"
-          class="text-gray-700"></app-editable-text>
-          <app-editable-text [isMarkdown]="true" [contentClass]="'text-gray-700 text-left'" [isEditable]="isEditable()" [text]="content()['startTutorial'] || ''" class="text-gray-700 text-center"></app-editable-text>
         </div>
       </div>
       </div>

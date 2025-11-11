@@ -1,0 +1,314 @@
+<article class="text-gray-800 leading-relaxed">
+	<!-- Hero -->
+	<section class="rounded-2xl bg-gradient-to-r from-primary-600 to-secondary-600 text-white p-8 md:p-10 shadow-lg">
+		<h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Data Governance — A Practical Overview</h1>
+		<p class="mt-3 text-white/90 max-w-3xl">
+			Data governance is the operating system for your data: the people, processes, and policies that make data trustworthy,
+			secure, and usable so teams can confidently drive outcomes.
+		</p>
+		<div class="mt-6 flex flex-wrap gap-3">
+			<span class="inline-flex items-center gap-2 text-sm font-medium bg-white/10 rounded-full px-3 py-1">
+				<span class="h-2 w-2 rounded-full bg-secondary-200"></span> Trust & Quality
+			</span>
+			<span class="inline-flex items-center gap-2 text-sm font-medium bg-white/10 rounded-full px-3 py-1">
+				<span class="h-2 w-2 rounded-full bg-primary-200"></span> Security & Compliance
+			</span>
+			<span class="inline-flex items-center gap-2 text-sm font-medium bg-white/10 rounded-full px-3 py-1">
+				<span class="h-2 w-2 rounded-full bg-white/70"></span> Value & Adoption
+			</span>
+		</div>
+	</section>
+
+	<!-- TOC -->
+	<section class="mt-10 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+		<h2 class="text-xl font-bold text-primary-700">What you’ll learn</h2>
+		<ol class="mt-3 grid gap-2 md:grid-cols-2 text-sm">
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#what-is">1. What is Data Governance?</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#why-now">2. Why it matters now</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#principles">3. Core principles</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#roles">4. Roles & responsibilities</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#operating-model">5. Operating model</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#lifecycle">6. Data lifecycle & controls</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#policies">7. Policies, standards, and processes</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#tooling">8. Tooling & automation</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#metrics">9. Metrics & KPIs</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#roadmap">10. Implementation roadmap</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#faq">11. FAQ</a></li>
+			<li><a class="text-primary-700 hover:text-primary-900 underline underline-offset-4" href="#glossary">12. Glossary</a></li>
+		</ol>
+	</section>
+
+	<!-- What is -->
+	<section id="what-is" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">1. What is Data Governance?</h2>
+		<p>
+			Data governance is the coordinated set of decision rights, responsibilities, and processes that ensure the
+			effective and efficient use of data to enable an organization to achieve its goals. It covers how data is
+			created, described, secured, accessed, shared, and retained—across departments and systems.
+		</p>
+		<div class="grid md:grid-cols-3 gap-4">
+			<div class="rounded-lg border border-primary-200 bg-primary-50 p-4">
+				<h3 class="font-semibold text-primary-800">Decision rights</h3>
+				<p class="mt-1 text-sm text-primary-900/80">Who can decide how data is defined, used, and changed.</p>
+			</div>
+			<div class="rounded-lg border border-secondary-200 bg-secondary-50 p-4">
+				<h3 class="font-semibold text-secondary-800">Accountability</h3>
+				<p class="mt-1 text-sm text-secondary-900/80">Clear ownership for quality, security, and lifecycle.</p>
+			</div>
+			<div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+				<h3 class="font-semibold text-gray-900">Enablement</h3>
+				<p class="mt-1 text-sm text-gray-700">Practical processes and tools that help teams do the right thing.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Why now -->
+	<section id="why-now" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">2. Why it matters now</h2>
+		<ul class="list-disc pl-6 space-y-2">
+			<li><span class="font-semibold">AI-readiness:</span> trustworthy data, lineage, and controls are prerequisites for safe AI and analytics.</li>
+			<li><span class="font-semibold">Security & privacy:</span> regulations (GDPR, CCPA, HIPAA, etc.) require consistent policy enforcement and evidence.</li>
+			<li><span class="font-semibold">Efficiency:</span> shared definitions and reusable assets reduce duplication and rework across teams.</li>
+			<li><span class="font-semibold">Business agility:</span> governed, discoverable data accelerates product and insight delivery.</li>
+		</ul>
+
+		<div class="mt-4 rounded-lg border-l-4 border-secondary-400 bg-secondary-50 p-4 text-sm">
+			Tip: start small. Pick a few high-impact domains (e.g., Customer, Product) and show measurable improvement within 90 days.
+		</div>
+	</section>
+
+	<!-- Principles -->
+	<section id="principles" class="mt-12">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">3. Core principles</h2>
+		<div class="mt-4 grid md:grid-cols-2 gap-4">
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">Value-driven</h3>
+				<p class="mt-1 text-gray-700">Prioritize data products and controls that unlock clear business outcomes.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">Federated, not fragmented</h3>
+				<p class="mt-1 text-gray-700">Empower domains with guardrails and a lightweight central backbone.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">Default to open (within policy)</h3>
+				<p class="mt-1 text-gray-700">Maximize reuse and discovery while honoring sensitivity and consent.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">Automate first</h3>
+				<p class="mt-1 text-gray-700">Codify policies and checks in pipelines; avoid manual gates where possible.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Roles -->
+	<section id="roles" class="mt-12 space-y-6">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">4. Roles & responsibilities</h2>
+		<div class="grid md:grid-cols-2 gap-4">
+			<div class="rounded-lg border border-primary-200 bg-white p-4">
+				<h3 class="text-primary-800 font-semibold">Data Owner</h3>
+				<p class="mt-1 text-sm text-gray-700">Accountable for a data domain’s fitness for purpose and policy adherence.</p>
+				<ul class="mt-2 list-disc pl-5 text-sm text-gray-700 space-y-1">
+					<li>Approves definitions, classifications, and access models.</li>
+					<li>Prioritizes improvements and resolves conflicts.</li>
+				</ul>
+			</div>
+			<div class="rounded-lg border border-primary-200 bg-white p-4">
+				<h3 class="text-primary-800 font-semibold">Data Steward</h3>
+				<p class="mt-1 text-sm text-gray-700">Ensures quality, metadata, and issue triage for datasets and products.</p>
+				<ul class="mt-2 list-disc pl-5 text-sm text-gray-700 space-y-1">
+					<li>Maintains glossary, lineage, and data quality rules.</li>
+					<li>Monitors KPIs and coordinates fixes with engineers.</li>
+				</ul>
+			</div>
+			<div class="rounded-lg border border-secondary-200 bg-white p-4">
+				<h3 class="text-secondary-800 font-semibold">Data Custodian (Engineering)</h3>
+				<p class="mt-1 text-sm text-gray-700">Implements controls in pipelines, storage, and serving systems.</p>
+				<ul class="mt-2 list-disc pl-5 text-sm text-gray-700 space-y-1">
+					<li>Applies security, lineage capture, and testing in code.</li>
+					<li>Operates SLAs and reliability of data products.</li>
+				</ul>
+			</div>
+			<div class="rounded-lg border border-secondary-200 bg-white p-4">
+				<h3 class="text-secondary-800 font-semibold">Data Consumer</h3>
+				<p class="mt-1 text-sm text-gray-700">Uses governed data for analysis, ML, and products, providing feedback.</p>
+				<ul class="mt-2 list-disc pl-5 text-sm text-gray-700 space-y-1">
+					<li>Follows usage guidelines and reports issues.</li>
+					<li>Contributes improvements and derived products.</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- Operating model -->
+	<section id="operating-model" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">5. Operating model</h2>
+		<p>Balance central standards with domain autonomy using three layers:</p>
+		<div class="mt-3 grid lg:grid-cols-3 gap-4">
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Central</h3>
+				<p class="text-sm text-gray-700 mt-1">Policies, common tech, templates, certification, and oversight.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Domain</h3>
+				<p class="text-sm text-gray-700 mt-1">Ownership, quality management, access models, and roadmaps.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Product</h3>
+				<p class="text-sm text-gray-700 mt-1">Data contracts, SLAs/SLOs, observability, and changelog discipline.</p>
+			</div>
+		</div>
+		<div class="rounded-lg border-l-4 border-primary-400 bg-primary-50 p-4 text-sm mt-4">
+			Governance forums: monthly council (priorities, risks), bi-weekly steward sync (issues, standards), on-demand review board (exceptions).
+		</div>
+	</section>
+
+	<!-- Lifecycle -->
+	<section id="lifecycle" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">6. Data lifecycle & controls</h2>
+		<div class="grid md:grid-cols-3 gap-4">
+			<div class="rounded-lg border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">1) Ingest</h3>
+				<ul class="mt-1 text-sm text-gray-700 list-disc pl-5 space-y-1">
+					<li>Source registration, data contracts, and PII tagging.</li>
+					<li>Schema validation and lineage capture.</li>
+				</ul>
+			</div>
+			<div class="rounded-lg border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">2) Transform</h3>
+				<ul class="mt-1 text-sm text-gray-700 list-disc pl-5 space-y-1">
+					<li>Unit tests, DQ rules (freshness, completeness, uniqueness).</li>
+					<li>Change management and versioning.</li>
+				</ul>
+			</div>
+			<div class="rounded-lg border border-gray-200 p-4">
+				<h3 class="font-semibold text-primary-700">3) Serve</h3>
+				<ul class="mt-1 text-sm text-gray-700 list-disc pl-5 space-y-1">
+					<li>Access control, masking, consent enforcement.</li>
+					<li>SLAs, documentation, and issue channels.</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- Policies -->
+	<section id="policies" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">7. Policies, standards, and processes</h2>
+		<div class="grid md:grid-cols-2 gap-4">
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Policies</h3>
+				<p class="text-sm text-gray-700 mt-1">Non-negotiables: classification, retention, access, privacy, acceptable use.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Standards</h3>
+				<p class="text-sm text-gray-700 mt-1">Naming, documentation, schema evolution, data product quality bars.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Processes</h3>
+				<p class="text-sm text-gray-700 mt-1">Access requests, issue management, exception handling, deprecation.</p>
+			</div>
+			<div class="rounded-xl border border-gray-200 p-4">
+				<h3 class="font-semibold text-gray-900">Evidence</h3>
+				<p class="text-sm text-gray-700 mt-1">Audit trails, approvals, and automated control status for compliance.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Tooling -->
+	<section id="tooling" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">8. Tooling & automation</h2>
+		<p class="text-gray-700">Aim for policy-as-code and observability-by-default:</p>
+		<ul class="mt-2 list-disc pl-6 space-y-2">
+			<li><span class="font-semibold">Catalog & lineage:</span> searchable metadata, glossary, and end-to-end lineage.</li>
+			<li><span class="font-semibold">Quality & testing:</span> automated checks, expectations, and alerts in CI/CD.</li>
+			<li><span class="font-semibold">Access & privacy:</span> role-based access, masking, and consent-aware serving.</li>
+			<li><span class="font-semibold">Monitoring:</span> freshness, volume, SLIs/SLOs surfaced to owners and consumers.</li>
+		</ul>
+	</section>
+
+	<!-- Metrics -->
+	<section id="metrics" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">9. Metrics & KPIs</h2>
+		<div class="grid md:grid-cols-2 gap-4">
+			<div class="rounded-lg border border-primary-200 bg-primary-50 p-4">
+				<h3 class="font-semibold text-primary-800">Trust & quality</h3>
+				<ul class="mt-1 text-sm text-primary-900/90 list-disc pl-5 space-y-1">
+					<li>Freshness SLO adherence</li>
+					<li>Completeness and uniqueness scores</li>
+					<li>Incidents to resolution time</li>
+				</ul>
+			</div>
+			<div class="rounded-lg border border-secondary-200 bg-secondary-50 p-4">
+				<h3 class="font-semibold text-secondary-800">Adoption & value</h3>
+				<ul class="mt-1 text-sm text-secondary-900/90 list-disc pl-5 space-y-1">
+					<li>Active data products and consumers</li>
+					<li>Reuse rate of certified assets</li>
+					<li>Time-to-first-insight</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- Roadmap -->
+	<section id="roadmap" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">10. Implementation roadmap (90–180 days)</h2>
+		<ol class="list-decimal pl-6 space-y-2">
+			<li><span class="font-semibold">Mobilize:</span> charter, roles, domains, and success metrics.</li>
+			<li><span class="font-semibold">Baseline:</span> inventory critical datasets, assess quality and risks.</li>
+			<li><span class="font-semibold">Pilot:</span> ship 2–3 certified data products with policy-as-code controls.</li>
+			<li><span class="font-semibold">Scale:</span> publish standards, templates, and train stewards across domains.</li>
+			<li><span class="font-semibold">Operate:</span> monthly reviews, KPI dashboard, continuous improvement backlog.</li>
+		</ol>
+		<div class="rounded-md border border-gray-200 p-4 text-sm">
+			Deliverables: governance charter, RACI, glossary, classification standard, data product template, DQ policy, access model, KPI board.
+		</div>
+	</section>
+
+	<!-- FAQ -->
+	<section id="faq" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">11. FAQ</h2>
+		<div class="divide-y divide-gray-200 rounded-xl border border-gray-200">
+			<details class="p-4 group" open>
+				<summary class="cursor-pointer font-semibold text-primary-700 group-open:text-primary-800">Is governance just bureaucracy?</summary>
+				<p class="mt-2 text-gray-700">Good governance removes friction: reusable definitions, clear ownership, and automated controls.
+					If it slows teams down, simplify or automate.</p>
+			</details>
+			<details class="p-4 group">
+				<summary class="cursor-pointer font-semibold text-primary-700 group-open:text-primary-800">Centralized or federated?</summary>
+				<p class="mt-2 text-gray-700">Federated with strong guardrails works best: central policy and tooling, domain-level ownership, and product-level SLAs.</p>
+			</details>
+			<details class="p-4 group">
+				<summary class="cursor-pointer font-semibold text-primary-700 group-open:text-primary-800">Where do we start?</summary>
+				<p class="mt-2 text-gray-700">Pick one or two high-value domains, define owners and stewards, and ship certified data products with visible quality KPIs.</p>
+			</details>
+		</div>
+	</section>
+
+	<!-- Glossary -->
+	<section id="glossary" class="mt-12 space-y-4">
+		<h2 class="text-2xl md:text-3xl font-bold text-gray-900">12. Glossary</h2>
+		<dl class="grid md:grid-cols-2 gap-4">
+			<div class="rounded-lg border border-gray-200 p-4">
+				<dt class="font-semibold text-gray-900">Data Product</dt>
+				<dd class="text-sm text-gray-700 mt-1">A governed, discoverable, and reliable data asset serving a defined use-case with SLAs.</dd>
+			</div>
+			<div class="rounded-lg border border-gray-200 p-4">
+				<dt class="font-semibold text-gray-900">Lineage</dt>
+				<dd class="text-sm text-gray-700 mt-1">Record of how data was created and transformed, helping assess impact and trust.</dd>
+			</div>
+			<div class="rounded-lg border border-gray-200 p-4">
+				<dt class="font-semibold text-gray-900">Classification</dt>
+				<dd class="text-sm text-gray-700 mt-1">Sensitivity label (e.g., Public, Internal, Confidential, Restricted) that guides controls.</dd>
+			</div>
+			<div class="rounded-lg border border-gray-200 p-4">
+				<dt class="font-semibold text-gray-900">Data Quality Rule</dt>
+				<dd class="text-sm text-gray-700 mt-1">Automated expectation that validates correctness (e.g., freshness < 24h, nulls < 1%).</dd>
+			</div>
+		</dl>
+	</section>
+
+	<!-- Footer / back to top -->
+	<div class="mt-12 flex items-center justify-between border-t pt-6 text-sm">
+		<span class="text-gray-500">Last updated: 2025-10-10</span>
+		<a href="#" class="text-primary-700 hover:text-primary-900 underline underline-offset-4">Back to top ↑</a>
+	</div>
+</article>
