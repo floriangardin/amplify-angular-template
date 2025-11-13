@@ -205,6 +205,7 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
   medals = computed(() => (this.scenario() as any)?.medals as { name: string; threshold: number }[] | undefined);
   medalEmoji = computed(() => {
     const profit = this.profit();
+    console.log('Calculating medal emoji for profit', profit);
     if (profit == null) return '';
     const medals = this.medals() || [];
     // Sort medals descending by threshold so we pick highest achieved
@@ -323,6 +324,7 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
 
   // Desktop overlay hover handlers
   onOverlayEnter() {
+    console.log("Scenario", this.scenario(), this.profit(), this.medals());
     this.overOverlay.set(true);
     this.clearCloseTimer();
   }

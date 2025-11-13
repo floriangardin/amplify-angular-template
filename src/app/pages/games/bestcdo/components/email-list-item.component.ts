@@ -9,8 +9,8 @@ import { marked } from 'marked';
   imports: [CommonModule],
   template: `
     <div
-      class="p-3 rounded-lg mb-2 cursor-pointer hover:bg-primary-100 transition-all relative overflow-hidden"
-      [class.bg-primary-100]="isSelected()"
+      class="p-3 rounded-lg mb-2 cursor-pointer hover:bg-secondary-100 transition-all relative overflow-hidden"
+      [class.bg-secondary-100]="isSelected()"
       [class.bg-white]="!isSelected()"
       [class.border-l-4]="email().isUrgent"
       [class.border-secondary-600]="email().isUrgent"

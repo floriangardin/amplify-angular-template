@@ -8,10 +8,10 @@ import { formatCurrency } from '../utils/game-formatters';
   imports: [CommonModule],
   template: `
     <div class="flex flex-col w-[65px] md:w-[200px]">
-      <span class="text-xs text-gray-500 mb-1 truncate">{{ icon() }} {{ label() }}</span>
+      <span class="text-xs md:text-sm text-gray-700 mb-1 truncate">{{ icon() }} {{ label() }}</span>
       <div class="relative">
         <span 
-          [class.text-primary-500]="value() >= 0" 
+          [class.text-black]="value() >= 0" 
           [class.text-red-600]="value() < 0" 
           class="text-sm font-semibold inline-block"
           [class.value-bump]="bump()"
@@ -50,6 +50,7 @@ export class StatDisplayComponent implements OnDestroy {
   label = input.required<string>();
   value = input.required<number>();
   formatter = input<(v: number) => string>(formatCurrency);
+  doBump = input<boolean>(false);
 
   formattedValue = () => this.formatter()(this.value());
 
@@ -58,6 +59,7 @@ export class StatDisplayComponent implements OnDestroy {
   protected lastDelta = signal<number>(0);
   protected showDelta = signal<boolean>(false);
   protected bump = signal<boolean>(false);
+
 
   protected deltaText = computed(() => {
     const d = this.lastDelta();
@@ -78,7 +80,7 @@ export class StatDisplayComponent implements OnDestroy {
         return;
       }
       const delta = v - prev;
-      if (delta !== 0) {
+      if (delta !== 0 && this.doBump()) {
         this.lastDelta.set(delta);
         this.showDelta.set(true);
         this.bump.set(false);

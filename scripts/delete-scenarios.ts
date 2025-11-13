@@ -59,18 +59,18 @@ async function listAllIndicators(client: ReturnType<typeof generateClient<Schema
 }
 
 
-async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schema>>, scenario: { id: string; card?: { title?: string | null } | null }) {
+async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schema>>, scenario: { nameId: string; card?: { title?: string | null } | null }) {
   // Delete children first, then the scenario
   const [nodes, indicators] = await Promise.all([
-    listAllNodes(client, scenario.id),
-    listAllIndicators(client, scenario.id)
+    listAllNodes(client, scenario.nameId),
+    listAllIndicators(client, scenario.nameId)
   ]);
 
   await Promise.all(nodes.map(n => client.models.Node.delete({ id: n.id })));
   await Promise.all(indicators.map(i => client.models.Indicator.delete({ id: i.id })));
 
-  await client.models.Scenario.delete({ id: scenario.id });
-  console.log(`- Deleted: ${scenario.card?.title ?? scenario.id}`);
+  await client.models.Scenario.delete({ nameId: scenario.nameId });
+  console.log(`- Deleted: ${scenario.card?.title ?? scenario.nameId} [nameId=${scenario.nameId}]`);
 }
 
 async function main() {
@@ -103,14 +103,13 @@ async function main() {
   }
 
   console.log(`Deleting ${scenarios.length} scenario(s) from current backend...`);
-
-  const results = [] as Array<{ id: string; ok: boolean; error?: string }>;
+  const results = [] as Array<{ nameId: string; ok: boolean; error?: string }>;
   for (const scenario of scenarios) {
     try {
-      await deleteScenarioDeep(client as any, scenario);
-      results.push({ id: scenario.id, ok: true });
+      const result = await deleteScenarioDeep(client as any, scenario);
+      results.push({ nameId: scenario.nameId, ok: true });
     } catch (e: any) {
-      results.push({ id: scenario.id, ok: false, error: e?.message ?? String(e) });
+      results.push({ nameId: scenario.nameId, ok: false, error: e?.message ?? String(e) });
     }
   }
 
@@ -122,7 +121,7 @@ async function main() {
   console.log(`\nDone. Success: ${ok}, Failed: ${ko}`);
   if (ko) {
     for (const r of results.filter((r) => !r.ok)) {
-      console.error(`  - ${r.id}: ${r.error}`);
+      console.error(`  - ${r.nameId}: ${r.error}`);
     }
     process.exitCode = 1;
   }

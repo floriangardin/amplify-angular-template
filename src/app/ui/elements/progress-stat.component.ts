@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="flex flex-col flex-1 min-w-[90px] md:w-[200px]">
-      <span class="text-xs text-gray-500 mb-1 truncate">{{ icon() }} {{ label() }}</span>
+      <span class="text-xs md:text-sm text-gray-700 mb-1 truncate">{{ icon() }} {{ label() }}</span>
       <div class="flex items-center w-full relative">
     <div class="h-2 w-[50px] w-max-[60px] w-min-[50px] md:w-1/2 bg-gray-200 rounded-full overflow-hidden">
           <div

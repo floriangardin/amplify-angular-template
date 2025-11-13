@@ -973,6 +973,7 @@
 }
 ],
 
+  "priority": 2,
   "indicators": [
     {"name": "Profit", "nameId": "profit", "emoji": "📈", "initial": 0, "min": -10000000, "max": 10000000, "type": "dollars", "displayed": true, "color": "primary"},
     {"name": "Data Quality", "nameId": "dataQuality", "emoji": "📊", "initial": 50, "min": 0, "max": 100, "type": "percentage", "displayed": true, "color": "primary"},
@@ -980,7 +981,7 @@
     {"name": "CDO Budget", "nameId": "cdoBudget", "emoji": "💰", "initial": 1000000, "min": 0, "max": 10000000, "type": "dollars", "displayed": false, "color": "#9c27b0"},
     {"name": "Reputation", "nameId": "reputation", "emoji": "⭐", "initial": 50, "min": 0, "max": 100, "type": "percentage", "displayed": false, "color": "#9c27b0"}
   ],
-  "nameId": "trouble_in_the_mdm",
+  "nameId": "best_cdo_pro",
   "library": [
     {"nameId": "org_chart"}
   ],
@@ -990,8 +991,8 @@
     {"name": "bronze", "threshold": 500, "emoji": "🥉"}
   ],
   "card": {
-    "plan": "pro",
-    "title": "Duplicate Records Incident – Mid Investigation",
+    "plan": "free",
+    "title": "Best CDO - Pro mode",
     "shortDescription": "The marketing campaign is blocked by duplicate customer profiles. Collaborate with MDM and IT to confirm root cause, maintain stakeholder trust, and restore data consistency.",
     "difficulty": "Intermediate",
     "skillsAcquired": [

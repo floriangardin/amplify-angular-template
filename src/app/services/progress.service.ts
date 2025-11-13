@@ -62,8 +62,12 @@ export class ProgressService {
     if (!userId || !scenarioNameId) return;
     try {
       const existing = await this.client.models.UserScenarioProgress.get({ userId, scenarioNameId });
-      console.log('Existing progress:', existing);
       if (existing?.data) {
+        let previousIndicatorScores = existing.data.indicatorScores || [];
+        let previousProfit = previousIndicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value || -Infinity;
+        let currentProfit = indicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value;
+        let previousProfitLessThanCurrent = typeof previousProfit === 'number' && typeof currentProfit === 'number' && currentProfit > previousProfit;
+        let chosenIndicators = previousProfitLessThanCurrent ? indicatorScores : previousIndicatorScores;
         const runs = (existing.data.runs ?? 0) + (params.incrementRuns === false ? 0 : 1);
         await this.client.models.UserScenarioProgress.update({
           userId,
@@ -72,7 +76,7 @@ export class ProgressService {
           status: status as any,
           completed,
           runs,
-          indicatorScores,
+          indicatorScores: chosenIndicators,
         });
       } else {
         await this.client.models.UserScenarioProgress.create({

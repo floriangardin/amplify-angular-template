@@ -14,7 +14,15 @@ export class GameStateService {
   // Relative to specific BestCDO game instance
   public defeatReason : 'dataBreach' | 'burnout' | 'budget' | 'dataQuality' | 'reputation' = 'burnout';
   public screen = signal<'start' | 'playing' | 'victory' | 'defeat'>('start');
-  public difficulty = signal<'easy' | 'hard'>('hard');
+  public difficulty = computed<'easy'  | 'hard'>(() => {
+    // Default to 'hard' if scenario has high priority
+    const scenario = this.content();
+    if (scenario && scenario.card.difficulty == 'Beginner') {
+      console.log('Setting difficulty to easy based on scenario', scenario.nameId);
+      return 'easy';
+    }
+    return 'hard';
+  });
   public stats : Stats = {};
 
   constructor(){
@@ -29,8 +37,7 @@ export class GameStateService {
 
   public reset(){
     this.screen.set('start');
-    this.difficulty.set('easy');
-  this.stats = {};
+    this.stats = {};
   }
 
 

@@ -70,12 +70,12 @@ export class ChoiceButtonComponent {
   formatCurrency = formatCurrency;
 
   impactItems = computed(() => {
-    const defs = this.content()?.indicators || {} as any;
+    const defs = this.content()?.indicators;
     const impact = this.choice().outcome.impact || {} as any;
     const items: { key: string; emoji: string; value: number; text: string }[] = [];
     for (const [key, delta] of Object.entries(impact)) {
       if (typeof delta !== 'number' || !delta) continue;
-      const def = defs[key];
+      const def = defs.find((d: any) => d.nameId === key);
       if (!def) continue;
       let text = '';
       if (def.type === 'dollars') text = this.formatCurrency(delta);

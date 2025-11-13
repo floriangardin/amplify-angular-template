@@ -109,7 +109,7 @@ import { BaseCDOComponent } from './base.component';
   </div>
   `
 })
-export class BestCDOChoiceComponent extends BaseCDOComponent implements OnInit  {
+export class BestCDOChoiceComponent extends BaseCDOComponent  {
   isEditable = input<boolean>(false);
   audioReady = signal(false);
   muted = this.sounds.muted$;
@@ -120,10 +120,6 @@ export class BestCDOChoiceComponent extends BaseCDOComponent implements OnInit  
     { name: "Data Owner", image: "assets/data_owner.png", description: "Accountable for data quality and integrity.", enabled: false }
   ]
 
-  ngOnInit() {
-    
-
-  }
 
   onRoleSelect(role: any) {
     // Only proceed if the role is enabled

@@ -16,6 +16,7 @@ export class UserService {
     preferredUsername = signal<string>('');
     planName = signal<PlanName>('');
     periodEnd = signal<string | null>(null);
+    currentUserId = signal<string>('');
 
     constructor() {
         this.init();
@@ -45,8 +46,7 @@ export class UserService {
             this.planName.set(plan);
             const periodEnd = (tokens?.idToken?.payload?.['custom:periodEnd'] as string | undefined) || null;
             this.periodEnd.set(periodEnd);
-            console.log('TOKEN', tokens?.idToken?.payload);
-            console.log('GROUPS', groups);
+            this.currentUserId.set(tokens?.idToken?.payload?.sub as string || '');
         } catch (err) {
             if (showWarnings) console.warn('Could not determine user groups', err);
             this.isAdmin.set(false);

@@ -15,14 +15,17 @@ export class StateService {
   isAdmin = this.userService.isAdmin;
   
   async getScenarios(): Promise<Scenario[]> {
-      // Example Angular usage
-      const scenarios = await this.clientService.client.models.Scenario.list({
-      selectionSet: [
-        'card.*', 'nameId', 'medals.*',
-        'indicators.*',
-      ],
-      limit: 1000, // raise as needed (AppSync caps apply)
+      // Server-side sorting via GSI: collection='ALL' partition, sorted by priority then nameId
+      const scenarios = await (this.clientService.client.models as any).Scenario.listScenariosByPriority({
+        collection: 'ALL',
+        sortDirection: 'ASC',
+        selectionSet: [
+          'card.*', 'nameId', 'priority', 'medals.*', 'collection',
+          'indicators.*',
+        ],
+        limit: 1000, // raise as needed (AppSync caps apply)
       });
+
       return scenarios.data as unknown as Scenario[];
   }
 

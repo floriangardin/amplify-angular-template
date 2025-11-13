@@ -59,17 +59,18 @@ export interface CompanyContext {
       />
     }
     @if (!content()) {
-      <app-header class="md:fixed top-0 static left-0 w-screen"></app-header>
+  <app-header class="md:fixed top-0 static left-0 w-screen z-[2000]"></app-header>
       <div class="min-h-screen flex items-center justify-center text-white">Loading game…</div>
     } @else {
     <!-- Parent fills the viewport; horizontal padding responsive -->
     <div class="min-h-screen flex items-center justify-center md:px-16 lg:px-32">
       <div class="w-full h-[100vh] md:h-[75svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
         <!-- Top notice -->
-        <app-header class="md:fixed top-0 left-0 static w-screen"></app-header>
+  <app-header class="md:fixed top-0 left-0 static w-screen z-[2000]"></app-header>
         <!-- Header bar with stats -->
         <app-game-stats-header
           [isMusicMuted]="sounds.isMusicMuted()"
+          [timeLeftSeconds]="timeLeftSeconds()"
           (soundToggled)="sounds.toggleMute()"
         />
 
@@ -136,6 +137,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
 
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
+  private readonly timeLimitMs: number = 4 * 60 * 1000; // 4 minutes
 
   /* ──────────────── state signals ───────── */
   emails = computed<Email[]>(() => this.computeGame());
@@ -149,6 +151,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   nbMails = signal<number>(0);
   lastMailId = signal<string>('__START__');
   showEmailList = signal<boolean>(false);
+  timeLeftMs = signal<number>(this.timeLimitMs);
   // End flow
   isEnding = signal(false);
   fadeOut = signal(false);
@@ -157,6 +160,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
 
   /* ──────────────── computed values ───────── */
   showInbox = computed(() => !this.isMobile() || this.showEmailList());
+  timeLeftSeconds = computed(() => Math.floor(this.timeLeftMs() / 1000));
   
   selectedEmailChoices = computed(() => {
     const email = this.selectedEmail();
@@ -218,6 +222,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.showEmailList.set(false);
     this.isEnding.set(false);
     this.fadeOut.set(false);
+  this.timeLeftMs.set(this.timeLimitMs);
 
     // Initialize services now that emails are available
     const emails = this.emails();
@@ -247,6 +252,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     
     /* background music fire‑and‑forget */
     this.sounds.playMusic('main_music.mp3', true, 0.5);
+
+    // Set difficulty to hard by default
   }
 
   computeGame(): Email[] {
@@ -280,6 +287,14 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
 
   /* ──────────────── main game loop ──────── */
   private gameLoop(elapsed: number): void {
+    // Update countdown
+    const remaining = Math.max(0, this.timeLimitMs - elapsed);
+    if (remaining !== this.timeLeftMs()) this.timeLeftMs.set(remaining);
+    if (remaining === 0) {
+      // Time is up: end game with transition
+      this.triggerEndSequence();
+      return;
+    }
     /* seed forced first email after 1 s */
     if (elapsed > 1_000 && this.nbMails() < 1) {
       this.insertRandomEmail(elapsed);

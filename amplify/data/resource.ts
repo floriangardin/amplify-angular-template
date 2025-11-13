@@ -162,6 +162,9 @@ export const schema = a.schema({
   Scenario: a
     .model({
     nameId: a.id().required(),
+    priority: a.integer().required(),
+    // Static collection key to support global sorting via GSI
+    collection: a.string().required(),
     card: a.ref('Card').required(),
     medals: a.ref('Medal').array(),
     nodes: a.hasMany('Node', 'scenarioId'),
@@ -169,6 +172,11 @@ export const schema = a.schema({
     library: a.hasMany('LibraryItem', 'scenarioId'),
     })
     .identifier(['nameId'])
+    // Global sorted listing: query all scenarios ordered by priority then nameId
+    // Requires setting collection="ALL" on each Scenario item
+    .secondaryIndexes(index => [
+      index('collection').sortKeys(['priority', 'nameId']).queryField('listScenariosByPriority')
+    ])
     ,
 
   Categories: a.enum(['scenario', 'sales_support', 'culture']),

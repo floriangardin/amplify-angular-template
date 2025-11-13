@@ -20,7 +20,8 @@ import type { Schema } from '../../../../amplify/data/resource';
   `], 
   template: `
     <app-header class="w-full"></app-header>
-    <div class="my-8 text-white w-xl">
+    <div class="my-8 text-white md:w-md lg:w-xl">
+      <button class=" my-4 py-2 rounded hover:underline text-white self-start" (click)="router.navigate(['/'])">← Back to Home</button>  
       <h1 class="text-2xl font-bold mb-2">Leaderboard</h1>
       @if (scenario()) {
         <app-editable-text
@@ -48,9 +49,11 @@ import type { Schema } from '../../../../amplify/data/resource';
               <td class="px-4 py-3 text-lg" [attr.title]="medalTitleForProfit(row.profit)">{{ medalEmojiForProfit(row.profit) }}</td>
               <td class="px-4 py-3">{{ row.profit | number:'1.0-0' }}</td>
             </tr>
-            <tr *ngIf="rows().length === 0">
-              <td class="px-4 py-6 text-center text-gray-500" colspan="4">No scores yet. Be the first!</td>
-            </tr>
+            @if(rows().length === 0) {
+              <tr >
+                <td class="px-4 py-6 text-center text-gray-500" colspan="4">No scores yet. Be the first!</td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>
@@ -65,7 +68,7 @@ import type { Schema } from '../../../../amplify/data/resource';
 })
 export class LeaderboardPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  router = inject(Router);
   private client = inject(ClientService).client;
   private lb = inject(LeaderboardService);
 

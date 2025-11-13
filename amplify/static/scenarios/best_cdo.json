@@ -974,6 +974,7 @@
 }
 ],
 
+  "priority": 1,
   "indicators": [
     {"name": "Profit", "nameId": "profit", "emoji": "📈", "initial": 0, "min": -10000000, "max": 10000000, "type": "dollars", "displayed": true, "color": "primary"},
     {"name": "Data Quality", "nameId": "dataQuality", "emoji": "📊", "initial": 50, "min": 0, "max": 100, "type": "percentage", "displayed": true, "color": "primary"},
@@ -982,18 +983,18 @@
     {"name": "Reputation", "nameId": "reputation", "emoji": "⭐", "initial": 50, "min": 0, "max": 100, "type": "percentage", "displayed": false, "color": "#9c27b0"}
   ],
   
-  "nameId": "duplicate_dilemma",
+  "nameId": "best_cdo",
   "library": [
     {"nameId": "org_chart"}
   ],
   "medals": [
-    {"name": "gold", "threshold": 3500, "emoji": "🥇"},
-    {"name": "silver", "threshold": 2000, "emoji": "🥈"},
-    {"name": "bronze", "threshold": 500, "emoji": "🥉"}
+    {"name": "gold", "threshold": 3500},
+    {"name": "silver", "threshold": 2000},
+    {"name": "bronze", "threshold": 500}
   ],
   "card": {
     "plan": "free",
-    "title": "Welcome to the Data Governance Office",
+    "title": "Best CDO",
     "shortDescription": "It's your first week as a Data Steward. You receive a welcome email from the Chief Data Officer introducing the governance framework and your mission. You must identify key roles, understand your responsibilities, and know who to contact for specific data issues.",
     "difficulty": "Beginner",
     "skillsAcquired": [

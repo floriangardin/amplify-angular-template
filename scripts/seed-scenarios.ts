@@ -63,6 +63,7 @@ async function tryLoadEnvLocalOnce(rootDir: string) {
 type DemoJson = {
   // minimal shape needed by seeding logic
   nameId: string;
+  priority: number;
   medals?: Array<{ name: 'gold' | 'silver' | 'bronze'; threshold: number }>;
   library?: Array<{
     nameId: string;
@@ -189,6 +190,8 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
   // Create Scenario
   const { data: scenario, errors: scenarioErrors } = await client.models.Scenario.create({
     nameId: payload.nameId,
+      collection  : 'ALL',
+    priority: payload.priority,
     card: payload.card,
     medals: Array.isArray(payload.medals) ? payload.medals.map(m => ({ name: m.name, threshold: Number(m.threshold) })) : []
   });

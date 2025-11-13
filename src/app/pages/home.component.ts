@@ -16,33 +16,39 @@ import { MainLoadingComponent } from '../ui/elements/main-loading.component';
 import { ImageCacheService } from '../services/image-cache.service';
 import { CarouselComponent } from '../ui/elements/carousel.component';
 import { ResponsiveService } from '../services/responsive.service';
-// Note: sign-in is handled by the Authenticator in AppComponent via external provider
-
+import { ProgressComponent } from '../components/progress.component';
+import { ProgressPerScenarioComponent } from '../components/progress-per-scenario.component';
 // UI KIT HOME PAGE DEMO
 @Component({
   selector: 'app-home',
   standalone: true,
   template: `
   @if(loading()) {
-    <app-main-loading [text]="'Preparing your data governance experience'"></app-main-loading>
+    <app-main-loading [text]="'Building your data governance experience'"></app-main-loading>
   } @else {
     <app-header></app-header>
 
-    <!-- Progress dashboard -->
-     @if(progressAgg().length > 0){
-       <div class="my-8 px-[3.25rem]">
-         <h2 class="text-xl font-bold text-white mb-4">Your progress</h2>
-         <div class="flex flex-wrap gap-2">
-           <span class="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white border border-white/20"
-             *ngFor="let t of progressAgg()">
-             {{ t.indicatorNameId }}: {{ t.value | number:'1.0-0' }}
-           </span>
-         </div>
-       </div>
-     }
+    @if(totalRuns() > 0 || totalProfit() !== null){
+      <div class="my-4 md:my-8 px-4 md:px-[3.25rem]">
+        <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Your progress</h1>
+        <div class="flex flex-wrap gap-2">
+          <app-progress [progressSummary]="progressSummary()"></app-progress>
+        </div>
+      </div>
+    }
 
-    <div class="my-8">
-        <h1 class="pl-[3.25rem] text-2xl space-y-8 font-bold text-white mb-8">For data stewards ...</h1>
+    <div class="my-4 md:my-8 px-4 md:px-[3.25rem]">
+      <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">The leaderboards</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <app-progress-per-scenario 
+          (clickedScenarioLeaderboard)="onLeaderboard($event)"
+          [currentUserId]="currentUserId()" [scenarios]="scenarios()" [progressSummary]="progressSummary()">
+        </app-progress-per-scenario>
+      </div>
+    </div>
+
+    <div class="my-4 md:my-8 pb-32">
+        <h1 class="pl-4 md:pl-[3.25rem] text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Play</h1>
         <app-carousel [scenarios]="scenarios()" [isAdmin]="isAdmin()"
           (playScenario)="onPlay($event)"
           (leaderboardScenario)="onLeaderboard($event)"
@@ -52,19 +58,9 @@ import { ResponsiveService } from '../services/responsive.service';
           [profitByScenario]="profitByScenario()"
           [isPro]="isPro()"></app-carousel>
     </div>
-      <div class="my-8">
-        <h1 class="pl-[3.25rem] text-2xl space-y-8 font-bold text-white mb-8">Based on your profile</h1>
-        <app-carousel [scenarios]="scenarios()" [isAdmin]="isAdmin()"
-          (playScenario)="onPlay($event)"
-          [pageSize]="pageSize()"
-          (leaderboardScenario)="onLeaderboard($event)"
-          (upgrade)="onUpgrade()"
-          [completedIds]="completedIds()"
-          [profitByScenario]="profitByScenario()"
-          [isPro]="isPro()"></app-carousel>
-          
-        
-    </div>
+
+    
+
     @if(showConfirm()){
       <app-confirm-dialog
         [title]="'Delete scenario'"
@@ -77,7 +73,6 @@ import { ResponsiveService } from '../services/responsive.service';
     }
   }
   `,
-  host: { class: 'w-full block' },
   styles: [`
     :host { display: block; width: 100vw; height: 100vh;}
   `],
@@ -86,7 +81,9 @@ import { ResponsiveService } from '../services/responsive.service';
     HeaderComponent,
     ConfirmDialogComponent,
     MainLoadingComponent,
-    CarouselComponent
+    CarouselComponent,
+    ProgressComponent,
+    ProgressPerScenarioComponent
   ],
 })
 export class HomeComponent implements OnInit{
@@ -106,17 +103,26 @@ export class HomeComponent implements OnInit{
   router = inject(Router);
   scenarios = signal<Scenario[]>([]);
   progressSummary = signal<ProgressSummary | null>(null);
-  progressAgg = computed(() => {
+  currentUserId = this.userService.currentUserId;
+  
+  // Progress metrics for wrapper visibility
+  totalRuns = computed(() => {
     const summary = this.progressSummary();
-    if (!summary) return [] as { indicatorNameId: string; value: number }[];
-    return Object.entries(summary.totals).map(([indicatorNameId, value]) => ({ indicatorNameId, value }))
-      .sort((a,b) => a.indicatorNameId.localeCompare(b.indicatorNameId));
+    if (!summary) return 0;
+    const entries = Object.values(summary.byScenario || {});
+    return entries.reduce((acc, p: any) => acc + (Number(p?.runs) || 0), 0);
   });
+
+  totalProfit = computed(() => {
+    const summary = this.progressSummary();
+    const val = summary?.totals?.['profit'];
+    return typeof val === 'number' ? val : null;
+  });
+  
   progressMap = computed(() => this.progressSummary()?.byScenario || {});
   completedIds = computed(() => {
     const map = this.progressMap();
     const res: Record<string, boolean> = {};
-    console.log('Computing completedIds from map', map);
     Object.values(map).forEach(p => {
       if (p && p.scenarioNameId) res[p.scenarioNameId] = !!p.completed;
     });
@@ -124,6 +130,7 @@ export class HomeComponent implements OnInit{
   });
   profitByScenario = computed(() => {
     const map = this.progressMap();
+    console.log('Computing profit by scenario from progress map', map);
     const res: Record<string, number | undefined> = {};
     Object.values(map).forEach(p => {
       if (!p?.scenarioNameId) return;
@@ -164,6 +171,7 @@ export class HomeComponent implements OnInit{
         const newSearch = url.searchParams.toString();
         history.replaceState({}, '', url.pathname + (newSearch ? `?${newSearch}` : '') + url.hash);
       }
+
     } catch {}
 
 
@@ -171,24 +179,23 @@ export class HomeComponent implements OnInit{
 
     try {
       await this.userService.init();
-  const scenarios = await this.stateService.getScenarios();
+      const scenarios = await this.stateService.getScenarios();
       // Sort scenario to free first.
-      scenarios.sort((a, b) => ((a as any)?.card?.plan === 'free' ? -1 : 1));
+      //scenarios.sort((a, b) => ((a as any)?.card?.plan === 'free' ? -1 : 1));
       // Create 10 copies of scenarios
-      const scenarioCopies = scenarios.flatMap(scenario => Array(4).fill({ ...scenario }));
+      //const scenarioCopies = scenarios.flatMap(scenario => Array(4).fill({ ...scenario }));
 
-      this.scenarios.set(scenarioCopies as Scenario[]);
+      this.scenarios.set(scenarios as Scenario[]);
 
       // Wait until the first visible images are ready (decoded) before leaving loading.
       // Limit to a reasonable number to avoid long initial waits.
-      const firstVisible = scenarioCopies
+      const firstVisible = scenarios
         .slice(0, 8)
         .map(s => (s as any).logoId as string | undefined)
         .filter((id): id is string => !!id)
         .map(id => `previews/${id}`);
       try {
         await this.imageCache.awaitReady(firstVisible, { timeoutMs: 8000, limit: 8 });
-        console.log('Initial images ready');
       } catch {}
 
       // Everything ready: user, plan, scenarios and above-the-fold images available
@@ -197,11 +204,9 @@ export class HomeComponent implements OnInit{
         const summary = await this.progressService.listMyProgress();
         this.progressSummary.set(summary);
       } catch(err) {
-        console.warn('Failed to load user progress', err);
       }
       this.loading.set(false);
     } catch (err) {
-      console.error('Failed to load initial data', err);
       // Keep loading until data can be fetched properly, as requested
     }
     
@@ -251,10 +256,10 @@ export class HomeComponent implements OnInit{
   onPlay(scenario: Scenario){
     // Navigate with scenario id in query params; game will fetch content based on id
     this.router.navigate(['/games/bestcdo/play'], { queryParams: { nameId: scenario.nameId } });
-    console.log('Play scenario', scenario);
   }
   
   onLeaderboard(scenario: Scenario){
+    console.log('Leaderboard scenario', scenario);
     this.router.navigate(['/leaderboard', scenario.nameId] );
   }
 

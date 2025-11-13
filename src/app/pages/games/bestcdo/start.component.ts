@@ -115,9 +115,6 @@ export class BestCDOStartComponent extends BaseCDOComponent implements OnInit  {
 
 
 
-  setDifficulty(d: 'easy' | 'hard') {
-    this.gameStateService.difficulty.set(d);
-  }
   goToWebsite(){
     const url = "https://www.maketools.ai";
     if(url){

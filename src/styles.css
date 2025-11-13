@@ -15,8 +15,12 @@
 }
 
 * {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "arial";
   
+}
+
+.spectral-font {
+  font-family: "Spectral", serif;
 }
 
 ::-webkit-scrollbar {
@@ -34,19 +38,16 @@
 }
 
 body {
-  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-700), #00C7B2);
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-500), var(--color-primary-500));
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
   min-width: 100vw;
 }
 
-.background {
-  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-700), #00C7B2);
-}
 
 .btn {
-  @apply mt-2 px-6 py-3 rounded text-[var(--color-font-primary)] bg-primary-500 font-bold;
+  @apply mt-2 px-6 py-3 rounded-lg text-[var(--color-font-primary)] bg-primary-500 font-bold;
 }
 
 .main-btn {
@@ -58,7 +59,7 @@ body {
 }
 
 .btn-cta {
-  @apply py-4 rounded-lg font-bold text-lg text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all transform hover:scale-102 disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-xl
+  @apply py-4 rounded-full font-bold text-lg text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all transform hover:scale-102 disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-xl
 }
 
 .card-bg {
@@ -105,7 +106,14 @@ body {
 
 @theme {
   /* PRIMARY */
-  --color-primary-500: #333e7e;
+  /*--color-primary-500: #333e7e; */
+  --color-primary-500: #e61e28;          /* fallback */
+  --color-secondary-500: #7d4196;          /* fallback */
+  --color-third-500:   #32a4a0;          /* fallback */
+  --color-fourth-500: #4ba056;
+  --color-fifth-500: #c83c96;
+  --color-header-500: #005aaa;
+
   --color-primary: var(--color-primary-500);
   --color-primary-fg-500: var(--color-primary-500);       /* fallback */
   --color-primary-fg: var(--color-primary-500);       /* fallback */
@@ -122,7 +130,7 @@ body {
   --color-primary-900: color-mix(in oklab, var(--color-primary-500), black 40%);
 
   /* SECONDARY */
-  --color-secondary-500: #00C7B2;          /* fallback */
+
   --color-secondary: var(--color-secondary-500);
   --color-secondary-50:  color-mix(in oklab, var(--color-secondary-500), white 95%);
   --color-secondary-100: color-mix(in oklab, var(--color-secondary-500), white 90%);
@@ -133,6 +141,51 @@ body {
   --color-secondary-700: color-mix(in oklab, var(--color-secondary-500), black 20%);
   --color-secondary-800: color-mix(in oklab, var(--color-secondary-500), black 30%);
   --color-secondary-900: color-mix(in oklab, var(--color-secondary-500), black 40%);
+
+  --color-third: var(--color-third-500);
+  --color-third-50:  color-mix(in oklab, var(--color-third-500), white 95%);
+  --color-third-100: color-mix(in oklab, var(--color-third-500), white 90%);
+  --color-third-200: color-mix(in oklab, var(--color-third-500), white 80%);
+  --color-third-300: color-mix(in oklab, var(--color-third-500), white 70%);
+  --color-third-400: color-mix(in oklab, var(--color-third-500), white 50%);
+  --color-third-600: color-mix(in oklab, var(--color-third-500), black 10%);
+  --color-third-700: color-mix(in oklab, var(--color-third-500), black 20%);
+  --color-third-800: color-mix(in oklab, var(--color-third-500), black 30%);
+  --color-third-900: color-mix(in oklab, var(--color-third-500), black 40%);
+
+  --color-fourth: var(--color-fourth-500);
+  --color-fourth-50:  color-mix(in oklab, var(--color-fourth-500), white 95%);
+  --color-fourth-100: color-mix(in oklab, var(--color-fourth-500), white 90%);
+  --color-fourth-200: color-mix(in oklab, var(--color-fourth-500), white 80%);
+  --color-fourth-300: color-mix(in oklab, var(--color-fourth-500), white 70%);
+  --color-fourth-400: color-mix(in oklab, var(--color-fourth-500), white 50%);
+  --color-fourth-600: color-mix(in oklab, var(--color-fourth-500), black 10%);
+  --color-fourth-700: color-mix(in oklab, var(--color-fourth-500), black 20%);
+  --color-fourth-800: color-mix(in oklab, var(--color-fourth-500), black 30%);
+  --color-fourth-900: color-mix(in oklab, var(--color-fourth-500), black 40%);
+
+  --color-fifth: var(--color-fifth-500);
+  --color-fifth-50:  color-mix(in oklab, var(--color-fifth-500), white 95%);
+  --color-fifth-100: color-mix(in oklab, var(--color-fifth-500), white 90%);
+  --color-fifth-200: color-mix(in oklab, var(--color-fifth-500), white 80%);
+  --color-fifth-300: color-mix(in oklab, var(--color-fifth-500), white 70%);
+  --color-fifth-400: color-mix(in oklab, var(--color-fifth-500), white 50%);
+  --color-fifth-600: color-mix(in oklab, var(--color-fifth-500), black 10%);
+  --color-fifth-700: color-mix(in oklab, var(--color-fifth-500), black 20%);
+  --color-fifth-800: color-mix(in oklab, var(--color-fifth-500), black 30%);
+  --color-fifth-900: color-mix(in oklab, var(--color-fifth-500), black 40%);
+
+
+  --color-header: var(--color-header-500);
+  --color-header-50:  color-mix(in oklab, var(--color-header-500), white 95%);
+  --color-header-100: color-mix(in oklab, var(--color-header-500), white 90%);
+  --color-header-200: color-mix(in oklab, var(--color-header-500), white 80%);
+  --color-header-300: color-mix(in oklab, var(--color-header-500), white 70%);
+  --color-header-400: color-mix(in oklab, var(--color-header-500), white 50%);
+  --color-header-600: color-mix(in oklab, var(--color-header-500), black 10%);
+  --color-header-700: color-mix(in oklab, var(--color-header-500), black 20%);
+  --color-header-800: color-mix(in oklab, var(--color-header-500), black 30%);
+  --color-header-900: color-mix(in oklab, var(--color-header-500), black 40%);
 
   /* FONT COLORS */
   --color-font-primary: #000000;       /* fallback */

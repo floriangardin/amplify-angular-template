@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, signal, inject, computed } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { signOut } from 'aws-amplify/auth';
 import type { PlanName } from '../models/user';
@@ -12,16 +12,17 @@ import { StripeService } from '../services/stripe.service';
   standalone: true,
   imports: [CommonModule, PlanComponent],
   template: `
-    <header class="p-4 w-full flex items-center justify-between bg-gray-800 text-white relative">
+    <header class="p-4 w-full flex items-center spectral-font justify-between bg-white text-black relative z-50">
       <div class="flex flex-row items-center gap-3">
-        <i class="fa-solid fa-home text-2xl cursor-pointer md:ml-8" title="Home" (click)="goHome()"></i>
-        <app-plan [planName]="planName()" (goPro)="goPro()"></app-plan>
+        <i class="fa-solid fa-home text-2xl cursor-pointer md:ml-8 text-primary" title="Home" (click)="goHome()"></i>
+        <img src="arup_logo.png" alt="Arup Logo" class="h-8 cursor-pointer" title="Home" (click)="goHome()"/>
+        <!--<app-plan [planName]="planName()" (goPro)="goPro()"></app-plan>-->
       </div>
 
       <div class="relative" #menuWrapper>
         <button
           type="button"
-          class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           aria-haspopup="menu"
           [attr.aria-expanded]="menuOpen()"
           (click)="toggleMenu()"
@@ -32,7 +33,7 @@ import { StripeService } from '../services/stripe.service';
 
         @if (menuOpen()) {
           <div
-            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 text-gray-900"
+            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[1000] text-gray-900"
             role="menu"
             aria-label="Profile menu"
           >
@@ -71,13 +72,15 @@ export class HeaderComponent {
   private stripeService = inject(StripeService);
     private host = inject(ElementRef<HTMLElement>);
 
+    @ViewChild('menuWrapper', { static: true }) private menuWrapper?: ElementRef<HTMLElement>;
+
     // UI state
     menuOpen = signal(false);
     // Derive global state from services (no inputs)
-  email = computed(() => this.userService.email());
-  preferredUsername = computed(() => this.userService.preferredUsername());
-  displayName = computed(() => this.preferredUsername() || this.email() || 'Account');
-  planName = computed<PlanName>(() => this.userService.planName());
+    email = computed(() => this.userService.email());
+    preferredUsername = computed(() => this.userService.preferredUsername());
+    displayName = computed(() => this.preferredUsername() || this.email() || 'Account');
+    planName = computed<PlanName>(() => this.userService.planName());
 
     async onSignOut() {
       try { await signOut(); } catch {}
@@ -99,6 +102,19 @@ export class HeaderComponent {
     @HostListener('document:keydown.escape')
     onEscape() {
       if (this.menuOpen()) this.closeMenu();
+    }
+
+    // Close when clicking outside the menu wrapper
+    @HostListener('document:click', ['$event'])
+    onDocumentClick(event: MouseEvent) {
+      if (!this.menuOpen()) return;
+      const target = event.target as Node | null;
+      const wrapperEl = this.menuWrapper?.nativeElement;
+      if (!wrapperEl) return;
+      // If the click is outside the menu wrapper, close the menu
+      if (target && !wrapperEl.contains(target)) {
+        this.closeMenu();
+      }
     }
     goHome() {
       this.router.navigate(['/']);

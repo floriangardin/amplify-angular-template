@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="relative w-full h-screen md:h-screen grid place-items-center bg-gradient-to-b from-slate-900 via-slate-950 to-black overflow-hidden">
+    <div class="relative w-full h-screen md:h-screen grid place-items-center bg-gradient-to-b from-secondary-900 via-secondary-950 to-black overflow-hidden">
       <!-- Soft pulsing aura -->
       <div class="absolute inset-0 -z-10">
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vmin] h-[70vmin] rounded-full bg-primary-500/10 blur-3xl animate-aura"></div>
@@ -14,38 +14,12 @@ import { CommonModule } from '@angular/common';
 
       <!-- Loading card -->
       <div class="flex flex-col items-center gap-6 text-slate-200">
-        <!-- Data governance icon: network + shield -->
-        <svg class="w-[120px] h-[120px] md:w-[160px] md:h-[160px] drop-shadow-lg" viewBox="0 0 160 160" fill="none" role="img" aria-label="Loading data governance">
-          <!-- Nodes -->
-
-          <!-- Edges -->
-          <path d="M36 78 L74 40" class="stroke-primary-500/60" stroke-width="2"/>
-          <path d="M86 40 L124 78" class="stroke-primary-500/60" stroke-width="2"/>
-          <path d="M36 82 L74 120" class="stroke-primary-500/60" stroke-width="2"/>
-          <path d="M86 120 L124 82" class="stroke-primary-500/60" stroke-width="2"/>
-
-          <!-- Flow animation along edges -->
-          <defs>
-            <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="currentColor" stop-opacity="0"/>
-              <stop offset="50%" stop-color="currentColor" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <g class="text-primary-400">
-            <path d="M36 78 L74 40" stroke="url(#flow)" stroke-width="4" class="animate-flow"/>
-            <path d="M86 40 L124 78" stroke="url(#flow)" stroke-width="4" class="animate-flow [animation-delay:120ms]"/>
-            <path d="M36 82 L74 120" stroke="url(#flow)" stroke-width="4" class="animate-flow [animation-delay:240ms]"/>
-            <path d="M86 120 L124 82" stroke="url(#flow)" stroke-width="4" class="animate-flow [animation-delay:360ms]"/>
-          </g>
-
-          <!-- Shield -->
-          <g transform="translate(60,55)">
-            <path d="M20 0 L40 8 V26 C40 36 30 46 20 52 C10 46 0 36 0 26 V8 Z" class="fill-slate-800 stroke-primary-500" stroke-width="2"/>
-            <path d="M20 10 C26 10 31 15 31 21 C31 31 20 36 20 36 C20 36 9 31 9 21 C9 15 14 10 20 10 Z" class="fill-primary-500/20 stroke-primary-400" stroke-width="1.5"/>
-            <path d="M20 17 L20 25" class="stroke-primary-300 animate-lock" stroke-width="2" stroke-linecap="round"/>
-          </g>
-        </svg>
+        <!-- Centered loading logo -->
+        <img
+          src="loading_logo.png"
+          alt="Loading"
+          class="w-[120px] h-[120px] md:w-[160px] md:h-[160px] drop-shadow-lg object-contain animate-pulse-node"
+        />
 
         <!-- Title and status -->
         <div class="text-center">
@@ -85,8 +59,8 @@ import { CommonModule } from '@angular/common';
     }
     .animate-pulse-node { animation: pulse-node 1.6s ease-in-out infinite; }
     @keyframes pulse-node {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.25); opacity: 1; }
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.03); opacity: 1; }
     }
     .animate-lock {
       animation: lock 1.2s ease-in-out infinite;
