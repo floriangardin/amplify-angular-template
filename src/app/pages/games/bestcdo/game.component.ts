@@ -25,6 +25,7 @@ import { HeaderComponent } from '../../../components/header.component';
 import { LeaderboardService } from '../../../services/leaderboard.service';
 import { ContentDialogComponent } from '../../../ui/elements/content-dialog.component';
 import { StorageService } from '../../../services/storage.service';
+import { ProgressService } from '../../../services/progress.service';
 
 export interface CompanyContext {
   name: string;
@@ -130,6 +131,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   gameEngineService = inject(GameEngineService);
   leaderboardService = inject(LeaderboardService);
   storageService = inject(StorageService);
+  progressService = inject(ProgressService);
 
 
   /* ──────────────── constants ───────────── */
@@ -192,15 +194,15 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   });
 
   // Initialize game once the scenario content is available (handles async fetch)
-  private currentScenarioId = signal<string | null>(null);
+  private currentScenarioNameId = signal<string | null>(null);
   contentInitEffect = effect(() => {
     const content = this.content();
-    const id = (content as any)?.id ?? null;
+    const id = (content as any)?.nameId ?? null;
     if (!id) return; // scenario not ready yet
 
     // If we already initialized for this scenario id, skip
-    if (this.currentScenarioId() === id) return;
-    this.currentScenarioId.set(id);
+    if (this.currentScenarioNameId() === id) return;
+    this.currentScenarioNameId.set(id);
 
     // Reset transient state when a new scenario arrives
     this.gameEngineService.stop();
@@ -474,18 +476,36 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     // Stop the engine so no more emails arrive
     this.gameEngineService.stop();
     // Save best score before navigating
-    const scenarioId = this.currentScenarioId();
+    const scenarioNameId = this.currentScenarioNameId();
     const profit = this.statValue('profit');
-    if (scenarioId) {
-      this.leaderboardService.saveMyBestScore(scenarioId, profit).catch(err => console.warn('Save score failed', err));
+    if (scenarioNameId) {
+      this.leaderboardService.saveMyBestScore(scenarioNameId, profit).catch(err => console.warn('Save score failed', err));
+      // Also persist per-user scenario progress with changed indicators
+      try {
+        const content = this.content();
+        const defs = content?.indicators || [];
+        const snapshot = this.snapshotStats();
+        const indicatorScores = defs
+          .map(d => ({ indicatorNameId: d.nameId, value: (snapshot[d.nameId] ?? d.initial ?? 0) as number, initial: d.initial }))
+          .filter(s => typeof s.value === 'number' && s.value !== (s.initial ?? s.value))
+          .map(s => ({ indicatorNameId: s.indicatorNameId, value: s.value }));
+        this.progressService.upsertMyScenarioProgress({
+          scenarioNameId,
+          indicatorScores,
+          status: 'completed',
+          completed: true,
+        }).catch(err => console.warn('Save progress failed', err));
+      } catch (err) {
+        console.warn('Progress computation failed', err);
+      }
     }
     // After 5 seconds, fade out then navigate
     this.endTimeoutHandle = setTimeout(() => {
       this.fadeOut.set(true);
       // Allow CSS transition (700ms as per template) to play before navigation
       this.navigateTimeoutHandle = setTimeout(() => {
-        if (scenarioId) {
-          this.router.navigate(['/leaderboard', scenarioId]);
+        if (scenarioNameId) {
+          this.router.navigate(['/leaderboard', scenarioNameId]);
         } else {
           this.router.navigate(['/']);
         }

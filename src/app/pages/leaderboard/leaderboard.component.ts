@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header.component';
 import { ClientService } from '../../services/client.service';
 import { LeaderboardService } from '../../services/leaderboard.service';
-import { Scenario } from '../../models/game-content';
+import { Scenario, Medal } from '../../models/game-content';
 import { EditableTextComponent } from '../../ui/fields/editable-text.component';
 import type { Schema } from '../../../../amplify/data/resource';
 
@@ -36,6 +36,7 @@ import type { Schema } from '../../../../amplify/data/resource';
             <tr>
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Medal</th>
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
             </tr>
           </thead>
@@ -44,10 +45,11 @@ import type { Schema } from '../../../../amplify/data/resource';
                 [ngClass]="{ 'font-bold': row.userId === currentUserId() }">
               <td class="px-4 py-3">{{ (pageIndex() * pageSize) + i + 1 }}</td>
               <td class="px-4 py-3">{{ row.username }}</td>
+              <td class="px-4 py-3 text-lg" [attr.title]="medalTitleForProfit(row.profit)">{{ medalEmojiForProfit(row.profit) }}</td>
               <td class="px-4 py-3">{{ row.profit | number:'1.0-0' }}</td>
             </tr>
             <tr *ngIf="rows().length === 0">
-              <td class="px-4 py-6 text-center text-gray-500" colspan="3">No scores yet. Be the first!</td>
+              <td class="px-4 py-6 text-center text-gray-500" colspan="4">No scores yet. Be the first!</td>
             </tr>
           </tbody>
         </table>
@@ -67,7 +69,7 @@ export class LeaderboardPageComponent implements OnInit {
   private client = inject(ClientService).client;
   private lb = inject(LeaderboardService);
 
-  scenarioId = signal<string>('');
+  scenarioNameId = signal<string>('');
   scenario = signal<Scenario | null>(null);
   rows = signal<Schema['LeaderboardEntry']['type'][]>([] as any);
   // pagination state
@@ -77,20 +79,22 @@ export class LeaderboardPageComponent implements OnInit {
   nextToken: string | null | undefined = null;
 
   currentUserId = signal<string>('');
+  private medals = signal<Medal[] | undefined>(undefined);
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('scenarioId');
-    if (!id) {
+    const nameId = this.route.snapshot.paramMap.get('scenarioNameId');
+    if (!nameId) {
       // Try fallback from game state (if navigated from /last legacy)
       this.router.navigate(['/']);
       return;
     }
-    this.scenarioId.set(id);
+    this.scenarioNameId.set(nameId);
 
     // Load scenario for title
     try {
-      const res = await this.client.models.Scenario.get({ id });
+      const res = await this.client.models.Scenario.get({ nameId });
       this.scenario.set(res?.data as any);
+      this.medals.set((res?.data as any)?.medals as Medal[] | undefined);
     } catch {}
 
     // Get identity for highlight
@@ -104,7 +108,7 @@ export class LeaderboardPageComponent implements OnInit {
 
   private async loadPage(page: number) {
     const token = this.tokensStack[page] ?? null;
-    const pageRes = await this.lb.listTopByScenario(this.scenarioId(), this.pageSize, token);
+    const pageRes = await this.lb.listTopByScenario(this.scenarioNameId(), this.pageSize, token);
     this.rows.set(pageRes.items as any);
     this.nextToken = pageRes.nextToken ?? null;
     this.pageIndex.set(page);
@@ -127,5 +131,34 @@ export class LeaderboardPageComponent implements OnInit {
   async next() {
     if (!this.canNext()) return;
     await this.loadPage(this.pageIndex() + 1);
+  }
+
+  // Compute medal emoji for a given profit based on this scenario's medals thresholds
+  medalEmojiForProfit(profit: number | null | undefined): string {
+    if (profit == null) return '';
+    const medals = this.medals() || [];
+    const sorted = [...medals].sort((a, b) => b.threshold - a.threshold);
+    for (const m of sorted) {
+      if (profit >= m.threshold) {
+        switch (m.name) {
+          case 'gold': return '🥇';
+          case 'silver': return '🥈';
+          case 'bronze': return '🥉';
+        }
+      }
+    }
+    return '';
+  }
+
+  medalTitleForProfit(profit: number | null | undefined): string | null {
+    if (profit == null) return null;
+    const medals = this.medals() || [];
+    const sorted = [...medals].sort((a, b) => b.threshold - a.threshold);
+    for (const m of sorted) {
+      if (profit >= m.threshold) {
+        return `${m.name.charAt(0).toUpperCase() + m.name.slice(1)} (≥ ${m.threshold.toLocaleString()})`;
+      }
+    }
+    return null;
   }
 }

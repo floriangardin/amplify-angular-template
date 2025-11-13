@@ -76,6 +76,7 @@ export const schema = a.schema({
   NodeCategory: a.enum(['scenario', 'sales_support', 'culture']),
   IndicatorType: a.enum(['percentage', 'dollars']),
   SourceType: a.enum(['local', 'external']),
+  MedalName: a.enum(['gold','silver','bronze']),
 
   // ===== Custom Types =====
   Impact: a.customType({
@@ -88,6 +89,11 @@ export const schema = a.schema({
     description: a.string().required(),
     impact: a.ref('Impact').required(),
     next: a.string().array().required(), // e.g., ["data_2A", "data_extra_1"]
+  }),
+
+  Medal: a.customType({
+    name: a.ref('MedalName').required(),
+    threshold: a.integer().required(),
   }),
 
   Choice: a.customType({
@@ -125,6 +131,14 @@ export const schema = a.schema({
 
   PlanEnum: a.enum(['free','pro']),
 
+  // Progress tracking enums and types
+  ProgressStatusEnum: a.enum(['in_progress','completed']),
+
+  IndicatorScore: a.customType({
+    indicatorNameId: a.string().required(),
+    value: a.integer().required(),
+  }),
+
   Card: a.customType({
     plan: a.ref('PlanEnum').required(),
     title: a.string().required(),
@@ -147,12 +161,15 @@ export const schema = a.schema({
   // ===== Models =====
   Scenario: a
     .model({
-    nameId: a.string().required(),
+    nameId: a.id().required(),
     card: a.ref('Card').required(),
+    medals: a.ref('Medal').array(),
     nodes: a.hasMany('Node', 'scenarioId'),
     indicators: a.hasMany('Indicator', 'scenarioId'),
     library: a.hasMany('LibraryItem', 'scenarioId'),
-    }),
+    })
+    .identifier(['nameId'])
+    ,
 
   Categories: a.enum(['scenario', 'sales_support', 'culture']),
   Node: a
@@ -191,26 +208,50 @@ export const schema = a.schema({
       displayed: a.boolean().required(),
       color: a.string().required(), // hex or token
   }),
+
+  // Per-user per-scenario progress + indicator scores
+  UserScenarioProgress: a
+    .model({
+      userId: a.string().required(), // Cognito sub; auto-populated by ownerDefinedIn
+      username: a.string().required(), // denormalized display name
+      scenarioNameId: a.id().required(),
+      status: a.ref('ProgressStatusEnum').required(),
+      completed: a.boolean().required(),
+      runs: a.integer().required(), // number of attempts
+      indicatorScores: a.ref('IndicatorScore').array().required(),
+    })
+    .identifier(['userId', 'scenarioNameId']) // enforce uniqueness per owner+scenario
+    .secondaryIndexes(index => [
+      index('scenarioNameId').queryField('listProgressByScenario'),
+      index('userId').queryField('listProgressByUser')
+    ])
+    .authorization(allow => [
+      allow.ownerDefinedIn('userId'),
+      allow.groups(['ADMIN']).to(['read', 'create', 'update', 'delete'])
+    ]),
   // LeaderboardEntry model: stores best profit per user per scenario
   LeaderboardEntry: a
     .model({
-      userId: a.string().required(), // Cognito sub
-      username: a.string().required(), // display username (denormalized, updated on username change)
-      scenarioId: a.id().required(),
-      profit: a.integer().required(), // best profit achieved
+      // Remove field-level auth so non-owners can read these fields
+      userId: a.string().required(),
+      username: a.string().required(),
+      scenarioNameId: a.id().required(),
+      profit: a.integer().required(),
     })
-    // Composite identifier ensures 1 row per (userId, scenarioId)
-    .identifier(['userId', 'scenarioId'])
+    // Composite identifier ensures 1 row per (userId, scenarioNameId)
+    .identifier(['userId', 'scenarioNameId'])
     // Secondary index to query top scores for a scenario ordered by profit
     .secondaryIndexes(index => [
-      index('scenarioId').sortKeys(['profit']).queryField('listLeaderboardByScenario')
+      index('scenarioNameId').sortKeys(['profit']).queryField('listLeaderboardByScenario')
     ])
+    // Model-level auth: everyone signed-in can read; owners can create/update; admins full control
     .authorization(allow => [
-      // Any signed-in user can read the leaderboard
       allow.authenticated().to(['read']),
-      // Only the owner (userId == identity) can create/update their entry
-      allow.ownerDefinedIn('userId').to(['create','update','delete'])
-    ])
+      allow.ownerDefinedIn('userId').to(['create', 'update']),
+      allow.groups(['ADMIN']).to(['read', 'create', 'update', 'delete']),
+    ]),
+
+  // ...existing code...
 })
 .authorization((allow) => [allow.authenticated().to(['read']), allow.groups(['ADMIN']).to(['create', 'delete'])]);
 

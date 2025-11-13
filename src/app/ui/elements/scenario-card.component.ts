@@ -47,6 +47,23 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
           <span>PRO</span>
         </div>
       }
+      <!-- Completion tick -->
+      @if (completed()) {
+        <div class="absolute top-2 right-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/95 px-2 py-0.5 text-[10px] font-bold text-white shadow">
+          <i class="fa-solid fa-check"></i>
+          <span>Done</span>
+        </div>
+      }
+      <!-- Profit badge if available -->
+      @if (profit() !== undefined) {
+        <div class="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-semibold text-white">
+          <i class="fa-solid fa-coins"></i>
+          <span>{{ profit() | number:'1.0-0' }}</span>
+          @if (medalEmoji()) {
+            <span class="ml-1">{{ medalEmoji() }}</span>
+          }
+        </div>
+      }
     </div>
 
     <!-- Overlay template (rendered via CDK Overlay when expanded) -->
@@ -182,6 +199,27 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
 
   isAdmin = input<boolean>(false);
   isPro = input<boolean>(false);
+  // Progress inputs
+  completed = input<boolean>(false);
+  profit = input<number | undefined>(undefined);
+  medals = computed(() => (this.scenario() as any)?.medals as { name: string; threshold: number }[] | undefined);
+  medalEmoji = computed(() => {
+    const profit = this.profit();
+    if (profit == null) return '';
+    const medals = this.medals() || [];
+    // Sort medals descending by threshold so we pick highest achieved
+    const sorted = [...medals].sort((a,b) => b.threshold - a.threshold);
+    for (const m of sorted) {
+      if (profit >= m.threshold) {
+        switch (m.name) {
+          case 'gold': return '🥇';
+          case 'silver': return '🥈';
+          case 'bronze': return '🥉';
+        }
+      }
+    }
+    return '';
+  });
 
 
   scenarioPlan = computed(() => (this.scenario() as any)?.card?.plan as string | undefined);

@@ -110,7 +110,7 @@ async function main() {
 
   const staticDir = join(rootDir, 'amplify', 'static', 'content');
   const forceFlag = process.argv.includes('-f') || process.argv.includes('--force');
-  const overwrite = forceFlag || ['1', 'true', 'yes', 'on'].includes((process.env['OVERWRITE'] || '').toLowerCase());
+  const overwrite = forceFlag;
 
   for await (const file of walk(staticDir)) {
     const ext = extname(file);

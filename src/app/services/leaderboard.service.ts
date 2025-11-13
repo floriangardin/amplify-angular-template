@@ -14,7 +14,7 @@ export class LeaderboardService {
   private client = generateClient<Schema>();
 
   // Cached last saved score for UI highlight
-  public lastSaved = signal<{ scenarioId: string; userId: string } | null>(null);
+  public lastSaved = signal<{ scenarioNameId: string; userId: string } | null>(null);
 
   async getIdentity(): Promise<{ userId: string; username: string }> {
     const { tokens } = await fetchAuthSession();
@@ -30,12 +30,12 @@ export class LeaderboardService {
    * - Creates entry if none
    * - Updates only if profit improved OR username changed
    */
-  async saveMyBestScore(scenarioId: string, profit: number): Promise<void> {
+  async saveMyBestScore(scenarioNameId: string, profit: number): Promise<void> {
     const { userId, username } = await this.getIdentity();
     if (!userId) return;
 
     try {
-      const existing = await this.client.models.LeaderboardEntry.get({ userId, scenarioId });
+      const existing = await this.client.models.LeaderboardEntry.get({ userId, scenarioNameId });
       if (existing?.data) {
         const current = existing.data;
         const bestProfit = Math.max(current.profit, profit);
@@ -43,15 +43,15 @@ export class LeaderboardService {
         if (needsUpdate) {
           await this.client.models.LeaderboardEntry.update({
             userId,
-            scenarioId,
+            scenarioNameId,
             profit: bestProfit,
             username,
           });
         }
       } else {
-        await this.client.models.LeaderboardEntry.create({ userId, username, scenarioId, profit });
+        await this.client.models.LeaderboardEntry.create({ userId, username, scenarioNameId, profit });
       }
-      this.lastSaved.set({ scenarioId, userId });
+      this.lastSaved.set({ scenarioNameId, userId });
     } catch (err) {
       console.error('Failed to save leaderboard score', err);
     }
@@ -62,7 +62,7 @@ export class LeaderboardService {
    * We request in descending order (if supported); if not, we reverse client-side.
    */
   async listTopByScenario(
-    scenarioId: string,
+    scenarioNameId: string,
     limit = 20,
     nextToken?: string | null
   ): Promise<LeaderboardPage> {
@@ -70,7 +70,7 @@ export class LeaderboardService {
     try {
       // @ts-ignore - some client versions support sortDirection
       const res = await this.client.models.LeaderboardEntry.listLeaderboardByScenario({
-        scenarioId,
+        scenarioNameId,
         limit,
         sortDirection: 'DESC',
         nextToken: nextToken || undefined,
@@ -84,7 +84,7 @@ export class LeaderboardService {
     } catch (e) {
       // Fallback without sortDirection
       const res = await this.client.models.LeaderboardEntry.listLeaderboardByScenario({
-        scenarioId,
+        scenarioNameId,
         limit,
         nextToken: nextToken || undefined,
       } as any);

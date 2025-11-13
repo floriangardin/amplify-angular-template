@@ -58,41 +58,16 @@ async function listAllIndicators(client: ReturnType<typeof generateClient<Schema
   return items;
 }
 
-async function listAllTermLinks(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
-  let nextToken: string | undefined = undefined;
-  const items: any[] = [];
-  do {
-    const page: any = await client.models.TermLink.list({ filter: { scenarioId: { eq: scenarioId } }, nextToken });
-    items.push(...page.data);
-    nextToken = (page as any).nextToken;
-  } while (nextToken);
-  return items;
-}
-
-async function listAllEndResources(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
-  let nextToken: string | undefined = undefined;
-  const items: any[] = [];
-  do {
-    const page: any = await client.models.EndResource.list({ filter: { scenarioId: { eq: scenarioId } }, nextToken });
-    items.push(...page.data);
-    nextToken = (page as any).nextToken;
-  } while (nextToken);
-  return items;
-}
 
 async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schema>>, scenario: { id: string; card?: { title?: string | null } | null }) {
   // Delete children first, then the scenario
-  const [nodes, indicators, termLinks, endResources] = await Promise.all([
+  const [nodes, indicators] = await Promise.all([
     listAllNodes(client, scenario.id),
-    listAllIndicators(client, scenario.id),
-    listAllTermLinks(client, scenario.id),
-    listAllEndResources(client, scenario.id),
+    listAllIndicators(client, scenario.id)
   ]);
 
   await Promise.all(nodes.map(n => client.models.Node.delete({ id: n.id })));
   await Promise.all(indicators.map(i => client.models.Indicator.delete({ id: i.id })));
-  await Promise.all(termLinks.map(t => client.models.TermLink.delete({ id: t.id })));
-  await Promise.all(endResources.map(e => client.models.EndResource.delete({ id: e.id })));
 
   await client.models.Scenario.delete({ id: scenario.id });
   console.log(`- Deleted: ${scenario.card?.title ?? scenario.id}`);

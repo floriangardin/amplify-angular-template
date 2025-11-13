@@ -9,10 +9,13 @@
     "test": "ng test",
     "seed:scenarios": "tsx scripts/seed-scenarios.ts",
     "delete:scenarios": "tsx scripts/delete-scenarios.ts",
+    "delete:scenario-progress": "tsx scripts/delete-scenario-progress.ts",
     "seed:images": "tsx scripts/seed-images.ts",
     "seed:static-images": "tsx scripts/seed-static-images.ts",
     "seed:content": "tsx scripts/seed-content.ts",
     "seed:library": "tsx scripts/seed-library.ts",
+    "delete:all": "tsx scripts/delete-all.ts",
+    "refresh:all": "tsx scripts/orchestrate-refresh.ts",
     "configure:cognito-domain": "tsx scripts/configure-cognito-domain.ts"
   },
   "private": true,

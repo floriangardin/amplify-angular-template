@@ -52,12 +52,18 @@ export interface LibraryItem {
   title: string;
   emoji: string;
 }
+
+export interface Medal {
+  name: 'gold' | 'silver' | 'bronze';
+  threshold: number;
+}
 export interface Scenario {
   id: string;
   library: LibraryItem[]; 
   nodes: Email[];
   indicators: Indicator[];
   card: ScenarioCard;
+  medals?: Medal[];
   nameId: string;
   [key: string]: any; // Allow for additional properties
 }

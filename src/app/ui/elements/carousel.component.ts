@@ -42,6 +42,8 @@ let nextId: number = 0;
                     [scenario]="scenario"
                     [isAdmin]="isAdmin()"
                     [isPro]="isPro()"
+                    [completed]="getCompleted(scenario)"
+                    [profit]="getProfit(scenario)"
                     (select)="onSelectScenario(scenario)"
                     (play)="onPlayScenario(scenario)"
                     (upgrade)="onUpgrade(scenario)"
@@ -154,6 +156,9 @@ export class CarouselComponent implements OnInit, OnChanges {
   pageSize = input<number>(6);
   isAdmin = input<boolean>(false);
   isPro = input<boolean>(false);
+  // Progress inputs keyed by scenarioId
+  completedIds = input<Record<string, boolean>>({});
+  profitByScenario = input<Record<string, number | undefined>>({});
 
   // Outputs to bubble child card events
   selectScenario = output<Scenario>();
@@ -234,6 +239,18 @@ export class CarouselComponent implements OnInit, OnChanges {
   private calcButtonStates(): void {
     this.isNextDisabled = this.currentPage + 1 >= this.numberOfPages;
     this.isPrevDisabled = this.currentPage <= 0;
+  }
+
+  getCompleted(s?: Scenario | null): boolean {
+    if (!s || !s.nameId) return false;
+    const map = this.completedIds() || {};
+    return !!map[s.nameId];
+  }
+
+  getProfit(s?: Scenario | null): number | undefined {
+    if (!s || !s.nameId) return undefined;
+    const map = this.profitByScenario() || {};
+    return map[s.nameId];
   }
 
   // Child card event handlers

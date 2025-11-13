@@ -106,7 +106,7 @@
 
  {
   "name": "data_2B",
-  "end": false,
+  "end": true,
   "sender": "Raj Mehta, MDM Specialist",
   "title": "Re: Duplicate Customer Records – MDM Configuration Review",
   "content": "Hi {first_name},<br/><br/>We reviewed the latest MDM configuration and found something that could explain the duplicate customer records.<br/><br/>Last week, we adjusted the ${matching logic} to be more flexible — for example, allowing similar names like 'Daniel Smith' and 'Dan Smyth' to be considered the same person if they share an email address or phone number. The intent was to catch more potential duplicates that strict rules might miss. However, this change may have caused MDM to treat some different records as the same person, and when those updates were pushed to Salesforce, it created new duplicate profiles instead of merging with existing ones.<br/><br/>If you can share a few of the duplicate examples from the Marketing list, we can test them against the new logic to confirm whether that's what caused the issue.<br/><br/>Thanks,\nRaj",
@@ -985,6 +985,11 @@
   "nameId": "duplicate_dilemma",
   "library": [
     {"nameId": "org_chart"}
+  ],
+  "medals": [
+    {"name": "gold", "threshold": 3500, "emoji": "🥇"},
+    {"name": "silver", "threshold": 2000, "emoji": "🥈"},
+    {"name": "bronze", "threshold": 500, "emoji": "🥉"}
   ],
   "card": {
     "plan": "free",

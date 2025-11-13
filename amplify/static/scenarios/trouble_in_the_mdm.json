@@ -984,6 +984,11 @@
   "library": [
     {"nameId": "org_chart"}
   ],
+  "medals": [
+    {"name": "gold", "threshold": 3500, "emoji": "🥇"},
+    {"name": "silver", "threshold": 2000, "emoji": "🥈"},
+    {"name": "bronze", "threshold": 500, "emoji": "🥉"}
+  ],
   "card": {
     "plan": "pro",
     "title": "Duplicate Records Incident – Mid Investigation",

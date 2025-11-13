@@ -18,7 +18,7 @@ export class StateService {
       // Example Angular usage
       const scenarios = await this.clientService.client.models.Scenario.list({
       selectionSet: [
-        'id', 'card.*', 'nameId',
+        'card.*', 'nameId', 'medals.*',
         'indicators.*',
       ],
       limit: 1000, // raise as needed (AppSync caps apply)
@@ -26,10 +26,10 @@ export class StateService {
       return scenarios.data as unknown as Scenario[];
   }
 
-  async getScenarioById(id: string): Promise<Scenario | null> {
-    const scenario = await this.clientService.client.models.Scenario.get({ id }, {
+  async getScenarioById(nameId: string): Promise<Scenario | null> {
+    const scenario = await this.clientService.client.models.Scenario.get({ nameId }, {
       selectionSet: [
-        'id', 'card.*', 'nameId',
+        'card.*', 'nameId', 'medals.*',
         'indicators.*', 'nodes.*', 'nodes.hints',
         'library.*',
       ],

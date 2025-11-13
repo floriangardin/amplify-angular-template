@@ -9,5 +9,5 @@ export const routes: Routes = [
     { path: 'settings', component: SettingsComponent },
     { path: 'plans', component: PlansComponent },
     { path: 'games', children: gamesRoutes },
-    { path: 'leaderboard/:scenarioId', component: LeaderboardPageComponent }
+    { path: 'leaderboard/:scenarioNameId', component: LeaderboardPageComponent }
 ];

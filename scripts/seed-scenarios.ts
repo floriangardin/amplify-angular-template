@@ -63,6 +63,7 @@ async function tryLoadEnvLocalOnce(rootDir: string) {
 type DemoJson = {
   // minimal shape needed by seeding logic
   nameId: string;
+  medals?: Array<{ name: 'gold' | 'silver' | 'bronze'; threshold: number }>;
   library?: Array<{
     nameId: string;
     description?: string;
@@ -147,19 +148,19 @@ async function listAllLibraryItems(client: ReturnType<typeof generateClient<Sche
 }
 
 
-async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schema>>, scenarioId: string) {
+async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schema>>, scenarioNameId: string) {
   // Delete children first, then the scenario
   const [nodes, indicators, libs] = await Promise.all([
-    listAllNodes(client, scenarioId),
-    listAllIndicators(client, scenarioId),
-    listAllLibraryItems(client, scenarioId),
+    listAllNodes(client, scenarioNameId),
+    listAllIndicators(client, scenarioNameId),
+    listAllLibraryItems(client, scenarioNameId),
   ]);
 
   await Promise.all(nodes.map(n => client.models.Node.delete({ id: n.id })));
   await Promise.all(indicators.map(i => client.models.Indicator.delete({ id: i.id })));
   await Promise.all(libs.map(l => client.models.LibraryItem.delete({ id: l.id })));
 
-  await client.models.Scenario.delete({ id: scenarioId });
+  await client.models.Scenario.delete({ nameId: scenarioNameId });
 }
 
 async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>>, filePath: string, force = false) {
@@ -174,13 +175,13 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
   if (existing.data.length > 0) {
     if (!force) {
       const s = existing.data[0]!;
-      console.log(`- Skipped (exists): ${payload.card.title} [id=${s.id}]`);
+      console.log(`- Skipped (exists): ${payload.card.title} [id=${s.nameId}]`);
       return s;
     }
     // Force: delete all matching scenarios and their children
     for (const s of existing.data) {
-      await deleteScenarioDeep(client, s.id);
-      console.log(`- Deleted existing: ${payload.card.title} [id=${s.id}]`);
+      await deleteScenarioDeep(client, s.nameId);
+      console.log(`- Deleted existing: ${payload.card.title} [id=${s.nameId}]`);
     }
   }
 
@@ -188,7 +189,8 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
   // Create Scenario
   const { data: scenario, errors: scenarioErrors } = await client.models.Scenario.create({
     nameId: payload.nameId,
-    card: payload.card
+    card: payload.card,
+    medals: Array.isArray(payload.medals) ? payload.medals.map(m => ({ name: m.name, threshold: Number(m.threshold) })) : []
   });
 
   
@@ -198,14 +200,14 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
     throw new Error(msg);
   }
 
-  const scenarioId = scenario.id;
+  const scenarioNameId = scenario.nameId;
   // We need scenario-scoped library items before creating nodes so hints can be included at creation time (no update required).
 
   // Create Indicators
   const indicatorResults = await Promise.all(
     (payload.indicators ?? []).map((ind: any) =>
       client.models.Indicator.create({
-        scenarioId,
+        scenarioId: scenarioNameId,
         name: ind.name,
         emoji: ind.emoji,
         initial: ind.initial,
@@ -240,7 +242,7 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
       const emoji = libRef.emoji ?? global?.emoji ?? '📄';
 
       const { errors } = await client.models.LibraryItem.create({
-        scenarioId,
+        scenarioId: scenarioNameId,
         nameId,
         description,
         title,
@@ -255,7 +257,7 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
     }
   }
   // Create Nodes including validated hints (no update needed -> avoids authorization on update)
-  const scenarioLibItems = await listAllLibraryItems(client as any, scenarioId);
+  const scenarioLibItems = await listAllLibraryItems(client as any, scenarioNameId);
   const scenarioLibNameIds = new Set<string>(scenarioLibItems.map((it: any) => String(it.nameId)));
 
   for (const n of (payload.nodes ?? [])) {
@@ -273,7 +275,7 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
       }
     }
     const { data: nodeCreated, errors: nodeErrors } = await client.models.Node.create({
-      scenarioId,
+      scenarioId: scenarioNameId,
       name: n.name,
       end: Boolean(n.end),
       default: Boolean(n.default ?? false),
@@ -292,7 +294,7 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
   }
 
 
-  console.log(`- Seeded: ${payload.card.title} [id=${scenarioId}]`);
+  console.log(`- Seeded: ${payload.card.title} [id=${scenarioNameId}]`);
   return scenario;
 }
 

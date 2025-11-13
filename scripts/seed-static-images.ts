@@ -118,7 +118,7 @@ async function main() {
   const username = process.env['SEED_USERNAME'];
   const password = process.env['SEED_PASSWORD'];
   const forceFlag = process.argv.includes('-f') || process.argv.includes('--force');
-  const overwrite = forceFlag || ['1', 'true', 'yes', 'on'].includes((process.env['OVERWRITE'] || '').toLowerCase());
+  const overwrite = forceFlag;
 
   if (!username || !password) {
     console.error('Missing credentials. Please set SEED_USERNAME and SEED_PASSWORD in your environment.');

@@ -42,10 +42,10 @@ export class BaseCDOComponent implements OnInit {
         // map to id
         // use distinctUntilChanged to avoid refetching same id
         // switchMap to fetch scenario
-        distinctUntilChanged((a, b) => a.get('id') === b.get('id')),
+        distinctUntilChanged((a, b) => a.get('nameId') === b.get('nameId')),
         switchMap((params) => {
-          const id = params.get('id');
-          if (!id) {
+          const nameId = params.get('nameId');
+          if (!nameId) {
             // No id: if content already set, keep it; else, navigate home
             if (!this.gameStateService.content()) {
               this.router.navigate(['/']);
@@ -54,10 +54,10 @@ export class BaseCDOComponent implements OnInit {
           }
           // If already loaded same id, skip
           const current = this.gameStateService.content();
-          if (current && (current as any).id === id) {
+          if (current && (current as any).nameId === nameId) {
             return of(current);
           }
-          return this.stateService.getScenarioById(id);
+          return this.stateService.getScenarioById(nameId);
         })
       )
       .subscribe((scenario) => {
