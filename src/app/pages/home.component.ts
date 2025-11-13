@@ -18,45 +18,69 @@ import { CarouselComponent } from '../ui/elements/carousel.component';
 import { ResponsiveService } from '../services/responsive.service';
 import { ProgressComponent } from '../components/progress.component';
 import { ProgressPerScenarioComponent } from '../components/progress-per-scenario.component';
+import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
 // UI KIT HOME PAGE DEMO
 @Component({
   selector: 'app-home',
   standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    ConfirmDialogComponent,
+    MainLoadingComponent,
+    CarouselComponent,
+    ProgressComponent,
+    ProgressPerScenarioComponent,
+    ScenarioCardComponent
+  ],
   template: `
   @if(loading()) {
     <app-main-loading [text]="'Building your data governance experience'"></app-main-loading>
   } @else {
     <app-header></app-header>
 
-    @if(totalRuns() > 0 || totalProfit() !== null){
-      <div class="my-4 md:my-8 px-4 md:px-[3.25rem]">
-        <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Your progress</h1>
-        <div class="flex flex-wrap gap-2">
-          <app-progress [progressSummary]="progressSummary()"></app-progress>
+    <div class=" my-4 md:my-8 px-4 md:px-[3.25rem]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <!-- Left column: Progress + Play -->
+        <div class="order-2 lg:order-1">
+
+          <div class="hidden lg:block"></div>
+          <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Play</h1>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 mb-8">
+            @for(scenario of scenarios(); track scenario.nameId) {
+              <app-scenario-card
+                [scenario]="scenario"
+                [isAdmin]="isAdmin()"
+                (play)="onPlay(scenario)"
+                (leaderboard)="onLeaderboard(scenario)"
+                (deleteScenario)="promptDelete(scenario)"
+                [completed]="completedIds()[scenario.nameId] || false"
+                [profit]="profitByScenario()[scenario.nameId] || undefined"
+                [isPro]="isPro()">
+              </app-scenario-card>
+            }
+            </div>
+                      @if(totalRuns() > 0 || totalProfit() !== null){
+            <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Your progress</h1>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <app-progress [progressSummary]="progressSummary()"></app-progress>
+            </div>
+          }
+
+        </div>
+
+        <!-- Right column: Leaderboards -->
+        <div class="order-1 lg:order-2">
+          <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">The leaderboards</h1>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+            <app-progress-per-scenario 
+              (clickedScenarioLeaderboard)="onLeaderboard($event)"
+              [currentUserId]="currentUserId()" [scenarios]="scenarios()" [progressSummary]="progressSummary()">
+            </app-progress-per-scenario>
+          </div>
         </div>
       </div>
-    }
-
-    <div class="my-4 md:my-8 px-4 md:px-[3.25rem]">
-      <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">The leaderboards</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        <app-progress-per-scenario 
-          (clickedScenarioLeaderboard)="onLeaderboard($event)"
-          [currentUserId]="currentUserId()" [scenarios]="scenarios()" [progressSummary]="progressSummary()">
-        </app-progress-per-scenario>
-      </div>
-    </div>
-
-    <div class="my-4 md:my-8 pb-32">
-        <h1 class="pl-4 md:pl-[3.25rem] text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Play</h1>
-        <app-carousel [scenarios]="scenarios()" [isAdmin]="isAdmin()"
-          (playScenario)="onPlay($event)"
-          (leaderboardScenario)="onLeaderboard($event)"
-          (upgrade)="onUpgrade()"
-          [pageSize]="pageSize()"
-          [completedIds]="completedIds()"
-          [profitByScenario]="profitByScenario()"
-          [isPro]="isPro()"></app-carousel>
     </div>
 
     
@@ -75,16 +99,7 @@ import { ProgressPerScenarioComponent } from '../components/progress-per-scenari
   `,
   styles: [`
     :host { display: block; width: 100vw; height: 100vh;}
-  `],
-  imports: [
-    CommonModule,
-    HeaderComponent,
-    ConfirmDialogComponent,
-    MainLoadingComponent,
-    CarouselComponent,
-    ProgressComponent,
-    ProgressPerScenarioComponent
-  ],
+  `]
 })
 export class HomeComponent implements OnInit{
 
@@ -255,6 +270,7 @@ export class HomeComponent implements OnInit{
   
   onPlay(scenario: Scenario){
     // Navigate with scenario id in query params; game will fetch content based on id
+    console.log('Play scenario', scenario);
     this.router.navigate(['/games/bestcdo/play'], { queryParams: { nameId: scenario.nameId } });
   }
   

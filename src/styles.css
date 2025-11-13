@@ -38,7 +38,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-500), var(--color-primary-500));
+  background: linear-gradient(120deg, var(--color-primary-500), var(--color-primary-500), var(--color-primary-800));
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
@@ -47,19 +47,19 @@ body {
 
 
 .btn {
-  @apply mt-2 px-6 py-3 rounded-lg text-[var(--color-font-primary)] bg-primary-500 font-bold;
+  @apply mt-2 px-6 py-3 rounded-full text-white bg-primary-500 font-bold;
 }
 
 .main-btn {
-  @apply mt-2 px-6 py-3 rounded bg-primary hover:bg-primary-600 text-white font-bold;
+  @apply mt-2 px-6 py-3 rounded-full bg-primary hover:bg-primary-600 text-white font-bold;
 }
 
 .small-btn {
-  @apply mt-2 px-4 py-2 rounded text-white hover:bg-primary-600 bg-primary-500 font-bold text-sm;
+  @apply mt-2 px-4 py-2 rounded-full text-white hover:bg-primary-600 bg-primary-500 font-bold text-sm;
 }
 
 .btn-cta {
-  @apply py-4 rounded-full font-bold text-lg text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all transform hover:scale-102 disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-xl
+  @apply py-4 rounded-full font-bold text-lg text-white bg-primary-500 hover:bg-primary-600 transition-all transform hover:scale-102 disabled:opacity-50 disabled:hover:scale-100 shadow-lg hover:shadow-xl
 }
 
 .card-bg {

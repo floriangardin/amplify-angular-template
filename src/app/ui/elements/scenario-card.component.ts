@@ -24,13 +24,13 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
     <!-- Base tile (thumbnail only) -->
     <div class="relative w-full overflow-hidden rounded-xl bg-transparent shadow-md transition-shadow duration-200 group-hover:shadow-lg" [ngClass]="{ 'opacity-60 grayscale': locked() }">
       <!-- 16:9 container -->
-      <div class="relative w-full aspect-[16/9]">
+      <div class="relative w-full">
         @if (hasLogo()) {
           <app-editable-image
             class="cursor-pointer"
             [assetId]="assetPath()"
             [alt]="scenario()!.card.title || 'Scenario'"
-            [imgClass]="'block h-full w-full object-cover'"
+            [imgClass]="'w-full object-cover'"
             [isEditable]="isAdmin()"
           ></app-editable-image>
         } @else {
@@ -107,18 +107,18 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
           }
           <div class="mt-4 flex items-center gap-3">
             @if (!locked()) {
-              <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="locked()" (click)="onPlay($event)" aria-label="Play scenario">
+              <button type="button" class="inline-flex items-center gap-2 rounded-full bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="locked()" (click)="onPlay($event)" aria-label="Play scenario">
                 <i class="fa-solid fa-play"></i>
                 <span>Play</span>
               </button>
             }@else {
-              <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-yellow-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
+              <button type="button" class="inline-flex items-center gap-2 rounded-full bg-yellow-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
               (click)="onUpgrade($event)" aria-label="Play scenario">
                 <i class="fa-solid fa-arrow-up"></i>
                 <span>Upgrade</span>
               </button>
             }
-            <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" (click)="onLeaderboard($event)" aria-label="View leaderboard">
+            <button type="button" class="inline-flex items-center gap-2 rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" (click)="onLeaderboard($event)" aria-label="View leaderboard">
               <i class="fa-solid fa-ranking-star"></i>
               <span>Leaderboard</span>
             </button>
