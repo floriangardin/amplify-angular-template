@@ -10,10 +10,10 @@ import { NgClass } from '@angular/common';
   imports: [NgClass, CommonModule],
   template: `
     <button
-            class="w-full flex items-center px-4"
+            class="w-full flex items-center px-4 rounded-full"
             [ngClass]="contentClass()"
           >
-            <span class="ml-2 flex-1 text-center">Let's go</span>
+            <span class="ml-2 flex-1 text-center">{{ text() }}</span>
             <svg class="icon icon--arrow-right w-8 h-8 ml-3 mr-2" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
                 <use xlink:href="cta-arrow.svg#icon-cta-right"></use>
             </svg>
@@ -23,6 +23,7 @@ import { NgClass } from '@angular/common';
 })
 export class ButtonComponent {
 
+    text = input<string>('Let\'s go');
     contentClass = input<string>('');
   
 }

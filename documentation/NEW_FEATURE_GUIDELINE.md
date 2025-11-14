@@ -66,3 +66,33 @@ export interface Scenario {
   // ... Rest of the code not changed 
 }
 ```
+
+4. Modify state service to query the scenarios with updated fields
+
+In `src/app/services/state.service.ts`
+```ts
+  async getScenarios(): Promise<Scenario[]> {
+      // Example Angular usage
+      const scenarios = await this.clientService.client.models.Scenario.list({
+      selectionSet: [
+        'id', 'card.*', 'nameId', 'medals.*', // Added medals
+        'indicators.*',
+      ],
+      limit: 1000, // raise as needed (AppSync caps apply)
+      });
+      return scenarios.data as unknown as Scenario[];
+  }
+
+  async getScenarioById(id: string): Promise<Scenario | null> {
+    const scenario = await this.clientService.client.models.Scenario.get({ id }, {
+      selectionSet: [
+        'id', 'card.*', 'nameId', 'medals.*', // Added medals
+        'indicators.*', 'nodes.*', 'nodes.hints',
+        'library.*',
+      ],
+    });
+    let result = scenario.data as unknown as Scenario | null;
+    return result;
+  }
+
+```

@@ -2,7 +2,6 @@ import { Component, ElementRef, HostListener, ViewChild, signal, inject, compute
 import { CommonModule } from '@angular/common';
 import { signOut } from 'aws-amplify/auth';
 import type { PlanName } from '../models/user';
-import { PlanComponent } from '../ui/elements/plan.component';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { StripeService } from '../services/stripe.service';
@@ -10,7 +9,8 @@ import { StripeService } from '../services/stripe.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, PlanComponent],
+  imports: [CommonModule
+  ],
   template: `
     <header class="p-4 w-full flex items-center spectral-font justify-between bg-white text-black relative z-50">
       <div class="flex flex-row items-center gap-3">
@@ -18,6 +18,10 @@ import { StripeService } from '../services/stripe.service';
         <img src="arup_logo.png" alt="Arup Logo" class="h-8 cursor-pointer" title="Home" (click)="goHome()"/>
         <!--<app-plan [planName]="planName()" (goPro)="goPro()"></app-plan>-->
       </div>
+
+      <h1 class="hidden md:block text-xl spectral-font font-bold text-center text-primary-500
+       absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+        The CDO game</h1>
 
       <div class="relative" #menuWrapper>
         <button
@@ -27,13 +31,13 @@ import { StripeService } from '../services/stripe.service';
           [attr.aria-expanded]="menuOpen()"
           (click)="toggleMenu()"
         >
-          <span class="truncate max-w-[180px]" title="{{ displayName() }}">{{ displayName() }}</span>
+          <span class="truncate max-w-[180px] spectral-font " title="{{ displayName() }}">{{ displayName() }}</span>
           <i class="fa-solid" [ngClass]="{ 'fa-caret-up': menuOpen(), 'fa-caret-down': !menuOpen() }"></i>
         </button>
 
         @if (menuOpen()) {
           <div
-            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[1000] text-gray-900"
+            class="absolute spectral-font right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[1000] text-gray-900"
             role="menu"
             aria-label="Profile menu"
           >
@@ -69,7 +73,7 @@ import { StripeService } from '../services/stripe.service';
 export class HeaderComponent {
     private router = inject(Router);
     private userService = inject(UserService);
-  private stripeService = inject(StripeService);
+    private stripeService = inject(StripeService);
     private host = inject(ElementRef<HTMLElement>);
 
     @ViewChild('menuWrapper', { static: true }) private menuWrapper?: ElementRef<HTMLElement>;

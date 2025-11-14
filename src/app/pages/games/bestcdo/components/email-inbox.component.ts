@@ -98,6 +98,7 @@ import { TemplatePortal, PortalModule } from '@angular/cdk/portal';
         <app-email-list-item
           [email]="mail"
           [isSelected]="selectedEmailName() === mail.name"
+          [urgentSecondsLeft]="urgentTimers()[mail.name] ?? null"
           (emailClick)="emailSelected.emit($event)"
         />
         }
@@ -115,6 +116,7 @@ export class EmailInboxComponent implements OnInit {
   selectedEmailName = input<string | null>(null);
   companyLogo = input<string | null>(null);
   isEditable = input<boolean>(false);
+  urgentTimers = input<Partial<Record<string, number>>>({});
 
 
 

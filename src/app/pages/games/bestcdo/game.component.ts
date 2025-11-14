@@ -26,6 +26,7 @@ import { LeaderboardService } from '../../../services/leaderboard.service';
 import { ContentDialogComponent } from '../../../ui/elements/content-dialog.component';
 import { StorageService } from '../../../services/storage.service';
 import { ProgressService } from '../../../services/progress.service';
+import { EndResult } from '../../../models/stats';
 
 export interface CompanyContext {
   name: string;
@@ -59,7 +60,7 @@ export interface CompanyContext {
       />
     }
     @if (!content()) {
-  <app-header class="md:fixed top-0 static left-0 w-screen z-[2000]"></app-header>
+      <app-header class="md:fixed top-0 static left-0 w-screen z-[2000]"></app-header>
       <div class="min-h-screen flex items-center justify-center text-white">Loading game…</div>
     } @else {
     <!-- Parent fills the viewport; horizontal padding responsive -->
@@ -84,6 +85,7 @@ export interface CompanyContext {
               [selectedEmailName]="selectedEmail()?.name || null"
               [companyLogo]="content()['logo_company']?.['assetId'] || null"
               [isEditable]="isEditable()"
+              [urgentTimers]="urgentCountdowns()"
               (emailSelected)="selectEmail($event)"
               (libraryItemSelected)="libraryItemSelected($event)"
               [ngClass]="inboxPanelClasses()"
@@ -104,6 +106,7 @@ export interface CompanyContext {
             [isMobile]="isMobile()"
             [gameStarted]="gameStarted()"
             [showImpacts]="gameStateService.difficulty() !== 'hard'"
+            [urgentSecondsLeft]="selectedEmailUrgentSeconds()"
             (backClicked)="back()"
             (choiceSelected)="choose($event)"
             (startGameClicked)="startGame()"
@@ -138,6 +141,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
   private readonly timeLimitMs: number = 4 * 60 * 1000; // 4 minutes
+  private readonly urgentTimeLimitMs: number = 20_000; // 20 seconds to answer urgent emails
 
   /* ──────────────── state signals ───────── */
   emails = computed<Email[]>(() => this.computeGame());
@@ -152,6 +156,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   lastMailId = signal<string>('__START__');
   showEmailList = signal<boolean>(false);
   timeLeftMs = signal<number>(this.timeLimitMs);
+  private urgentDeadlines = signal<Record<string, number>>({});
   // End flow
   isEnding = signal(false);
   fadeOut = signal(false);
@@ -191,10 +196,38 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     };
   });
 
+  urgentCountdowns = computed<Partial<Record<string, number>>>(() => {
+    const deadlines = this.urgentDeadlines();
+    const elapsed = this.gameEngineService.elapsedTime();
+    const countdowns: Record<string, number> = {};
+    Object.entries(deadlines).forEach(([name, deadline]) => {
+      const remainingMs = deadline - elapsed;
+      countdowns[name] = remainingMs > 0 ? Math.ceil(remainingMs / 1000) : 0;
+    });
+    return countdowns;
+  });
+
+  selectedEmailUrgentSeconds = computed<number | null>(() => {
+    const email = this.selectedEmail();
+    if (!email || !email.isUrgent) return null;
+    const timers = this.urgentCountdowns();
+    return timers[email.name] ?? null;
+  });
+
   /* ──────────────── effects ───────────── */
   mobileEffect = effect(() => {
     /* auto‑hide list on mobile when selecting mail */
     if (this.isMobile() && this.selectedEmail()) this.showEmailList.set(false);
+  });
+
+  urgentExpiryEffect = effect(() => {
+    const deadlines = this.urgentDeadlines();
+    const elapsed = this.gameEngineService.elapsedTime();
+    Object.entries(deadlines).forEach(([name, deadline]) => {
+      if (deadline - elapsed <= 0) {
+        this.handleUrgentTimeout(name);
+      }
+    });
   });
 
   // Initialize game once the scenario content is available (handles async fetch)
@@ -223,6 +256,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.isEnding.set(false);
     this.fadeOut.set(false);
   this.timeLeftMs.set(this.timeLimitMs);
+    this.urgentDeadlines.set({});
 
     // Initialize services now that emails are available
     const emails = this.emails();
@@ -292,7 +326,12 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     if (remaining !== this.timeLeftMs()) this.timeLeftMs.set(remaining);
     if (remaining === 0) {
       // Time is up: end game with transition
-      this.triggerEndSequence();
+      let endResult: EndResult = {
+        hasWon: true,
+        defeatReason: null,
+        stats: this.snapshotStats()
+      };
+      this.triggerEndSequence(endResult);
       return;
     }
     /* seed forced first email after 1 s */
@@ -324,7 +363,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   }
 
   private pushEmail(mail: Email, currentTime: number): void {
-    if (!mail.isUrgent) {
+    if (mail.isUrgent && !this.isEditable()) {
+      this.addUrgentDeadline(mail.name, currentTime);
     }
     this.lastMailId.set(mail.name);
     this.nbMails.set(this.nbMails() + 1);
@@ -337,6 +377,40 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     if (navigator.vibrate) navigator.vibrate(mail.isUrgent ? [200, 100, 200] : 200);
   }
 
+  /* ──────────────── urgent helpers ────────────── */
+  private addUrgentDeadline(emailName: string, currentTime: number): void {
+    this.urgentDeadlines.update((deadlines) => ({
+      ...deadlines,
+      [emailName]: currentTime + this.urgentTimeLimitMs,
+    }));
+  }
+
+  private clearUrgentDeadline(emailName: string): void {
+    const deadlines = this.urgentDeadlines();
+    if (!(emailName in deadlines)) return;
+    const { [emailName]: _removed, ...rest } = deadlines;
+    this.urgentDeadlines.set(rest);
+  }
+
+  private handleUrgentTimeout(emailName: string): void {
+    if (!(emailName in this.urgentDeadlines())) return;
+    this.clearUrgentDeadline(emailName);
+
+    const currentInbox = this.inbox();
+    const updatedInbox = currentInbox.filter((email) => email.name !== emailName);
+    if (updatedInbox.length !== currentInbox.length) {
+      this.inbox.set(updatedInbox);
+    }
+    if (this.selectedEmail()?.name === emailName) {
+      this.selectedEmail.set(null);
+    }
+
+    if (this.isEditable()) return;
+
+    this.sounds.play('alarm.ogg', false, 0.7);
+    this.endGame('burnout');
+  }
+
   /* ──────────────── defeat / cleanup ───────── */
   private endGame(reason: DefeatReason): void {
     if (this.isEditable()) return;
@@ -347,6 +421,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   private cleanupAll(): void {
     this.gameEngineService.stop();
     this.gameStarted.set(false);
+    this.urgentDeadlines.set({});
   }
 
   private snapshotStats(): Stats {
@@ -354,15 +429,25 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   }
 
   public onGameVictory(data: Stats) { 
-    this.gameStateService.stats = data;
-    this.router.navigate(['../victory'], { relativeTo: this.activatedRoute, queryParamsHandling: 'preserve' });
+    this.gameStateService.stats.set(data);
+    this.gameStateService.hasWon.set(true);
+
+    let endResult: EndResult = {
+      hasWon: true,
+      defeatReason: null,
+      stats: data
+    }
+    this.triggerEndSequence(endResult);
   }
 
   public onGameDefeat(data: DefeatStats) {
     if (this.isEditable()) return;
-    this.gameStateService.stats = data.stats;
-    this.gameStateService.defeatReason = data.reason;
-    this.router.navigate(['../defeat'], { relativeTo: this.activatedRoute, queryParamsHandling: 'preserve' });
+    let endResult: EndResult = {
+      hasWon: false,
+      defeatReason: data.reason,
+      stats: data.stats
+    }
+    this.triggerEndSequence(endResult, 100);
   }
 
   /* ──────────────── mailbox ui actions ──── */
@@ -393,8 +478,6 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       const nextEmails = this.content().nodes.filter(e => nextEmailsNames?.includes(e.name));
       this.emailQueueService.addEmails(nextEmails);
     }
-
-
     // Apply outcome to stats
     this.gameStatsService.applyOutcome(choice.outcome);
 
@@ -413,12 +496,17 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     if (!this.isEditable()) {
       this.inbox.set(this.inbox().filter(e => e.name !== mail.name));
     }
+    this.clearUrgentDeadline(mail.name);
     this.answeredEmails.set([...this.answeredEmails(), mail.name]);
     //  this.showEmailList.set(true);
 
     // If this email marks the end of the game, start the end sequence
     if (mail.end) {
-      this.triggerEndSequence();
+      this.triggerEndSequence({
+        hasWon: true,
+        defeatReason: null,
+        stats: this.snapshotStats()
+      });
     }
 
     // If not an explicit end email, check if there are no more emails
@@ -433,7 +521,11 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       );
       const noNextAvailable = !maybeNext;
       if (!hasInboxEmails && noNextAvailable) {
-        this.triggerEndSequence();
+        this.triggerEndSequence({
+          hasWon: true,
+          defeatReason: null,
+          stats: this.snapshotStats()
+        });
       }
     }
   }
@@ -485,9 +577,10 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
    * Start a 5s end timeout; once elapsed, fade out, then navigate to '/last'.
    * Idempotent: calling multiple times will have no additional effect.
    */
-  private triggerEndSequence(): void {
+  private triggerEndSequence(endResult: EndResult, timeOut: number = 5000): void {
     if (this.isEditable() || this.isEnding()) return;
     this.isEnding.set(true);
+    this.urgentDeadlines.set({});
     // Stop the engine so no more emails arrive
     this.gameEngineService.stop();
     // Save best score before navigating
@@ -520,11 +613,13 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       // Allow CSS transition (700ms as per template) to play before navigation
       this.navigateTimeoutHandle = setTimeout(() => {
         if (scenarioNameId) {
-          this.router.navigate(['/leaderboard', scenarioNameId]);
+          this.router.navigate(['/leaderboard', scenarioNameId], {
+            state: { endResult }
+          });
         } else {
           this.router.navigate(['/']);
         }
       }, 750);
-    }, 5000);
+    }, timeOut);
   }
 }

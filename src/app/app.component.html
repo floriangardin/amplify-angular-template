@@ -1,16 +1,21 @@
-<amplify-authenticator amplifyZonelessBridge class="m-auto flex flex-col items-center justify-center p-4 bg-gray-50 h-screen bg-transparent">
+<amplify-authenticator [hideSignUp]="true" amplifyZonelessBridge class="rounded-lg p-4 arial m-auto flex flex-col items-center justify-center bg-gray-50 h-screen bg-transparent">
   <!-- Custom sign-in view that forces external provider only -->
-  <ng-template amplifySlot="sign-in">
-    <div class="min-h-screen bg-transparent w-full flex flex-col items-center justify-center gap-6">
-      <h1 class="text-2xl font-semibold text-white">Sign in</h1>
-      <button
+  <ng-template class="bg-transparent" amplifySlot="sign-in">
+    <div class="h-full spectral-font bg-transparent w-full flex flex-col items-center justify-center gap-4 p-8 rounded-lg shadow-lg">
+      <img src="best_cdo.webp" alt="The CDO Game" class="w-64 h-auto mb-4 rounded-lg shadow-lg">
+      <h1 class="text-3xl font-extrabold text-gray-900">The CDO Game</h1>
+      <span>By</span>
+      <img src="arup_logo.png" alt="Company Logo" class="w-48 h-auto mb-4">
+      <h1 class="text-2xl font-semibold text-black">Sign in</h1>
+      <app-button
         type="button"
         (click)="signInWithCompany()"
-        class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white shadow"
+        [contentClass]="'btn-cta'"
+        class="p-2"
+        [text]="'Continue with company login'"
         aria-label="Continue with Company login"
-      >
-        Continue with Company login
-      </button>
+      ></app-button>
+
     </div>
   </ng-template>
   <ng-template
@@ -18,7 +23,7 @@
     let-user="user"
     let-signOut="signOut"
   >
-  <div class="min-h-screen min-w-screen">    
+  <div class="min-h-screen min-w-screen arial">    
         <router-outlet></router-outlet>
   </div>
 </ng-template>

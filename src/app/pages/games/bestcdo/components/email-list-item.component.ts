@@ -8,31 +8,45 @@ import { marked } from 'marked';
   standalone: true,
   imports: [CommonModule],
   template: `
+    <!-- Outer wrapper keeps positioning but does NOT clip overflow so badges can escape -->
     <div
-      class="p-3 rounded-lg mb-2 cursor-pointer hover:bg-secondary-100 transition-all relative overflow-hidden"
-      [class.bg-secondary-100]="isSelected()"
-      [class.bg-white]="!isSelected()"
+      class="mb-2 relative"
       [class.border-l-4]="email().isUrgent"
-      [class.border-secondary-600]="email().isUrgent"
-      (click)="emailClick.emit(email())"
+      [class.border-red-500]="email().isUrgent"
     >
-      <div class="flex justify-between items-center gap-2 min-w-0">
-        <span class="font-medium text-sm truncate flex-1 min-w-0">{{ email().title }}</span>
-        <span 
-          class="text-xs text-white px-2 py-0.5 rounded-full uppercase font-medium whitespace-nowrap flex-shrink-0"
-          [ngClass]="getCategoryClass(email().category)"
-        >
-          {{getCategoryText(email().category)}}
-        </span>
+      @if (urgentSecondsLeft() !== null) {
+        <!-- Place badge here so it's not clipped by inner overflow-hidden -->
+        <div class="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-red-600 text-white text-xs font-bold flex items-center justify-center shadow z-10">
+          {{ urgentSecondsLeft() }}
+        </div>
+      }
+
+      <!-- Inner card preserves rounded corners and clipping for content -->
+      <div
+        class="p-3 rounded-lg cursor-pointer hover:bg-secondary-100 transition-all overflow-hidden"
+        [class.bg-secondary-100]="isSelected()"
+        [class.bg-white]="!isSelected()"
+        (click)="emailClick.emit(email())"
+      >
+        <div class="flex justify-between items-center gap-2 min-w-0">
+          <span class="font-medium text-sm truncate flex-1 min-w-0">{{ email().title }}</span>
+          <span 
+            class="text-xs text-white px-2 py-0.5 rounded-full uppercase font-medium whitespace-nowrap flex-shrink-0"
+            [ngClass]="getCategoryClass(email().category)"
+          >
+            {{getCategoryText(email().category)}}
+          </span>
+        </div>
+        <div class="text-xs text-gray-500 truncate">{{ email().sender }}</div>
+        <div class="text-sm text-gray-500 truncate" [innerHTML]="renderedHtml()"></div>
       </div>
-      <div class="text-xs text-gray-500 truncate">{{ email().sender }}</div>
-      <div class="text-sm text-gray-500 truncate" [innerHTML]="renderedHtml()"></div>
     </div>
   `
 })
 export class EmailListItemComponent {
   email = input.required<Email>();
   isSelected = input<boolean>(false);
+  urgentSecondsLeft = input<number | null>(null);
   
   emailClick = output<Email>();
 

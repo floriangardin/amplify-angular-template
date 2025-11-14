@@ -12,8 +12,8 @@ export class GameStateService {
   public content = signal<Scenario>(null as any);
   
   // Relative to specific BestCDO game instance
-  public defeatReason : 'dataBreach' | 'burnout' | 'budget' | 'dataQuality' | 'reputation' = 'burnout';
-  public screen = signal<'start' | 'playing' | 'victory' | 'defeat'>('start');
+  public defeatReason = signal<'dataBreach' | 'burnout' | 'budget' | 'dataQuality' | 'reputation'>('burnout');
+  public hasWon = signal<boolean>(false);
   public difficulty = computed<'easy'  | 'hard'>(() => {
     // Default to 'hard' if scenario has high priority
     const scenario = this.content();
@@ -23,7 +23,17 @@ export class GameStateService {
     }
     return 'hard';
   });
-  public stats : Stats = {};
+  public stats = signal<Stats>({});
+
+
+  public endState = computed<any>(() => {
+    return {
+      hasWon: this.hasWon(),
+      defeatReason: this.defeatReason(),
+      stats: this.stats(),
+      difficulty: this.difficulty()
+    };
+  });
 
   constructor(){
     this.init();
@@ -35,10 +45,7 @@ export class GameStateService {
     return of(true);
   }
 
-  public reset(){
-    this.screen.set('start');
-    this.stats = {};
-  }
+  
 
 
 }

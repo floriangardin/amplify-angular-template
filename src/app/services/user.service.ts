@@ -34,7 +34,6 @@ export class UserService {
                             || (accessPayload?.['username'] as string | undefined)
                             || '';
                         this.email.set(email);
-                        console.log('Use payload', payload);
                         const preferred = (payload?.['preferred_username'] as string | undefined)
                             || (payload?.['nickname'] as string | undefined)
                             || (email ? email.split('@')[0] : '');

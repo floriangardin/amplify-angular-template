@@ -42,6 +42,12 @@ export interface OutcomeData {
             [text]="emailTitle()" 
             (newText)="titleChanged.emit($event)" 
           />
+          @if (urgentSecondsLeft() !== null) {
+            <span class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-white bg-red-600 px-3 py-1 rounded-full">
+              <span>Urgent</span>
+              <span>{{ urgentSecondsLeft() }}s</span>
+            </span>
+          }
         </div>
         
         <div class="flex flex-col md:space-y-1 text-xs md:text-sm text-gray-500">
@@ -157,7 +163,6 @@ export interface OutcomeData {
           • Each decision determines what comes next <br/>
         </div>
         @if (!gameStarted()) {
-
           <app-button [contentClass]="'btn-cta'" class="w-full max-w-xs" (click)="startGameClicked.emit()"></app-button>
         }
       </div>
@@ -201,6 +206,7 @@ export class EmailViewerComponent {
   isMobile = input<boolean>(false);
   gameStarted = input<boolean>(false);
   showImpacts = input<boolean>(true);
+  urgentSecondsLeft = input<number | null>(null);
   
   // Outputs
   backClicked = output<void>();
