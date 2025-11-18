@@ -40,7 +40,7 @@ Seed all files in `amplify/static/scenarios` into the backend referenced by `amp
 Sandbox (using `.env.local` for credentials):
 
 ```bash
-npx dotenvx run --env-file=.env.local -- npm run seed:scenarios
+npx dotenvx run --env-file=.env.local -- npm run seed:scenarios -- -f
 ```
 
 Inline credentials (any environment):
@@ -57,6 +57,10 @@ Notes:
 
 ```bash
 npx dotenvx run --env-file=.env.local -- ampx sandbox --stream-function-logs
+```
+For arup
+```bash
+npx dotenvx run --env-file=.env.local -- ampx sandbox --identifier arup --stream-function-logs
 ```
 
 

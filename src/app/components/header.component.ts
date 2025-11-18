@@ -42,7 +42,7 @@ import { StripeService } from '../services/stripe.service';
             aria-label="Profile menu"
           >
             <div class="py-1" role="none">
-              <button
+              <!--<button
                 type="button"
                 class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2"
                 role="menuitem"
@@ -50,7 +50,7 @@ import { StripeService } from '../services/stripe.service';
               >
                 <i class="fa-solid fa-cog"></i>
                 Settings
-              </button>
+              </button>-->
               <button
                 type="button"
                 class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600 flex items-center gap-2"
