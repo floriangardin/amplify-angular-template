@@ -5,14 +5,14 @@ import outputs from '../amplify_outputs.json';
 function pickDomainFromUrl(href: string, hostname: string): string {
 	// Local development
 	if (hostname.includes('localhost')) {
-		return 'maketoolsauth.auth.eu-west-3.amazoncognito.com';
+		return 'maketools-arup-dev.auth.eu-west-3.amazoncognito.com';
 	}
 	// Qualification environment
 	if (href.includes('qual') || hostname.includes('qual')) {
-		return 'maketoolsqual.auth.eu-west-2.amazoncognito.com';
+		return 'maketools-arup-qual.auth.eu-west-2.amazoncognito.com';
 	}
 	// Production (default)
-	return 'maketools.auth.eu-west-2.amazoncognito.com';
+	return 'maketools-arup.auth.eu-west-2.amazoncognito.com';
 }
 
 try {
