@@ -27,10 +27,10 @@ const backend = defineBackend({
 const domainPrefix = process.env.COGNITO_DOMAIN_PREFIX;
 console.log("Using Cognito domain prefix:", domainPrefix);
 
-if (domainPrefix)
-backend.auth.resources.userPool.addDomain('cognito-domain', {
-  cognitoDomain: { domainPrefix: domainPrefix },
-});
+// if (domainPrefix)
+// backend.auth.resources.userPool.addDomain('cognito-domain', {
+//   cognitoDomain: { domainPrefix: domainPrefix },
+// });
 
 // Deactivate self signup
 const { cfnUserPool } = backend.auth.resources.cfnResources
