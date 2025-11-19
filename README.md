@@ -68,3 +68,8 @@ npx dotenvx run --env-file=.env.local -- ampx sandbox --identifier arup --stream
 
 To add to amplify.yml
         - npm run configure:cognito-domain || true
+
+
+## Extract qual or prod
+
+AWS_REGION=eu-west-2 npx ampx generate outputs --app-id d1lyo11fq4n49c --branch qual --format "json" --out-dir ./

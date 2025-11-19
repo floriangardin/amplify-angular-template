@@ -26,7 +26,7 @@
     },
     "2": {
       "name": "2",
-      "text": "Reach out to the ${MDM} team to verify if recent configuration or matching rules could have created duplicate customer records.",
+      "text": "Reach out to the MDM team to verify if recent configuration or matching rules could have created duplicate customer records.",
       "outcome": {
         "description": "The MDM team checks their latest updates and confirms that a recent configuration change lowered the match threshold to 90%. This may have allowed duplicate customer profiles to be created. Collaboration begins smoothly and you gain early insight into the root cause.",
         "impact": {
@@ -108,7 +108,7 @@
   "end": false,
   "sender": "Raj Mehta, MDM Specialist",
   "title": "Re: Duplicate Customer Records – MDM Configuration Review",
-  "content": "Hi {first_name},<br/><br/>We reviewed the latest MDM configuration and found something that could explain the duplicate customer records.<br/><br/>Last week, we adjusted the ${matching logic} to be more flexible — for example, allowing similar names like 'Daniel Smith' and 'Dan Smyth' to be considered the same person if they share an email address or phone number. The intent was to catch more potential duplicates that strict rules might miss. However, this change may have caused MDM to treat some different records as the same person, and when those updates were pushed to Salesforce, it created new duplicate profiles instead of merging with existing ones.<br/><br/>If you can share a few of the duplicate examples from the Marketing list, we can test them against the new logic to confirm whether that's what caused the issue.<br/><br/>Thanks,\nRaj",
+  "content": "Hi {first_name},<br/><br/>We reviewed the latest MDM configuration and found something that could explain the duplicate customer records.<br/><br/>Last week, we adjusted the matching logic to be more flexible — for example, allowing similar names like 'Daniel Smith' and 'Dan Smyth' to be considered the same person if they share an email address or phone number. The intent was to catch more potential duplicates that strict rules might miss. However, this change may have caused MDM to treat some different records as the same person, and when those updates were pushed to Salesforce, it created new duplicate profiles instead of merging with existing ones.<br/><br/>If you can share a few of the duplicate examples from the Marketing list, we can test them against the new logic to confirm whether that's what caused the issue.<br/><br/>Thanks,\nRaj",
   "category": "scenario",
   "isUrgent": false,
   "choices": {
@@ -159,7 +159,7 @@
   "end": false,
   "sender": "Leah Park, Marketing Manager",
   "title": "Re: Duplicate Customer Records – Clarification",
-  "content": "Hi {first_name},<br/><br/>Just to clarify — our campaign list came directly from MDM without any manual edits. If duplicates are showing, something might be off in the integration or ${matching rules}.<br/><br/>Could you double-check with the data teams before we decide how to proceed?<br/><br/>Thanks,\nLeah",
+  "content": "Hi {first_name},<br/><br/>Just to clarify — our campaign list came directly from MDM without any manual edits. If duplicates are showing, something might be off in the integration or matching rules.<br/><br/>Could you double-check with the data teams before we decide how to proceed?<br/><br/>Thanks,\nLeah",
   "category": "scenario",
   "isUrgent": true,
   "choices": {
@@ -178,7 +178,7 @@
     },
     "2": {
       "name": "2",
-      "text": "Forward the message to MDM asking whether they've changed ${matching logic} recently.",
+      "text": "Forward the message to MDM asking whether they've changed matching logic recently.",
       "outcome": {
         "description": "The MDM team confirms a configuration change but requests examples. You lose time relaying messages instead of coordinating directly.",
         "impact": {
@@ -210,7 +210,7 @@
   "end": false,
   "sender": "Raj Mehta, MDM Specialist",
   "title": "Update – Duplicate Root Cause Confirmed",
-  "content": "Hi {first_name},<br/><br/>Thanks for sending the sample records. We've confirmed that the duplicates are indeed caused by the recent change in MDM's matching logic.<br/><br/>The system treated records with the same contact details but slightly different spellings as one person. When these merged records were pushed to Salesforce, they didn't link properly to the existing profiles, creating new IDs instead of updating the old ones.<br/><br/>We can temporarily revert the ${matching rule} to the previous setting while we design a more precise logic. Would you like us to roll that back, or would you prefer we test a targeted fix first?<br/><br/>Thanks,\nRaj",
+  "content": "Hi {first_name},<br/><br/>Thanks for sending the sample records. We've confirmed that the duplicates are indeed caused by the recent change in MDM's matching logic.<br/><br/>The system treated records with the same contact details but slightly different spellings as one person. When these merged records were pushed to Salesforce, they didn't link properly to the existing profiles, creating new IDs instead of updating the old ones.<br/><br/>We can temporarily revert the matching rule to the previous setting while we design a more precise logic. Would you like us to roll that back, or would you prefer we test a targeted fix first?<br/><br/>Thanks,\nRaj",
   "category": "scenario",
   "isUrgent": false,
   "choices": {
