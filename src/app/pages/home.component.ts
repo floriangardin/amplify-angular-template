@@ -46,7 +46,10 @@ import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
 
           <div class="hidden lg:block"></div>
           <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Play</h1>
-
+            <div class="relative w-64  mb-4 hidden md:block">
+              <img src="lexi.png" alt="The CDO Game" class="w-64 h-auto"/>
+              <div class="speech-bubble">Choose your game mode</div>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 mb-8">
             @for(scenario of scenarios(); track scenario.nameId) {
               <app-scenario-card
@@ -99,6 +102,50 @@ import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
   `,
   styles: [`
     :host { display: block; width: 100vw; height: 100vh;}
+    .speech-bubble {
+      position: absolute;
+      top: 40px;
+      left: 170px;
+      margin-left: 20px;
+      background: #ffffff;
+      border: 2px solid #000000;
+      border-radius: 10px;
+      padding: 10px 15px;
+      color: #000000;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+      font-weight: bold;
+      font-size: 1rem;
+      white-space: nowrap;
+      z-index: 10;
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+      animation: floatBubble 3s ease-in-out infinite;
+    }
+    .speech-bubble:before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: -12px;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 12px solid #000000;
+    }
+    .speech-bubble:after {
+      content: '';
+      position: absolute;
+      top: 17px;
+      left: -8px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 10px solid #ffffff;
+    }
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
   `]
 })
 export class HomeComponent implements OnInit{

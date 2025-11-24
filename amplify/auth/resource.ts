@@ -5,6 +5,9 @@ import { preTokenGeneration } from './pre-token-generation/resource';
  * Define and configure your auth resource
  * @see https://docs.amplify.aws/gen2/build-a-backend/auth
  */
+
+
+let issuerUrl = process.env.DEV ? 'https://cognito-idp.eu-west-3.amazonaws.com/eu-west-3_56ULmUGvT' : 'https://login.microsoftonline.com/4ae48b41-0137-4599-8661-fc641fe77bea/v2.0';
 export const auth = defineAuth({
   loginWith: {
     email: true,
@@ -14,7 +17,7 @@ export const auth = defineAuth({
           name: 'MicrosoftEntraID',
           clientId: secret('IDP_ID'),
           clientSecret: secret('IDP_SECRET'),
-          issuerUrl: 'https://login.microsoftonline.com/4ae48b41-0137-4599-8661-fc641fe77bea/v2.0',
+          issuerUrl: issuerUrl,
           // Map incoming IdP claims to Cognito user attributes
           // Adjust left side keys if your Entra ID token uses different claim names (e.g. upn)
           attributeMapping: {

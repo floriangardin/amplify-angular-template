@@ -261,3 +261,23 @@ body {
 .dropdown-item:hover { background: var(--color-primary-50); }
 .dropdown-item.active { background: var(--color-primary-100); font-weight: 600; }
 
+[data-amplify-authenticator] *{
+    --amplify-components-card-border-radius: 16px;
+    --amplify-components-accordion-item-border-radius: 16px;
+    /* Background transparent */
+    --amplify-components-authenticator-router-background-color: transparent;
+    --amplify-components-authenticator-router-box-shadow: none;
+    --amplify-components-authenticator-router-border-color: transparent;
+    --amplify-components-authenticator-router-border-width: 0px;
+    --amplify-components-authenticator-router-border-radius: 16px;
+    --amplify-components-card-background-color: rgba(255, 255, 255, 0.1);
+    --amplify-colors-background-primary: rgba(255, 255, 255, 0.1);
+
+}
+
+:host{
+  --amplify-components-card-border-radius: 16px;
+  --amplify-components-card-background-color: rgba(255, 255, 255, 0.1);
+  --amplify-colors-background-primary: rgba(255, 255, 255, 0.1);
+  --amplify-colors-background-info: rgba(255, 255, 255, 0.1);
+}
