@@ -83,7 +83,8 @@ export class GameStatsHeaderComponent {
 
     return defs
       .filter(def => def.displayed)
-      .map(def => ({ key: def.nameId, ...def }));
+      .map(def => ({ key: def.nameId, ...def }))
+      .sort((a, b) => (a.priority || 0) - (b.priority || 0));
   });
 
   scenarioTitle = computed(() => this.gameState.content().card.title);

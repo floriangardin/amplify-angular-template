@@ -8,7 +8,7 @@
       "title": "[URGENT] Potential Data Breach Detected",
       "content": "Our security monitoring system has detected unusual access patterns to your customer database. Initial investigation suggests unauthorized access to approximately 10,000 customer records. We need your immediate guidance on how to proceed with this potential breach",
       "category": "dataBreach",
-      "isUrgent": false,
+      "isUrgent": true,
       "choices": {
         "1": {
           "name": "1",
@@ -53,18 +53,18 @@
           }
         }
       },
-      "minClientRelationship": 20,
-      "maxDataQuality": 60
+      "minClientRelationship": 10,
+      "maxDataQuality": 50
     },
     {
       "name": "urgent_data_breach_confirmed",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Security Operations",
       "title": "[URGENT] Data Breach Confirmed",
       "content": "We have confirmed unauthorized access to your project data. The breach appears to have exposed data obtained in a community engagement survey including names, addresses, and phone numbers of approximately 500 members of the public. Law enforcement has been notified, but we need your decision on public disclosure.",
       "category": "dataBreach",
-      "isUrgent": false,
+      "isUrgent": true,
       "choices": {
         "1": {
           "name": "1",
@@ -115,12 +115,12 @@
     {
       "name": "urgent_thirdparty_vendor_data_breach",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Legal Department",
       "title": "[URGENT] Third-party Vendor Data Breach",
       "content": "We've just been informed that one of our cloud service providers has experienced a significant data breach. They believe data from your current project may have been compromised. As the data controller, we have legal obligations regardless of the breach occurring out of our environment.",
       "category": "dataBreach",
-      "isUrgent": false,
+      "isUrgent": true,
       "choices": {
         "1": {
           "name": "1",
@@ -171,12 +171,12 @@
     {
       "name": "urgent_data_subject_access_request",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Legal Team",
       "title": "[URGENT] Data Subject Access Request",
       "content": "We've received a Data Subject Access Request about the data your client holds about certain subcontractors. As we work closely with them we have to respond. Can you share a copy of any data you have relating to those listed in the request?",
       "category": "dataBreach",
-      "isUrgent": false,
+      "isUrgent": true,
       "choices": {
         "1": {
           "name": "1",
@@ -186,7 +186,7 @@
             "impact": {
               "profit": 0,
               "dataQuality": 0,
-              "cdoBudget": -5000000000,
+              "cdoBudget": -500000,
               "clientRelationship": -30
             },
             "next": []
@@ -198,9 +198,9 @@
           "outcome": {
             "description": "The Data Subject Access Request was successfully fulfilled but took longer than expected. Your project delivery operations were impacted, but Arup's business integrity remains intact with industry peers",
             "impact": {
-              "profit": -2000000000,
+              "profit": -200000,
               "dataQuality": 0,
-              "cdoBudget": -1000000000,
+              "cdoBudget": -100000,
               "clientRelationship": -10
             },
             "next": []
@@ -212,9 +212,9 @@
           "outcome": {
             "description": "The Data Subject Access Request was successfully fulfilled but took longer than expected. Your work reshaping the governance frameworks positivly impacted exposure to risk but took time away from your project work.",
             "impact": {
-              "profit": -1500000000,
+              "profit": -150000,
               "dataQuality": 0,
-              "cdoBudget": -2500000000,
+              "cdoBudget": -250000,
               "clientRelationship": 5
             },
             "next": []
@@ -227,7 +227,7 @@
     {
       "name": "budget_approved_keep_modernizing_our_data_infrastructure",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CEO Office",
       "title": "Budget Approved: Keep Modernizing Our Data Infrastructure",
       "content": "Thanks to your team’s work improving our data pipeline efficiency, we’re in a strong position to upgrade our data systems. I’ve approved additional budget to modernize our customer, product, and risk data pipelines. I'd like you to work with the team to improve our systems. Choose your path.",
@@ -283,7 +283,7 @@
     {
       "name": "budget_released_for_managing_your_sensitive_data",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CDO",
       "title": "Budget Released for Managing Your Sensitive Data",
       "content": "With increasing data usage across all projects, we need to secure our systems. I’ve released additional funds to strengthen data recovery and backup: how would you recommend we use them.",
@@ -339,7 +339,7 @@
     {
       "name": "good_news_bid_success",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CEO Office",
       "title": "Good News: Bid Success!",
       "content": "You've just won a big and the client referenced how impressed they were with your inclusion of Data and AI.",
@@ -395,7 +395,7 @@
     {
       "name": "time_to_build_our_data__ai_future",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CEO Office",
       "title": "Time to Build Our Data & AI Future",
       "content": "You've been invited to attend the next Leading Digital Change - Data & AI programme which starts soon. It's a great opportunity for you to boost your knowledge and understanding of how you can lead Arup to a Data and AI powered future. Can you attend?",
@@ -438,7 +438,7 @@
             "impact": {
               "profit": 0,
               "dataQuality": 0,
-              "cdoBudget": 1000000000,
+              "cdoBudget": 100000,
               "clientRelationship": 5
             },
             "next": []
@@ -451,7 +451,7 @@
     {
       "name": "the_digital_transformation_of_arup",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Group Director",
       "title": "The Digital Transformation of Arup",
       "content": "You've been identified as one of thought leader on AI in the company. I’ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.",
@@ -464,10 +464,10 @@
           "outcome": {
             "description": "",
             "impact": {
-              "profit": 0,
-              "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "profit": 50000,
+              "dataQuality": -5,
+              "cdoBudget": 400000,
+              "clientRelationship": 5
             },
             "next": []
           }
@@ -479,9 +479,9 @@
             "description": "",
             "impact": {
               "profit": 0,
-              "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "dataQuality": 10,
+              "cdoBudget": 200000,
+              "clientRelationship": 10
             },
             "next": []
           }
@@ -493,21 +493,21 @@
             "description": "",
             "impact": {
               "profit": 0,
-              "dataQuality": 0,
-              "cdoBudget": 0,
+              "dataQuality": 5,
+              "cdoBudget": 100000,
               "clientRelationship": 0
             },
             "next": []
           }
         }
       },
-      "minClientRelationship": null,
-      "maxDataQuality": null
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
     },
     {
       "name": "lets_empower_everyone_with_data",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CDO",
       "title": "Let’s Empower Everyone With Data",
       "content": "All Arup members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.",
@@ -522,7 +522,7 @@
             "impact": {
               "profit": 250000,
               "dataQuality": 5,
-              "cdoBudget": 600000,
+              "cdoBudget": -600000,
               "clientRelationship": 0
             },
             "next": []
@@ -536,7 +536,7 @@
             "impact": {
               "profit": 400000,
               "dataQuality": 2,
-              "cdoBudget": 250000,
+              "cdoBudget": -250000,
               "clientRelationship": 0
             },
             "next": []
@@ -550,7 +550,7 @@
             "impact": {
               "profit": 1000000,
               "dataQuality": 1,
-              "cdoBudget": 50000,
+              "cdoBudget": -50000,
               "clientRelationship": 5
             },
             "next": []
@@ -563,7 +563,7 @@
     {
       "name": "commercial_models_for_our_data",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "DSP",
       "title": "Commercial Models for our Data",
       "content": "We're interested in exploring opportunities to monetize our data assets. This could create new revenue streams but there are issues around customer privacy and data usage. How should you approach future projects?",
@@ -578,7 +578,7 @@
             "impact": {
               "profit": 800000,
               "dataQuality": 0,
-              "cdoBudget": 350000,
+              "cdoBudget": -350000,
               "clientRelationship": 20
             },
             "next": []
@@ -619,7 +619,7 @@
     {
       "name": "community_engagement_survey_data",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Team Member - Data Engineer",
       "title": "Community Engagement Survey Data",
       "content": "As part of our current project, I’ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we’re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.",
@@ -634,7 +634,7 @@
             "impact": {
               "profit": 800000,
               "dataQuality": -10,
-              "cdoBudget": 300000,
+              "cdoBudget": -300000,
               "clientRelationship": -5
             },
             "next": []
@@ -675,7 +675,7 @@
     {
       "name": "contract_negotiation",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Legal Team",
       "title": "Contract Negotiation",
       "content": "The client has raised that they expect [x] …[y] but the contract says [w] what should you do?",
@@ -688,10 +688,10 @@
           "outcome": {
             "description": "",
             "impact": {
-              "profit": 0,
+              "profit": 600000,
               "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "cdoBudget": -500000,
+              "clientRelationship": -5
             },
             "next": []
           }
@@ -702,10 +702,10 @@
           "outcome": {
             "description": "",
             "impact": {
-              "profit": 0,
+              "profit": 300000,
               "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "cdoBudget": -300000,
+              "clientRelationship": 10
             },
             "next": []
           }
@@ -716,10 +716,10 @@
           "outcome": {
             "description": "",
             "impact": {
-              "profit": 0,
+              "profit": 100000,
               "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "cdoBudget": -100000,
+              "clientRelationship": -10
             },
             "next": []
           }
@@ -731,7 +731,7 @@
     {
       "name": "welcome_aboard",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CEO",
       "title": "Welcome aboard!",
       "content": "Dear Project Director,\nAs you know, Arup has some major data challenges and they're are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?",
@@ -787,7 +787,7 @@
     {
       "name": "your_next_hire",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "???",
       "title": "Your Next Hire",
       "content": "You are working with a team on a new bid. The RFP outlines the need for substantial data services as part of the work. Do you want a data engineer, analyst, or governance expert?",
@@ -802,7 +802,7 @@
             "impact": {
               "profit": 500000,
               "dataQuality": 10,
-              "cdoBudget": 150000,
+              "cdoBudget": -150000,
               "clientRelationship": -5
             },
             "next": []
@@ -843,7 +843,7 @@
     {
       "name": "arup_projects_data",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "CRM Team",
       "title": "Arup Projects Data",
       "content": "Your recent project has been assigned \"confirmed\" status in the CRM system and an Arup Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Arup Projects page now to update this information.\nArup Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Arup globally.\nPlease update your project information.\nCRM Team.",
@@ -858,7 +858,7 @@
             "impact": {
               "profit": 50000,
               "dataQuality": 5,
-              "cdoBudget": 100000,
+              "cdoBudget": -100000,
               "clientRelationship": 0
             },
             "next": []
@@ -899,7 +899,7 @@
     {
       "name": "critical_data_quality_alert_in_enterprise_systems",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Data Warehouse Team",
       "title": "Critical Data Quality Alert in Enterprise Systems",
       "content": "Our data quality monitoring has detected a significant increase in data errors across our enterprise systems. Error rates have jumped from 2% to 17% in the last month, with particular issues in customer support tables.",
@@ -914,7 +914,7 @@
             "impact": {
               "profit": 100000,
               "dataQuality": 15,
-              "cdoBudget": 150000,
+              "cdoBudget": -150000,
               "clientRelationship": 0
             },
             "next": []
@@ -955,7 +955,7 @@
     {
       "name": "gdpr_compliance_audit_findings",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Legal Department",
       "title": "GDPR Compliance Audit Findings",
       "content": "Our recent GDPR compliance audit has identified several areas requiring immediate attention. We need you to address these before our upcoming regulatory review.",
@@ -1011,7 +1011,7 @@
     {
       "name": "sharing_site_data",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Client",
       "title": "Sharing site data?",
       "content": "The project is running well. We're gathering a lot of data on-site at the moment, how do you want us to share that with you?",
@@ -1022,12 +1022,12 @@
           "name": "1",
           "text": "Use the secure project portal to upload all data files, ensuring proper metadata tagging for easy access.",
           "outcome": {
-            "description": "",
+            "description": "???",
             "impact": {
               "profit": 0,
-              "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "dataQuality": 10,
+              "cdoBudget": -100000,
+              "clientRelationship": 5
             },
             "next": []
           }
@@ -1036,12 +1036,12 @@
           "name": "2",
           "text": "Email the data files directly to the project manager for quick sharing.",
           "outcome": {
-            "description": "",
+            "description": "???",
             "impact": {
-              "profit": 0,
-              "dataQuality": 0,
-              "cdoBudget": 0,
-              "clientRelationship": 0
+              "profit": 50000,
+              "dataQuality": -5,
+              "cdoBudget": -50000,
+              "clientRelationship": -5
             },
             "next": []
           }
@@ -1053,21 +1053,21 @@
             "description": "",
             "impact": {
               "profit": 0,
-              "dataQuality": 0,
+              "dataQuality": -10,
               "cdoBudget": 0,
-              "clientRelationship": 0
+              "clientRelationship": -10
             },
             "next": []
           }
         }
       },
-      "minClientRelationship": null,
-      "maxDataQuality": null
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
     },
     {
       "name": "data_labs_proposal",
       "end": false,
-      "default": false,
+      "default": true,
       "sender": "Digital Technology Group",
       "title": "Data Labs Proposal",
       "content": "Our Digital Technology Group have partnered with Arup University to organise some global Data Labs to generate develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.",
@@ -1082,7 +1082,7 @@
             "impact": {
               "profit": 400000,
               "dataQuality": 5,
-              "cdoBudget": -3000000000,
+              "cdoBudget": -300000,
               "clientRelationship": 15
             },
             "next": []
@@ -1121,27 +1121,17 @@
       "maxDataQuality": 100
     }
   ],
-  "priority": 1,
+  "priority": 2,
   "indicators": [
     {
       "name": "Profit",
       "nameId": "profit",
       "emoji": "📈",
       "initial": 0,
+      "priority": 1,
       "min": -10000000,
       "max": 10000000,
       "type": "dollars",
-      "displayed": true,
-      "color": "primary"
-    },
-    {
-      "name": "Data Quality",
-      "nameId": "dataQuality",
-      "emoji": "📊",
-      "initial": 50,
-      "min": 0,
-      "max": 100,
-      "type": "percentage",
       "displayed": true,
       "color": "primary"
     },
@@ -1150,6 +1140,7 @@
       "nameId": "cdoBudget",
       "emoji": "💰",
       "initial": 1000000,
+      "priority": 2,
       "min": 0,
       "max": 10000000,
       "type": "dollars",
@@ -1157,10 +1148,23 @@
       "color": "#9c27b0"
     },
     {
+      "name": "Data Quality",
+      "nameId": "dataQuality",
+      "emoji": "📊",
+      "initial": 50,
+      "priority": 3,
+      "min": 0,
+      "max": 100,
+      "type": "percentage",
+      "displayed": true,
+      "color": "primary"
+    },
+    {
       "name": "Client Relationship",
       "nameId": "clientRelationship",
       "emoji": "🤝",
       "initial": 50,
+      "priority": 4,
       "min": 0,
       "max": 100,
       "type": "percentage",
@@ -1173,17 +1177,17 @@
   "medals": [
     {
       "name": "gold",
-      "threshold": 3500,
+      "threshold": 3000000,
       "emoji": "🥇"
     },
     {
       "name": "silver",
-      "threshold": 2000,
+      "threshold": 2000000,
       "emoji": "🥈"
     },
     {
       "name": "bronze",
-      "threshold": 500,
+      "threshold": 500000,
       "emoji": "🥉"
     }
   ],

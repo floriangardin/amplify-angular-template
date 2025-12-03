@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../components/header.component';
 import { signOut, fetchAuthSession } from 'aws-amplify/auth';
 import { ClientService } from '../services/client.service';
-import type { Schema } from '../../../amplify/data/resource';
 import { ProgressService, ProgressSummary } from '../services/progress.service';
 import { UserService } from '../services/user.service';
 import { Scenario } from '../models/game-content';
@@ -14,7 +13,6 @@ import { GameStateService } from './games/bestcdo/services/game-state.service';
 import { StateService } from '../services/state.service';
 import { MainLoadingComponent } from '../ui/elements/main-loading.component';
 import { ImageCacheService } from '../services/image-cache.service';
-import { CarouselComponent } from '../ui/elements/carousel.component';
 import { ResponsiveService } from '../services/responsive.service';
 import { ProgressComponent } from '../components/progress.component';
 import { ProgressPerScenarioComponent } from '../components/progress-per-scenario.component';
@@ -28,7 +26,6 @@ import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
     HeaderComponent,
     ConfirmDialogComponent,
     MainLoadingComponent,
-    CarouselComponent,
     ProgressComponent,
     ProgressPerScenarioComponent,
     ScenarioCardComponent

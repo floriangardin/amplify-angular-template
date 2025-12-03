@@ -109,6 +109,8 @@ function toChoices(choicesObj: any | undefined): any[] {
         dataQuality: Number(c.outcome?.impact?.dataQuality ?? 0),
         stakeholderTrust: Number(c.outcome?.impact?.stakeholderTrust ?? 0),
         profit: Number(c.outcome?.impact?.profit ?? 0),
+        clientRelationship: Number(c.outcome?.impact?.clientRelationship ?? 0),
+        cdoBudget: Number(c.outcome?.impact?.cdoBudget ?? 0),
       },
       next: Array.isArray(c.outcome?.next) ? (c.outcome?.next as string[]) : [],
     },
@@ -219,6 +221,7 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
         nameId: ind.nameId,
         type: ind.type as any,
         displayed: Boolean(ind.displayed),
+        priority: ind.priority ?? 1,
         color: ind.color,
       })
     )

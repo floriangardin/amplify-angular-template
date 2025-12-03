@@ -6,6 +6,7 @@ export interface Indicator {
   initial: number;
   nameId: string;
   min: number;
+  priority?: number;
   max: number;
   type: 'percentage' | 'dollars' | 'points';
   displayed: boolean;

@@ -10,7 +10,7 @@ export interface EmailFilters {
 export class EmailQueueService {
   private availableEmails = signal<Email[]>([]);
   private lastEmailTime = signal(0);
-  private readonly emailIntervalBase = 12_000;
+  private readonly emailIntervalBase = 20_000;
   private readonly emailIntervalVariance = 6_000;
 
   readonly availableCount = computed(() => this.availableEmails().length);
@@ -81,7 +81,7 @@ export class EmailQueueService {
   private filterByStats(filters: EmailFilters): Email[] {
     return this.availableEmails().filter(email => {
       // Check minClientRelationship (reputation)
-      console.log('Filtering email:', email.name, 'with minClientRelationship:', email.minClientRelationship, 'and maxDataQuality:', email.maxDataQuality);
+      //console.log('Filtering email:', email.name, 'with minClientRelationship:', email.minClientRelationship, 'and maxDataQuality:', email.maxDataQuality);
       if (email.minClientRelationship !== undefined && filters.minClientRelationship < email.minClientRelationship) {
         return false;
       }

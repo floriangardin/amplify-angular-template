@@ -260,6 +260,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
 
     // Initialize services now that emails are available
     const emails = this.emails();
+    console.log('Emails', emails);
     const defaultEmails = emails.filter(e => e.default);
     this.gameStatsService.initialize(this.initialScore);
     this.emailQueueService.initialize(defaultEmails);

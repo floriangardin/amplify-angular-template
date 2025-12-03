@@ -33,9 +33,9 @@ export class GameStatsService {
     defs.forEach(def => {
       init[def.nameId] = def.initial ?? 0;
     });
-    // If a separate initial budget is provided, map it to 'budget' if present
-    if (typeof initialBudget === 'number' && 'budget' in defs) {
-      init['budget'] = initialBudget;
+    // If a separate initial budget is provided, map it to 'cdoBudget' if present
+    if (typeof initialBudget === 'number' && defs.some(d => d.nameId === 'cdoBudget')) {
+      init['cdoBudget'] = initialBudget;
     }
     this.stats.set(init);
   }
@@ -78,12 +78,14 @@ export class GameStatsService {
     const s = this.stats();
     const defs = this.indicatorsDef();
     for (const [key, delta] of Object.entries(choice.outcome.impact || {})) {
-      if (!(key in defs) || typeof delta !== 'number') continue;
-      const def = defs[key as any];
+      const def = defs.find(d => d.nameId === key);
+      if (!def || typeof delta !== 'number') continue;
+      
       const current = s[key] ?? def.initial ?? 0;
       const min = def.min ?? -Infinity;
       if (delta < 0 && current + delta < min) {
-        return { canSelect: false, reason: `Not enough ${def.name.toLowerCase()}` };
+        const name = def.nameId === 'cdoBudget' ? 'Budget' : def.name;
+        return { canSelect: false, reason: `Not enough ${name}` };
       }
     }
     return { canSelect: true };

@@ -83,6 +83,8 @@ export const schema = a.schema({
     dataQuality: a.integer().required(),
     stakeholderTrust: a.integer().required(),
     profit: a.integer().required(),
+    clientRelationship: a.integer(),
+    cdoBudget: a.integer(),
   }),
 
   Outcome: a.customType({
@@ -216,6 +218,7 @@ export const schema = a.schema({
       type: a.ref('CurrencyEnum').required(),
       displayed: a.boolean().required(),
       color: a.string().required(), // hex or token
+      priority: a.integer(),
   }),
 
   // Per-user per-scenario progress + indicator scores

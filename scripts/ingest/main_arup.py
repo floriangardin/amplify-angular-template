@@ -40,6 +40,7 @@ class Indicator(BaseModel):
     nameId: str
     emoji: str
     initial: int
+    priority: int = 1
     min: int
     max: int
     type: str
@@ -89,7 +90,7 @@ def clean_title(title: str) -> str:
     return s
 
 # Load Data
-filepath = 'amplify/static/ingest/emails_v2.xlsx'
+filepath = 'amplify/static/ingest/emails_v4.xlsx'
 # Ensure we are in the root or adjust path. The script is in scripts/ingest/main.py.
 if not os.path.exists(filepath):
     # Try relative to script location if running from there
@@ -97,7 +98,7 @@ if not os.path.exists(filepath):
     # Assuming amplify is at root, and script is at scripts/ingest
     # root is ../../
     root_dir = os.path.abspath(os.path.join(script_dir, '../../'))
-    filepath = os.path.join(root_dir, 'amplify/static/ingest/emails_v2.xlsx')
+    filepath = os.path.join(root_dir, 'amplify/static/ingest/emails_v4.xlsx')
 
 print(f"Reading from {filepath}")
 df = pd.read_excel(filepath, sheet_name='Edited CDO Statements')
@@ -105,6 +106,8 @@ df = pd.read_excel(filepath, sheet_name='Edited CDO Statements')
 columns = ["Review",	
            "Use?",
            "Label",
+           "Urgent",
+           "Default",
            "Key",
            "Name",
            "Category",
@@ -171,12 +174,13 @@ for index, row in df.iterrows():
     
     node = Node(
         name=clean_title(str(row['Title'])),
-        default=(index == 0), # First node is default
         sender=str(row['Sender']),
         title=str(row['Title']),
         content=str(row['Content']),
         category=str(row['Category']),
         choices=choices,
+        isUrgent=True if 'Urgent' in row and str(row['Urgent']).strip().upper() == 'Y' else False,
+        default=True if 'Default' in row and str(row['Default']).strip().upper() == 'Y' else False,
         minClientRelationship=int(row['Min Reputation']) if pd.notna(row['Min Reputation']) else None,
         maxDataQuality=int(row['Max Data Quality']) if pd.notna(row['Max Data Quality']) else None
     )
@@ -184,24 +188,31 @@ for index, row in df.iterrows():
 
 # Indicators
 indicators = [
-    Indicator(name="Profit", nameId="profit", emoji="📈", initial=0, min=-10000000, max=10000000, type="dollars", displayed=True, color="primary"),
-    Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=50, min=0, max=100, type="percentage", displayed=True, color="primary"),
-    Indicator(name="CDO Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=False, color="#9c27b0"),
-    Indicator(name="Client Relationship", nameId="clientRelationship", emoji="🤝", initial=50, min=0, max=100, type="percentage", displayed=False, color="#9c27b0")
+    Indicator(name="Profit", nameId="profit", emoji="📈", initial=0, min=-10000000, max=10000000, type="dollars", displayed=True, color="primary", priority=1),
+    Indicator(name="CDO Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=True, color="#9c27b0", priority=2),
+    Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=50, min=0, max=100, type="percentage", displayed=True, color="primary", priority=3),
+    Indicator(name="Client Relationship", nameId="clientRelationship", emoji="🤝", initial=50, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
 ]
 
 # Medals
 medals = [
-    Medal(name="gold", threshold=3500, emoji="🥇"),
-    Medal(name="silver", threshold=2000, emoji="🥈"),
-    Medal(name="bronze", threshold=500, emoji="🥉")
+    Medal(name="gold", threshold=3_000_000, emoji="🥇"),
+    Medal(name="silver", threshold=2_000_000, emoji="🥈"),
+    Medal(name="bronze", threshold=500_000, emoji="🥉")
 ]
 
 # Card
 card = Card(
     title="Who can lead with data?",
     shortDescription="",
-    difficulty="",
+    difficulty="Beginner",
+    context=CardContext(),
+    metadata=CardMetadata()
+)
+card_pro = Card(
+    title="Who can lead with data? (Pro)",
+    shortDescription="",
+    difficulty="Intermediate",
     context=CardContext(),
     metadata=CardMetadata()
 )
@@ -215,17 +226,31 @@ scenario = Scenario(
     medals=medals,
     card=card
 )
+scenario_pro = Scenario(
+    nodes=nodes,
+    priority=2,
+    indicators=indicators,
+    nameId="who_can_lead_pro",
+    library=[],
+    medals=medals,
+    card=card_pro
+)
+
 
 # Save
-output_path = 'amplify/static/scenarios/who_can_lead.json'
-# Adjust output path if needed
-if not os.path.exists(os.path.dirname(output_path)):
-     # Try relative to root
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.abspath(os.path.join(script_dir, '../../'))
-    output_path = os.path.join(root_dir, 'amplify/static/scenarios/who_can_lead.json')
+scenarios = [scenario, scenario_pro]
+output_paths = ['amplify/static/scenarios/who_can_lead.json', 
+                'amplify/static/scenarios/who_can_lead_pro.json'
+                ]
+for scenario, output_path in zip(scenarios, output_paths):
+    # Adjust output path if needed
+    if not os.path.exists(os.path.dirname(output_path)):
+        # Try relative to root
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        root_dir = os.path.abspath(os.path.join(script_dir, '../../'))
+        output_path = os.path.join(root_dir, 'amplify/static/scenarios/who_can_lead.json')
 
-with open(output_path, 'w') as f:
-    f.write(scenario.model_dump_json(indent=2))
+    with open(output_path, 'w') as f:
+        f.write(scenario.model_dump_json(indent=2))
 
-print(f"Scenario saved to {output_path}")
+    print(f"Scenario saved to {output_path}")
