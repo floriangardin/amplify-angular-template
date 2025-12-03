@@ -465,7 +465,7 @@
             "description": "",
             "impact": {
               "profit": 50000,
-              "dataQuality": -5,
+              "dataQuality": -20,
               "cdoBudget": 400000,
               "clientRelationship": 5
             },
@@ -578,7 +578,7 @@
             "impact": {
               "profit": 800000,
               "dataQuality": 0,
-              "cdoBudget": -350000,
+              "cdoBudget": -400000,
               "clientRelationship": 20
             },
             "next": []
@@ -590,9 +590,9 @@
           "outcome": {
             "description": "The API program has created a vibrant ecosystem of partners and developers. While implementation was complex, it has positioned the company as a platform leader in the industry.",
             "impact": {
-              "profit": 100000,
+              "profit": 200000,
               "dataQuality": -5,
-              "cdoBudget": -500000,
+              "cdoBudget": -300000,
               "clientRelationship": 15
             },
             "next": []
@@ -1151,7 +1151,7 @@
       "name": "Data Quality",
       "nameId": "dataQuality",
       "emoji": "📊",
-      "initial": 50,
+      "initial": 0,
       "priority": 3,
       "min": 0,
       "max": 100,
@@ -1163,7 +1163,7 @@
       "name": "Client Relationship",
       "nameId": "clientRelationship",
       "emoji": "🤝",
-      "initial": 50,
+      "initial": 0,
       "priority": 4,
       "min": 0,
       "max": 100,
