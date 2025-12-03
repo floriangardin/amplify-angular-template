@@ -46,10 +46,7 @@ import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
 
           <div class="hidden lg:block"></div>
           <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Play</h1>
-            <div class="relative w-64  mb-4 hidden md:block">
-              <img src="lexi.png" alt="The CDO Game" class="w-64 h-auto"/>
-              <div class="speech-bubble">Choose your game mode</div>
-            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 mb-8">
             @for(scenario of scenarios(); track scenario.nameId) {
               <app-scenario-card

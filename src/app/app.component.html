@@ -2,8 +2,13 @@
   <!-- Custom sign-in view that forces external provider only -->
   <ng-template class="bg-transparent" amplifySlot="sign-in">
     <div class="h-full spectral-font bg-white w-full flex flex-col items-center justify-center gap-4 p-8 rounded-lg shadow-lg">
-      <img src="lexi.png" alt="The CDO Game" class="w-64 h-auto mb-4">
-      <h1 class="text-3xl font-extrabold text-gray-900">The CDO Game</h1>
+      <div class="relative mb-4"> 
+        <img src="best_cdo.png" alt="The CDO Game" class="w-64 h-auto rounded-lg">
+        <div class="absolute inset-0 bg-black/10 rounded-lg"></div>
+        <div class="absolute inset-0 flex items-center justify-center rounded-lg">
+          <h1 class="text-3xl font-extrabold text-white z-10">The CDO Game</h1>
+        </div>
+      </div>
       <span>By</span>
       <img src="arup_logo.png" alt="Company Logo" class="w-48 h-auto mb-4">
       <h1 class="text-2xl font-semibold text-black">Sign in</h1>

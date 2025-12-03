@@ -2,8 +2,8 @@ import { Injectable, signal, computed } from '@angular/core';
 import { Email } from '../../../../models/email';
 
 export interface EmailFilters {
-  minimumReputation: number;
-  maximumDataQuality: number;
+  minClientRelationship: number;
+  maxDataQuality: number;
 }
 
 @Injectable()
@@ -79,7 +79,20 @@ export class EmailQueueService {
    * Filter emails by reputation and data quality requirements
    */
   private filterByStats(filters: EmailFilters): Email[] {
-    return this.availableEmails();
+    return this.availableEmails().filter(email => {
+      // Check minClientRelationship (reputation)
+      console.log('Filtering email:', email.name, 'with minClientRelationship:', email.minClientRelationship, 'and maxDataQuality:', email.maxDataQuality);
+      if (email.minClientRelationship !== undefined && filters.minClientRelationship < email.minClientRelationship) {
+        return false;
+      }
+
+      // Check maxDataQuality
+      if (email.maxDataQuality !== undefined && filters.maxDataQuality >= email.maxDataQuality) {
+        return false;
+      }
+
+      return true;
+    });
   }
 
   /**

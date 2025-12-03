@@ -260,8 +260,9 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
 
     // Initialize services now that emails are available
     const emails = this.emails();
+    const defaultEmails = emails.filter(e => e.default);
     this.gameStatsService.initialize(this.initialScore);
-    this.emailQueueService.initialize(emails.filter(e => e.default));
+    this.emailQueueService.initialize(defaultEmails);
 
     // In editable mode, auto-start and expose all emails
     if (this.isEditable()) {
@@ -349,8 +350,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   const nextEmail = this.emailQueueService.getNextEmail(
       this.lastMailId(),
       {
-    minimumReputation: this.statValue('reputation'),
-    maximumDataQuality: this.statValue('dataQuality')
+    minClientRelationship: this.statValue('clientRelationship'),
+    maxDataQuality: this.statValue('dataQuality')
       }
     );
     
@@ -515,8 +516,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       const maybeNext = this.emailQueueService.getNextEmail(
         this.lastMailId(),
         {
-          minimumReputation: this.statValue('reputation'),
-          maximumDataQuality: this.statValue('dataQuality')
+          minClientRelationship: this.statValue('clientRelationship'),
+          maxDataQuality: this.statValue('dataQuality')
         }
       );
       const noNextAvailable = !maybeNext;

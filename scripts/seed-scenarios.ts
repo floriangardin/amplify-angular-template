@@ -157,9 +157,9 @@ async function deleteScenarioDeep(client: ReturnType<typeof generateClient<Schem
     listAllLibraryItems(client, scenarioNameId),
   ]);
 
-  await Promise.all(nodes.map(n => client.models.Node.delete({ id: n.id })));
-  await Promise.all(indicators.map(i => client.models.Indicator.delete({ id: i.id })));
-  await Promise.all(libs.map(l => client.models.LibraryItem.delete({ id: l.id })));
+  await Promise.all(nodes.filter(n => n).map(n => client.models.Node.delete({ id: n.id })));
+  await Promise.all(indicators.filter(i => i).map(i => client.models.Indicator.delete({ id: i.id })));
+  await Promise.all(libs.filter(l => l).map(l => client.models.LibraryItem.delete({ id: l.id })));
 
   await client.models.Scenario.delete({ nameId: scenarioNameId });
 }
@@ -288,6 +288,8 @@ async function seedScenarioFile(client: ReturnType<typeof generateClient<Schema>
       category: n.category as any,
       isUrgent: Boolean(n.isUrgent),
       choices: toChoices(n.choices) as any,
+      minClientRelationship: n.minClientRelationship,
+      maxDataQuality: n.maxDataQuality,
       hints: validHints as any,
     });
     if (nodeErrors?.length || !nodeCreated) {

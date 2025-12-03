@@ -21,7 +21,7 @@ import { StripeService } from '../services/stripe.service';
 
       <h1 class="hidden md:block text-xl spectral-font font-bold text-center text-primary-500
        absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-        The CDO game</h1>
+        Who can lead with data?</h1>
 
       <div class="relative" #menuWrapper>
         <button

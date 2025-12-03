@@ -24,6 +24,38 @@ import { Amplify } from 'aws-amplify';
 import { signIn, signOut, fetchAuthSession } from 'aws-amplify/auth';
 import { getProperties, uploadData } from 'aws-amplify/storage';
 
+// Polyfill FileReader for Node.js environment (required for Amplify Storage multipart upload > 5MB)
+if (typeof global.FileReader === 'undefined') {
+  class FileReader {
+    EMPTY = 0;
+    LOADING = 1;
+    DONE = 2;
+    readyState = 0;
+    result: ArrayBuffer | null = null;
+    error: Error | null = null;
+    onload: ((e: any) => void) | null = null;
+    onerror: ((e: any) => void) | null = null;
+    onabort: ((e: any) => void) | null = null;
+
+    readAsArrayBuffer(blob: Blob) {
+      this.readyState = this.LOADING;
+      blob.arrayBuffer().then((buffer) => {
+        this.result = buffer;
+        this.readyState = this.DONE;
+        if (this.onload) this.onload({ target: this } as any);
+      }).catch((err) => {
+        this.error = err;
+        this.readyState = this.DONE;
+        if (this.onerror) this.onerror({ target: this } as any);
+      });
+    }
+    readAsDataURL() { throw new Error("Not implemented"); }
+    readAsText() { throw new Error("Not implemented"); }
+    abort() { throw new Error("Not implemented"); }
+  }
+  (global as any).FileReader = FileReader;
+}
+
 // Resolve amplify_outputs.json relative to this file using URL to also work with tsx ESM
 async function configureAmplifyFromOutputs() {
   const outputsUrl = new URL('../amplify_outputs.json', import.meta.url);

@@ -38,6 +38,20 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
             <i class="fa-regular fa-image text-3xl"></i>
           </div>
         }
+        <!-- Difficulty Overlay -->
+        @if (scenario()?.card?.difficulty; as diff) {
+          <div class="absolute right-2 bottom-1 pointer-events-none">
+            <span class="text-white font-bold text-2xl drop-shadow-md uppercase tracking-wider" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+              @if (diff === 'Beginner') {
+                Normal mode
+              } @else if (diff === 'Intermediate') {
+                ⭐ Pro mode
+              } @else {
+                {{ diff }}
+              }
+            </span>
+          </div>
+        }
       </div>
 
       <!-- Optional small badge on locked -->

@@ -11,6 +11,8 @@ export interface Email {
   choices: Choice[];
   default: boolean;
   priority?: number;
+  minClientRelationship?: number;
+  maxDataQuality?: number;
   // Hint references by library nameId resolved client-side to LibraryItem objects
   hints?: string[] | LibraryItem[];
 }

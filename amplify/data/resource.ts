@@ -179,7 +179,6 @@ export const schema = a.schema({
     ])
     ,
 
-  Categories: a.enum(['scenario', 'sales_support', 'culture']),
   Node: a
     .model({
       // parent
@@ -195,8 +194,10 @@ export const schema = a.schema({
       sender: a.string().required(), // "Leah Park, Marketing Manager"
       title: a.string().required(),
       content: a.string().required(), // HTML allowed
-      category: a.ref('Categories').required(),
+      category: a.string().required(),
       isUrgent: a.boolean().required(),
+      minClientRelationship: a.integer(), // optional
+      maxDataQuality: a.integer(), // optional
       // branching
       choices: a.ref('Choice').required().array().required(),
   }),

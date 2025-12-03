@@ -1,0 +1,1168 @@
+{
+  "nodes": [
+    {
+      "name": "sharing_site_data",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Sharing site data?",
+      "content": "The project is running well. We're gathering a lot of data on-site at the moment, how do you want us to share that with you?",
+      "category": "ClientEngagement",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Use the secure project portal to upload all data files, ensuring proper metadata tagging for easy access.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Email the data files directly to the project manager for quick sharing.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Share the data via a public file-sharing link for convenience.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "progress_report_request",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Progress report request.",
+      "content": "We've had a request from our C-Suite that we need to show progress so far with the project. Can you share your results with us on building performance please? Sorry about the short notice but we need these urgently!",
+      "category": "ClientEngagement",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Prepare a concise progress report using verified data and share through the secure client portal.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Send the latest raw data files to the client immediately without additional context.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore the request until you have more time to prepare a detailed report.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "contract_negotiation",
+      "end": false,
+      "default": true,
+      "sender": "LegalTeam",
+      "title": "Contract negotiation",
+      "content": "The client has raised that they expect [x] …[y] but the contract says [w] what should you do?",
+      "category": "Legal",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Review the contract terms carefully and engage in a formal discussion with the client to clarify expectations.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Agree to the client's expectations without reviewing the contract to maintain goodwill.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore the client's concerns and proceed as per the existing contract.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "client_data_breach",
+      "end": false,
+      "default": true,
+      "sender": "LegalTeam",
+      "title": "Client Data Breach",
+      "content": "A client contacted the legal team to say a subcontractor accidentally shared client Data with another subcontractor on a project (accidentally shared to a third party)",
+      "category": "Legal",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Notify the legal team and share the contractual obligations with them.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Speak to the cyber team to ensure that controls are back in place. Reach out to the client to reassure them that appropriate controls have been put in place.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore it - they may never know!",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "your_email_has_been_compromised",
+      "end": false,
+      "default": true,
+      "sender": "DTG",
+      "title": "Your email has been compromised",
+      "content": "Your email has been identified as being part of a data breach and is no longer secure…",
+      "category": "Legal",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Notify the legal team and share with them the existing contracts to highlight any potential data confidentiality clauses.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Immediately contact all your clients about the breach and work with them to repair reputational damage.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore the email - you're busy and there are more important things to consider.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "team_roles",
+      "end": false,
+      "default": true,
+      "sender": "Group Director",
+      "title": "Team Roles?",
+      "content": "You have a bit more budget now because of a good business performance. What additional role would you like in your team?",
+      "category": "Team",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Assess current team gaps and propose a role that strengthens core capabilities, such as a data analyst or project coordinator.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Add a role based on personal preference rather than team needs.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Leave the budget unused to avoid additional responsibilities.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "data_quality_control",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Data Engineer",
+      "title": "Data Quality Control",
+      "content": "What data quality control processes do you want - double checking? Code review etc?",
+      "category": "Governance",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Implement a formal data quality framework including peer reviews, automated validation checks, and documentation.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Rely on occasional manual checks by team members.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Skip quality control to save time and resources.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "nan",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Geospatial engineers",
+      "title": "nan",
+      "content": "What metadata do you want to require for geospatial data being used?",
+      "category": "Governance",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Define a comprehensive metadata standard including source, accuracy, coordinate system, and update frequency.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Require only basic metadata such as source and date.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Do not enforce any metadata requirements.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "data_retention",
+      "end": false,
+      "default": true,
+      "sender": "DTG",
+      "title": "Data Retention?",
+      "content": "What's our approach to retention and deletion of data?",
+      "category": "Governance",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Follow organizational policy for data retention and implement automated deletion after the retention period.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Decide retention periods on a case-by-case basis without formal documentation.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Keep all data indefinitely to avoid accidental loss.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "dashboard_investment_needed",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Analyst",
+      "title": "Dashboard investment needed?",
+      "content": "How much do we invest in dashboards to visualise data?",
+      "category": "AnalysisVisualisation",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Allocate budget based on a cost-benefit analysis and prioritize dashboards that deliver actionable insights.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Invest heavily in dashboards without assessing their impact.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Avoid investing in dashboards and rely on manual reporting.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "delivery_delays",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Delivery Delays",
+      "content": "We're unhappy with the delivery delays in this project. How can you speed up?",
+      "category": "ClientEngagement",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Review the project plan and reallocate resources to critical tasks while maintaining quality standards.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Add more team members without assessing the impact on cost and coordination.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore the concern and continue with the current timeline.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "where_should_we_store_the_contract",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Data Engineer",
+      "title": "Where should we store the contract?",
+      "content": "We’ve just finalised the contract for our latest project, and I want to make sure we’re storing it in line with our data governance and security requirements. Could you please advise where the signed contract should be stored so that it’s both accessible to the team and compliant with our policies?\nThanks for your guidance.",
+      "category": "Legal",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Store the contract in the designated secure document management system with proper access controls.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Save the contract on a shared network drive without additional security.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Keep the contract on your personal device for convenience.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "congratulations",
+      "end": false,
+      "default": true,
+      "sender": "Library Team",
+      "title": "Congratulations!",
+      "content": "\"Our project: Blanchardstown Shopping Centre- Amalgamation job number 30747400 has recently been assigned \"\"confirmed\"\" status in the CRM system and an Arup Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Arup Projects page now to update this information (description, participants, client’s objective, key data of the project brief, etc.)\nArup Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Arup globally.\nBy ensuring that our project records are complete, accurate and up-to-date, you will help us to win more work and to find relevant and useful information when bidding or doing projects of a similar nature in the future.\nPlease take 15 minutes at each project review to identify and upload new information to Arup Projects. For more information on how to manage / review your project records, click here.\nBest regards,\nCRM Team.\"",
+      "category": "Work Winning",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Go back into Arup Projects and update your entry - this data will help our company.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Delegate this task to your senior engineer to fill out. It will help them to better understand the project and they have a good attention to detail.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Focus on your client at this stage. It's more important that the project and client relationship is a success. You can come back to the data later.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "crm_opportunity_creation",
+      "end": false,
+      "default": true,
+      "sender": "Library Team",
+      "title": "CRM Opportunity Creation",
+      "content": "Great work on that client conversation. It looks like this could turn into a project for us. Don't forget to put it into the CRM so we can start working on the bid.",
+      "category": "Work Winning",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Full data - use the process to explore the project in detail",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Put in some data and come back to it later on in the process once the project has been confirmed.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Put random text in fields to save time and get the JN to begin the real work.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "data_subject_access_request",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Data Subject Access Request",
+      "content": "We've had a request for four or five people - there is a Data Subject Access Request about the data the client holds about certain individuals and as we work closely with them we have to respond. Can you share a copy with any data you have relating to those listed?",
+      "category": "Legal",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Notify cyber and privacy so they can manage the searches for you.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Run the searches using Copilot to quickly search through our documentation and send it through to the client.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore the email - we don't hold any information about these issues so it's not our problem to respond to.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "community_engagement",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Data Engineer",
+      "title": "Community Engagement",
+      "content": "As part of our current project, I’ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we’re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.",
+      "category": "Legal",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Store on the project site and ensure document is tagged with personal data meta data",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Encrypt and store in a secure cloud location with restricted access.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Go ahead - store on your personal onedrive and send across whenever you're ready",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "information_classification_tags",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Data Engineer",
+      "title": "Information classification tags",
+      "content": "How should we go about classifying the documents we have?",
+      "category": "Governance",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Adopt the organization's classification policy and apply tags such as Confidential, Internal, and Public.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Create ad-hoc tags based on team preferences.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Skip classification to save time.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "project_background_information",
+      "end": false,
+      "default": true,
+      "sender": "Administrative Assisstant",
+      "title": "Project Background Information?",
+      "content": "I've been looking at one of your previous projects as I'm supporting another PD in their bid and there's a lot of similarities in our projects. There's very little data in the Arup Projects database about it, could you share a bit more detail about that project.",
+      "category": "Work Winning",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Go back into Arup Projects and update your entry - this data will help our company",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Email them the project files to them - give them whatever they need.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Pass them to your assistant and the project library team to try to find the data they need",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "update_your_page",
+      "end": false,
+      "default": true,
+      "sender": "Portfolio Leader",
+      "title": "Update Your Page",
+      "content": "Now that your project is closing please could update the Arup Projects page associated with it and add some nuggets, statistics and value stories to help us share our knowledge between our members.",
+      "category": "Work Winning",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Gather your team for a project retrospective and collaborate to form a clear and powerful picture of your project inculde core data. Update the page and add marketing content.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Delegate this to half of your team to add core statistics from your project.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Leave this one to the marketing team as they usually pick up these requests.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    },
+    {
+      "name": "crm_input",
+      "end": false,
+      "default": true,
+      "sender": "Library Team",
+      "title": "CRM Input",
+      "content": "We've noticed that the data in CRM isn't as accurate as we'd like. I know the project is in its infancy but could you improve it?",
+      "category": "Work Winning",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Review and update CRM entries with accurate and complete project details.",
+          "outcome": {
+            "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Add minimal updates to CRM and plan to revisit later.",
+          "outcome": {
+            "description": "Moderate outcome: Addresses the issue but may introduce inefficiencies or minor risks.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Ignore the request and continue with current entries.",
+          "outcome": {
+            "description": "Negative outcome: High risk of compliance issues, reputational damage, or project delays.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      }
+    }
+  ],
+  "priority": 2,
+  "indicators": [
+    {
+      "name": "Profit",
+      "nameId": "profit",
+      "emoji": "📈",
+      "initial": 0,
+      "min": -10000000,
+      "max": 10000000,
+      "type": "dollars",
+      "displayed": true,
+      "color": "primary"
+    },
+    {
+      "name": "Data Quality",
+      "nameId": "dataQuality",
+      "emoji": "📊",
+      "initial": 50,
+      "min": 0,
+      "max": 100,
+      "type": "percentage",
+      "displayed": true,
+      "color": "primary"
+    },
+    {
+      "name": "CDO Budget",
+      "nameId": "cdoBudget",
+      "emoji": "💰",
+      "initial": 1000000,
+      "min": 0,
+      "max": 10000000,
+      "type": "dollars",
+      "displayed": false,
+      "color": "#9c27b0"
+    },
+    {
+      "name": "Client Relationship",
+      "nameId": "clientRelationship",
+      "emoji": "🤝",
+      "initial": 50,
+      "min": 0,
+      "max": 100,
+      "type": "percentage",
+      "displayed": false,
+      "color": "#9c27b0"
+    }
+  ],
+  "nameId": "who_can_lead_pro",
+  "library": [],
+  "medals": [
+    {
+      "name": "gold",
+      "threshold": 3500,
+      "emoji": "🥇"
+    },
+    {
+      "name": "silver",
+      "threshold": 2000,
+      "emoji": "🥈"
+    },
+    {
+      "name": "bronze",
+      "threshold": 500,
+      "emoji": "🥉"
+    }
+  ],
+  "card": {
+    "plan": "free",
+    "title": "Who can lead with data? (Pro)",
+    "shortDescription": "",
+    "difficulty": "Intermediate",
+    "skillsAcquired": [],
+    "context": {
+      "program": "",
+      "domains": "",
+      "roleFocus": "",
+      "objective": ""
+    },
+    "metadata": {
+      "category": "",
+      "estimatedDurationMinutes": 0,
+      "track": ""
+    }
+  }
+}
