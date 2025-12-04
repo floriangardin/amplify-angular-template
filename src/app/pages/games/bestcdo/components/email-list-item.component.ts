@@ -67,14 +67,15 @@ export class EmailListItemComponent {
   }
   getCategoryClass(category: Email['category']): string {
     const classes: Record<Email['category'], string> = {
-      'scenario': 'bg-secondary-500',
-      'sales_support': 'bg-primary-500',
+      'dataQuality': 'bg-secondary-500',
+      'budget': 'bg-teal-500',
       'culture': 'bg-amber-500',
       'gdpr': 'bg-purple-600',
       'hr': 'bg-green-600',
       'misc': 'bg-slate-600',
-      'informatica': 'bg-blue-600',
-      'strategy': 'bg-orange-600'
+      'dataBreach': 'bg-red-600',
+      'strategy': 'bg-orange-600',
+      'Other': 'bg-green-500',
     };
     return classes[category] || 'bg-primary-400';
   }

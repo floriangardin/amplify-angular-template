@@ -90,7 +90,7 @@ def clean_title(title: str) -> str:
     return s
 
 # Load Data
-filepath = 'amplify/static/ingest/emails_v4.xlsx'
+filepath = 'amplify/static/ingest/emails.xlsx'
 # Ensure we are in the root or adjust path. The script is in scripts/ingest/main.py.
 if not os.path.exists(filepath):
     # Try relative to script location if running from there
@@ -98,10 +98,23 @@ if not os.path.exists(filepath):
     # Assuming amplify is at root, and script is at scripts/ingest
     # root is ../../
     root_dir = os.path.abspath(os.path.join(script_dir, '../../'))
-    filepath = os.path.join(root_dir, 'amplify/static/ingest/emails_v4.xlsx')
+    filepath = os.path.join(root_dir, 'amplify/static/ingest/emails.xlsx')
 
 print(f"Reading from {filepath}")
 df = pd.read_excel(filepath, sheet_name='Edited CDO Statements')
+
+introduction_formula = [
+    'Hi {first_name},<br/><br/>',
+    'Hello {first_name},<br/><br/>',
+    'Dear {first_name},<br/><br/>',
+    'Hi,<br/><br/>',
+]
+conclusion_formula = [
+    'Best regards,\n',
+    'Sincerely,\n',
+    'Thank you,\n',
+    'Kind regards,\n',
+]
 
 columns = ["Review",	
            "Use?",
@@ -171,12 +184,18 @@ for index, row in df.iterrows():
                 impact=impact
             )
         )
+
+    content = str(row['Content'])
+    # Apply introduction formula if any
+    random_intro = introduction_formula[index % len(introduction_formula)]
+    random_conclusion = conclusion_formula[index % len(conclusion_formula)]
+    content = random_intro + content + "<br/><br/>" + random_conclusion
     
     node = Node(
         name=clean_title(str(row['Title'])),
         sender=str(row['Sender']),
         title=str(row['Title']),
-        content=str(row['Content']),
+        content=content,
         category=str(row['Category']),
         choices=choices,
         isUrgent=True if 'Urgent' in row and str(row['Urgent']).strip().upper() == 'Y' else False,
@@ -204,17 +223,29 @@ medals = [
 # Card
 card = Card(
     title="Who can lead with data?",
-    shortDescription="",
+    shortDescription="Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Beginner",
-    context=CardContext(),
-    metadata=CardMetadata()
+    context=CardContext(
+    ),
+    metadata=CardMetadata(
+        category="Strategy",
+        estimatedDurationMinutes=4,
+        track="Data Leadership",
+
+    )
 )
 card_pro = Card(
     title="Who can lead with data? (Pro)",
-    shortDescription="",
+    shortDescription="Test your strategic decision-making skills in a data driven organization. This time with increased difficulty! Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Intermediate",
-    context=CardContext(),
-    metadata=CardMetadata()
+    context=CardContext(
+
+    ),
+    metadata=CardMetadata(
+        category="Strategy",
+        estimatedDurationMinutes=4,
+        track="Data Leadership",
+    )
 )
 
 scenario = Scenario(

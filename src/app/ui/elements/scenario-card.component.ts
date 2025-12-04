@@ -154,12 +154,13 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
               <div class="text-sm md:text-sm font-semibold text-gray-900">{{ scenario()?.card?.title }}</div>
               <div  class="text-xs md:text-sm text-gray-700">{{ scenario()?.card?.shortDescription }}</div>
               <div>
-                <div class="text-xs font-medium text-gray-600 mb-1">Skills you will practice</div>
-                <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1">
-                  <li *ngFor="let s of scenario()?.card?.skillsAcquired">{{ s }}</li>
-                </ul>
+                @if(scenario()!.card!.skillsAcquired!.length > 0) {
+                  <div class="text-xs font-medium text-gray-600 mb-1">Skills you will practice</div>
+                    <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                      <li *ngFor="let s of scenario()?.card?.skillsAcquired">{{ s }}</li>
+                    </ul>
+                  }
               </div>
-
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="rounded-lg border border-gray-200 p-3" *ngIf="scenario()?.card?.context?.program as prog">
                   <div class="text-xs font-semibold text-gray-600 mb-1">Program</div>

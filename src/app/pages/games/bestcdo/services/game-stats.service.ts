@@ -84,7 +84,10 @@ export class GameStatsService {
       const current = s[key] ?? def.initial ?? 0;
       const min = def.min ?? -Infinity;
       if (delta < 0 && current + delta < min) {
-        const name = def.nameId === 'cdoBudget' ? 'Budget' : def.name;
+        let name = def.name;
+        if (def.nameId === 'cdoBudget') name = 'Budget';
+        if (def.nameId === 'dataQuality') name = 'Data Quality';
+        if (def.nameId === 'clientRelationship') name = 'Client Relationship';
         return { canSelect: false, reason: `Not enough ${name}` };
       }
     }

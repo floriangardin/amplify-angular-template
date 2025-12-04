@@ -71,6 +71,10 @@ export class EmailQueueService {
     if (pool.length === 0) {
       return null;
     }
+    let welcomeEmail = pool.find(e => e.name === 'welcome_aboard');
+    if (welcomeEmail) {
+      return welcomeEmail;
+    }
 
     return this.weightedRandomEmail(pool);
   }
