@@ -52,7 +52,7 @@ export class EmailListItemComponent {
 
   getPreview(content: string): string {
     const first = content.split('\n')[0];
-    const name = 'player';
+    const name = 'Project Team Leader';
     return name ? first.replace(/\{first_name\}/g, name) : first;
   }
 

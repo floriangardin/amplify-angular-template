@@ -220,7 +220,7 @@ export class EmailViewerComponent {
   hintSelected = output<LibraryItem>();
 
   recipientName = computed(() => {
-    return 'player';
+    return 'Project Team Leader';
   });
 
   // Utility functions
@@ -232,7 +232,7 @@ export class EmailViewerComponent {
 
   formattedEmailContent = computed(() => {
     let emailContent = this.emailContent();
-    return emailContent.replace('{first_name}', 'player');
+    return emailContent.replace('{first_name}', 'Project Team Leader');
 
   });
 
