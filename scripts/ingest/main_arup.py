@@ -90,7 +90,7 @@ def clean_title(title: str) -> str:
     return s
 
 # Load Data
-filepath = 'amplify/static/ingest/emails.xlsx'
+filepath = 'amplify/static/ingest/Arup_emails_our_version.xlsx'
 # Ensure we are in the root or adjust path. The script is in scripts/ingest/main.py.
 if not os.path.exists(filepath):
     # Try relative to script location if running from there
@@ -98,16 +98,13 @@ if not os.path.exists(filepath):
     # Assuming amplify is at root, and script is at scripts/ingest
     # root is ../../
     root_dir = os.path.abspath(os.path.join(script_dir, '../../'))
-    filepath = os.path.join(root_dir, 'amplify/static/ingest/emails.xlsx')
+    filepath = os.path.join(root_dir, filepath)
 
 print(f"Reading from {filepath}")
 df = pd.read_excel(filepath, sheet_name='Edited CDO Statements')
 
 introduction_formula = [
-    'Hi {first_name},<br/><br/>',
-    'Hello {first_name},<br/><br/>',
-    'Dear {first_name},<br/><br/>',
-    'Hi,<br/><br/>',
+    'Dear Project Team Leader,<br/><br/>'
 ]
 conclusion_formula = [
     'Best regards,\n',
@@ -192,7 +189,7 @@ for index, row in df.iterrows():
     content = random_intro + content + "<br/><br/>" + random_conclusion
     
     node = Node(
-        name=clean_title(str(row['Title'])),
+        name=str(row['Key']),
         sender=str(row['Sender']),
         title=str(row['Title']),
         content=content,
@@ -209,8 +206,8 @@ for index, row in df.iterrows():
 indicators = [
     Indicator(name="Profit", nameId="profit", emoji="📈", initial=0, min=-10000000, max=10000000, type="dollars", displayed=True, color="primary", priority=1),
     Indicator(name="CDO Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=True, color="#9c27b0", priority=2),
-    Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=0, min=0, max=100, type="percentage", displayed=True, color="primary", priority=3),
-    Indicator(name="Client Relationship", nameId="clientRelationship", emoji="🤝", initial=0, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
+    Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=10, min=0, max=100, type="percentage", displayed=True, color="primary", priority=3),
+    Indicator(name="Client Relationship", nameId="clientRelationship", emoji="🤝", initial=10, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
 ]
 
 # Medals

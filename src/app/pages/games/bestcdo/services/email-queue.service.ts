@@ -4,6 +4,7 @@ import { Email } from '../../../../models/email';
 export interface EmailFilters {
   minClientRelationship: number;
   maxDataQuality: number;
+  budget?: number;
 }
 
 @Injectable()
@@ -71,9 +72,14 @@ export class EmailQueueService {
     if (pool.length === 0) {
       return null;
     }
-    let welcomeEmail = pool.find(e => e.name === 'welcome_aboard');
+    let welcomeEmail = pool.find(e => e.name === 'new_1');
     if (welcomeEmail) {
       return welcomeEmail;
+    }
+    // If we have category=budget email and budget is low, prioritize it
+    let budgetEmail = pool.find(e => e.category === 'budget');
+    if (budgetEmail && filters.budget !== undefined && filters.budget < 200_000) {
+      return budgetEmail;
     }
 
     return this.weightedRandomEmail(pool);

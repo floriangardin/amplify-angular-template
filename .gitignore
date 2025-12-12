@@ -46,3 +46,4 @@ amplify_outputs*
 amplifyconfiguration*
 .env
 .env.local
+amplify/static/ingest/

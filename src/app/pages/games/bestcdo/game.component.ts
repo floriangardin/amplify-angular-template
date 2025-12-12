@@ -141,7 +141,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
   private readonly timeLimitMs: number = 4 * 60 * 1000; // 4 minutes
-  private readonly urgentTimeLimitMs: number = 20_000; // 20 seconds to answer urgent emails
+  private readonly urgentTimeLimitMs: number = 25_000; // 25 seconds to answer urgent emails
 
   /* ──────────────── state signals ───────── */
   emails = computed<Email[]>(() => this.computeGame());
@@ -518,7 +518,9 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
         this.lastMailId(),
         {
           minClientRelationship: this.statValue('clientRelationship'),
-          maxDataQuality: this.statValue('dataQuality')
+          maxDataQuality: this.statValue('dataQuality'),
+          budget: this.statValue('cdoBudget')
+
         }
       );
       const noNextAvailable = !maybeNext;
