@@ -1416,7 +1416,7 @@
       "color": "primary"
     },
     {
-      "name": "CDO Budget",
+      "name": "Budget",
       "nameId": "cdoBudget",
       "emoji": "💰",
       "initial": 1000000,

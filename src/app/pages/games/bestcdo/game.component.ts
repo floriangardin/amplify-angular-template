@@ -67,7 +67,7 @@ export interface CompanyContext {
     <div class="min-h-screen flex items-center justify-center md:px-16 lg:px-32">
       <div class="w-full h-[100vh] md:h-[75svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
         <!-- Top notice -->
-  <app-header class="md:fixed top-0 left-0 static w-screen z-[2000]"></app-header>
+        <app-header class="md:fixed top-0 left-0 static w-screen z-[2000]"></app-header>
         <!-- Header bar with stats -->
         <app-game-stats-header
           [isMusicMuted]="sounds.isMusicMuted()"

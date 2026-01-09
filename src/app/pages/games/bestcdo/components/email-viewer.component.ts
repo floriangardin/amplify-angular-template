@@ -156,14 +156,16 @@ export interface OutcomeData {
       <!-- Empty State -->
       <div class="flex-1 min-h-0 flex flex-col items-center justify-center p-6 text-center space-y-6 overflow-auto">
         <div class="text-4xl "><img class="w-24" src="folder.png" alt="Email Icon" /></div>
-        <div class="max-w-xs text-primary">Select an email from your inbox to respond</div>
-        <div class="text-sm max-w-xs text-primary-500 border-2 border-primary-500 rounded-lg p-6 max-w-xl leading-relaxed">
+        <div class="max-w-xl text-primary">Select an email from your inbox to respond</div>
+        <div class="text-sm text-primary-500 border-2 border-primary-500 rounded-lg p-6 max-w-xl leading-relaxed">
           <b>⚠️ IMPORTANT ⚠️</b><br />
           • Maximise company profit 📈<br />
+          • Increase client relationship to gain more budget 🤝  <br/>
+          • Low data quality can lead to crisis 📊   <br/>
           • Each decision determines what comes next <br/>
         </div>
         @if (!gameStarted()) {
-          <app-button [contentClass]="'btn-cta'" class="w-full max-w-xs" (click)="startGameClicked.emit()"></app-button>
+          <app-button [contentClass]="'btn-cta'" class="w-full max-w-sm" (click)="startGameClicked.emit()"></app-button>
         }
       </div>
     }
