@@ -24,6 +24,8 @@ export class SoundService {
   }
 
   playMusic(path: string, loop = true, volume = 0.3) {
+    return;
+    /*
     if (this.muted()) return;
     const audio = new Audio(path);
     if(this.playedMusic) {  
@@ -34,6 +36,7 @@ export class SoundService {
     audio.volume = volume;
     audio.play();
     this.playedMusic = audio; // Store the currently playing music
+    */
   }
 
   toggleMute() {
@@ -55,7 +58,7 @@ export class SoundService {
 
     else if(!this.muted() && !this.playedMusic){
       // Start game music 
-      this.playMusic(this.routeToMusic());
+      //this.playMusic(this.routeToMusic());
     }
   }
 

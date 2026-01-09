@@ -75,7 +75,7 @@
               "profit": -150000,
               "dataQuality": 0,
               "cdoBudget": -150000,
-              "clientRelationship": -20
+              "clientRelationship": -10
             },
             "next": []
           }
@@ -89,7 +89,7 @@
               "profit": -300000,
               "dataQuality": 0,
               "cdoBudget": -400000,
-              "clientRelationship": -30
+              "clientRelationship": -20
             },
             "next": []
           }
@@ -100,10 +100,10 @@
           "outcome": {
             "description": "The delay allowed your team to develop a comprehensive response, but it violated regulatory requirements for timely notification. The company faces potential fines for the delayed reporting.",
             "impact": {
-              "profit": -500000,
+              "profit": -400000,
               "dataQuality": 0,
               "cdoBudget": -100000,
-              "clientRelationship": -15
+              "clientRelationship": -5
             },
             "next": []
           }
@@ -131,7 +131,7 @@
               "profit": -100000,
               "dataQuality": 0,
               "cdoBudget": 0,
-              "clientRelationship": -30
+              "clientRelationship": -20
             },
             "next": []
           }
@@ -174,7 +174,7 @@
       "default": true,
       "sender": "Legal Team",
       "title": "[URGENT] Data Subject Access Request",
-      "content": "Dear Project Team Leader,<br/><br/>We've received a Data Subject Access Request about the data your client holds about certain subcontractors. As we work closely with them we have to respond. Can you share a copy of any data you have relating to those listed in the request?<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We've received a Data Subject Access Request about the data we hold about certain subcontractors. As we work closely with them we have to respond. Can you share a copy of any data you have relating to those listed in the request?<br/><br/>Kind regards,\n",
       "category": "dataBreach",
       "isUrgent": true,
       "choices": {
@@ -187,7 +187,7 @@
               "profit": 0,
               "dataQuality": 0,
               "cdoBudget": -500000,
-              "clientRelationship": -30
+              "clientRelationship": -20
             },
             "next": []
           }
@@ -221,7 +221,7 @@
           }
         }
       },
-      "minClientRelationship": 5,
+      "minClientRelationship": 10,
       "maxDataQuality": 70
     },
     {
@@ -229,49 +229,49 @@
       "end": false,
       "default": true,
       "sender": "CEO Office",
-      "title": "Budget Approved: Keep Modernizing Our Data Infrastructure",
-      "content": "Dear Project Team Leader,<br/><br/>Thanks to your team’s work improving our data pipeline efficiency, we’re in a strong position to upgrade our data systems. I’ve approved additional budget to modernize our customer, product, and risk data pipelines. I'd like you to work with the team to improve our systems. Choose your path.<br/><br/>Best regards,\n",
+      "title": "We're releasing APEX! Will you join?",
+      "content": "Dear Project Team Leader,<br/><br/>We’re launching APEX, our new central project management tool, and we'd like you to be a part of the testing group! Are you interested?<br/><br/>Best regards,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
         "1": {
           "name": "1",
-          "text": "Influence the team to deploy a full modern data stack across all business units",
+          "text": "Be a part of the initial testing group and leverage the tool end-to-end, shaping new project management processes",
           "outcome": {
-            "description": "Marketing, sales, and compliance teams run faster and smarter, but further upskilling for Arup members is required.",
+            "description": "New project management processes increase consistency and quality of your data, but slow delivery. You are recognised as a champion of modern project management processes.",
             "impact": {
-              "profit": 100000,
-              "dataQuality": -10,
-              "cdoBudget": 900000,
-              "clientRelationship": 0
+              "profit": -100000,
+              "dataQuality": 20,
+              "cdoBudget": -200000,
+              "clientRelationship": 30
             },
             "next": []
           }
         },
         "2": {
           "name": "2",
-          "text": "Volunteer to pilot new architecture with your customer's project data first",
+          "text": "Use the tool for key project management processes only",
           "outcome": {
-            "description": "You validate improvements with real results in one key area.",
+            "description": "You foster more robust project management processes, but the tension between old and new ways of working causes friction.",
             "impact": {
-              "profit": 200000,
-              "dataQuality": 8,
-              "cdoBudget": 500000,
-              "clientRelationship": 0
+              "profit": -100000,
+              "dataQuality": 20,
+              "cdoBudget": -100000,
+              "clientRelationship": 5
             },
             "next": []
           }
         },
         "3": {
           "name": "3",
-          "text": "Join the council working to improve Arup's legacy systems incrementally",
+          "text": "Decline to participate",
           "outcome": {
-            "description": "Small gains, but big on quality improvements. Older systems remain a bottleneck.",
+            "description": "Retaining processes you're comfortable with safeguards delivery, but inconsistencies in reporting arise.",
             "impact": {
               "profit": 50000,
-              "dataQuality": 15,
-              "cdoBudget": 300000,
-              "clientRelationship": 0
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -5
             },
             "next": []
           }
@@ -281,68 +281,12 @@
       "maxDataQuality": 100
     },
     {
-      "name": "email-010",
-      "end": false,
-      "default": true,
-      "sender": "CDO",
-      "title": "Budget Released for Managing Your Sensitive Data",
-      "content": "Dear Project Team Leader,<br/><br/>With increasing data usage across all projects, we need to secure our systems. I’ve released additional funds to strengthen data recovery and backup: how would you recommend we use them.<br/><br/>Sincerely,\n",
-      "category": "budget",
-      "isUrgent": false,
-      "choices": {
-        "1": {
-          "name": "1",
-          "text": "Recommend Arup partner with a dedicated disaster recovery vendor",
-          "outcome": {
-            "description": "This agreement fully protects customer data only with industry-best SLAs.",
-            "impact": {
-              "profit": 300000,
-              "dataQuality": -10,
-              "cdoBudget": 600000,
-              "clientRelationship": 0
-            },
-            "next": []
-          }
-        },
-        "2": {
-          "name": "2",
-          "text": "Support DTG in developing internal safeguards for critical data.",
-          "outcome": {
-            "description": "Stronger systems in-house, though some risk remains.",
-            "impact": {
-              "profit": 150000,
-              "dataQuality": 10,
-              "cdoBudget": 400000,
-              "clientRelationship": 0
-            },
-            "next": []
-          }
-        },
-        "3": {
-          "name": "3",
-          "text": "Recommend Arup delays work on protection and focuses on data quality issues.",
-          "outcome": {
-            "description": "Savings now for quality, but risk increased exposure during peak periods.",
-            "impact": {
-              "profit": 50000,
-              "dataQuality": 18,
-              "cdoBudget": 200000,
-              "clientRelationship": 0
-            },
-            "next": []
-          }
-        }
-      },
-      "minClientRelationship": 40,
-      "maxDataQuality": 100
-    },
-    {
       "name": "email-020",
       "end": false,
       "default": true,
       "sender": "CEO Office",
       "title": "Good News: Bid Success!",
-      "content": "Dear Project Team Leader,<br/><br/>You've just won a big contract and the client referenced how impressed they were with your inclusion of Data and AI.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We've just won a big contract and the client referenced how impressed they were with your inclusion of Data and AI.<br/><br/>Sincerely,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
@@ -378,7 +322,7 @@
           "name": "3",
           "text": "Allocate significant project budget into new and innovative Data and AI approaches to showcase just what is possible.",
           "outcome": {
-            "description": "Arup's data practices and quality improve because of your pioneering approach. Not all of your endeavours are successful or deemed necessary by the client however.",
+            "description": "Your data practices and quality improve because of your pioneering approach. Not all of your endeavours are successful or deemed necessary by the client however.",
             "impact": {
               "profit": 0,
               "dataQuality": 10,
@@ -398,7 +342,7 @@
       "default": true,
       "sender": "CEO Office",
       "title": "Time to Build Our Data & AI Future",
-      "content": "Dear Project Team Leader,<br/><br/>You've been invited to attend the next Leading Digital Change - Data & AI programme which starts soon. It's a great opportunity for you to boost your knowledge and understanding of how you can lead Arup to a Data and AI powered future. Can you attend?<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>You've been invited to attend the next Leading Digital Change - Data & AI programme which starts soon. It's a great opportunity for you to boost your knowledge and understanding of how you can lead Arup to a Data and AI powered future. Can you attend?<br/><br/>Thank you,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
@@ -454,13 +398,13 @@
       "default": true,
       "sender": "Group Director",
       "title": "The Digital Transformation of Arup",
-      "content": "Dear Project Team Leader,<br/><br/>You've been identified as one of thought leader on AI in the company. I’ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>You've been identified as one of thought leaders for AI in the company. I’ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.<br/><br/>Kind regards,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
         "1": {
           "name": "1",
-          "text": "Launch a full-scale AI program across the organization",
+          "text": "Launch a full-scale AI program across your projects.",
           "outcome": {
             "description": "While these AI initiatives strengthen our competitive position, they also introduce risks to data quality due to inconsistent or careless usage.",
             "impact": {
@@ -510,7 +454,7 @@
       "default": true,
       "sender": "CDO",
       "title": "Let’s Empower Everyone With Data",
-      "content": "Dear Project Team Leader,<br/><br/>All Arup members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>All Arup members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.<br/><br/>Sincerely,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
@@ -566,7 +510,7 @@
       "default": true,
       "sender": "DSP",
       "title": "Commercial Models for our Data",
-      "content": "Dear Project Team Leader,<br/><br/>We're interested in exploring opportunities to monetize our data assets. This could create new revenue streams but there are issues around customer privacy and data usage. How should you approach future projects?<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We're interested in exploring opportunities to monetize our data assets. This could create new revenue streams but there are issues around customer privacy and data usage. How should you approach future projects?<br/><br/>Thank you,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -622,7 +566,7 @@
       "default": true,
       "sender": "Team Member - Data Engineer",
       "title": "Community Engagement Survey Data",
-      "content": "Dear Project Team Leader,<br/><br/>As part of our current project, I’ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we’re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>As part of our current project, I’ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we’re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.<br/><br/>Kind regards,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -678,7 +622,7 @@
       "default": true,
       "sender": "Legal Team",
       "title": "Contract Negotiation",
-      "content": "Dear Project Team Leader,<br/><br/>The client has raised that they expect a fully coordinated BIM model at LOD 400 for the MEP systems, but the contract says we are only scoped to deliver LOD 300 for the primary structure. what should you do?<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>The client has raised that they expect a fully coordinated BIM model at LOD 400 for the MEP systems, but the contract says we are only scoped to deliver LOD 300 for the primary structure. what should you do?<br/><br/>Best regards,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -734,7 +678,7 @@
       "default": true,
       "sender": "CEO",
       "title": "Welcome aboard!",
-      "content": "Dear Project Team Leader,<br/><br/>As you know, Arup has some major data challenges and they're are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>As you know, Arup has some major data challenges and they're are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Sincerely,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -790,7 +734,7 @@
       "default": true,
       "sender": "HR Team",
       "title": "Your Next Hire",
-      "content": "Dear Project Team Leader,<br/><br/>You are working with a team on a new bid. The RFP outlines the need for substantial data services as part of the work. Do you want a data engineer, analyst, or governance expert?<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>You are working with a team on a new bid. The RFP outlines the need for substantial data services as part of the work. Do you want a data engineer, analyst, or governance expert?<br/><br/>Thank you,\n",
       "category": "hr",
       "isUrgent": false,
       "choices": {
@@ -846,7 +790,7 @@
       "default": true,
       "sender": "CRM Team",
       "title": "Arup Projects Data",
-      "content": "Dear Project Team Leader,<br/><br/>Your recent project has been assigned \"confirmed\" status in the CRM system and an Arup Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Arup Projects page now to update this information.\nArup Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Arup globally.\nPlease update your project information.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Your recent project has been assigned \"confirmed\" status in the CRM system and an Arup Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Arup Projects page now to update this information.\nArup Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Arup globally.\nPlease update your project information.<br/><br/>Kind regards,\n",
       "category": "dataQuality",
       "isUrgent": false,
       "choices": {
@@ -897,68 +841,12 @@
       "maxDataQuality": 80
     },
     {
-      "name": "quality_4",
-      "end": false,
-      "default": true,
-      "sender": "Data Warehouse Team",
-      "title": "Critical Data Quality Alert in Enterprise Systems",
-      "content": "Dear Project Team Leader,<br/><br/>Our data quality monitoring has detected a significant increase in data errors across our enterprise systems. Error rates have jumped from 2% to 17% in the last month, with particular issues in client facing dashboards.<br/><br/>Sincerely,\n",
-      "category": "dataQuality",
-      "isUrgent": false,
-      "choices": {
-        "1": {
-          "name": "1",
-          "text": "Roll back to last month's stable data model and reprocess calculations",
-          "outcome": {
-            "description": "The rollback successfully restored data integrity but required significant manual work to reprocess a month of calculations. Some recent application changes had to be reimplemented, creating temporary process disruption.",
-            "impact": {
-              "profit": 100000,
-              "dataQuality": 15,
-              "cdoBudget": -150000,
-              "clientRelationship": 0
-            },
-            "next": []
-          }
-        },
-        "2": {
-          "name": "2",
-          "text": "Fix issues in place with an emergency data quality task force",
-          "outcome": {
-            "description": "The dedicated team identified a fault in the data pipeline between Arup and the client. Their targeted approach fixed critical issues quickly while minimizing business disruption, though some minor data inconsistencies remain.",
-            "impact": {
-              "profit": 100000,
-              "dataQuality": 10,
-              "cdoBudget": -100000,
-              "clientRelationship": 10
-            },
-            "next": []
-          }
-        },
-        "3": {
-          "name": "3",
-          "text": "Put your data-engineers on implementing circuit-breaker logic to quarantine suspicious data automatically",
-          "outcome": {
-            "description": "The automated system successfully identified and isolated bad data, but legitimate calculations were occasionally quarantined as well. Client teams are frustrated with the additional verification steps now required.",
-            "impact": {
-              "profit": 100000,
-              "dataQuality": 20,
-              "cdoBudget": -50000,
-              "clientRelationship": -5
-            },
-            "next": []
-          }
-        }
-      },
-      "minClientRelationship": 0,
-      "maxDataQuality": 40
-    },
-    {
       "name": "gdpr_1",
       "end": false,
       "default": true,
       "sender": "Legal Department",
       "title": "GDPR Compliance Audit Findings",
-      "content": "Dear Project Team Leader,<br/><br/>Our recent GDPR compliance audit has identified several areas requiring immediate attention. We need you to address these before our upcoming regulatory review.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Our recent GDPR compliance audit has identified several areas requiring immediate attention. We need you to address these before our upcoming regulatory review.<br/><br/>Best regards,\n",
       "category": "gdpr",
       "isUrgent": false,
       "choices": {
@@ -1014,7 +902,7 @@
       "default": true,
       "sender": "Client",
       "title": "Sharing site data?",
-      "content": "Dear Project Team Leader,<br/><br/>The project is running well. We're gathering a lot of data on-site at the moment, how do you want us to share that with you?<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>The project is running well. We're gathering a lot of data on-site at the moment, how do you want us to share that with you?<br/><br/>Sincerely,\n",
       "category": "Other",
       "isUrgent": false,
       "choices": {
@@ -1070,7 +958,7 @@
       "default": true,
       "sender": "Digital Technology Group",
       "title": "Data Labs Proposal",
-      "content": "Dear Project Team Leader,<br/><br/>Our Digital Technology Group have partnered with Arup University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Our Digital Technology Group have partnered with Arup University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Best regards,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1112,6 +1000,398 @@
               "dataQuality": -5,
               "cdoBudget": -300000,
               "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_4",
+      "end": false,
+      "default": true,
+      "sender": "CDO",
+      "title": "[URGENT] Data Practices CDO Query",
+      "content": "Dear Project Team Leader,<br/><br/>the CDO is assessing our data practices across the company. They've requested an interview about our data governance, privacy practices, and how we're addressing emerging regulatory challenges.<br/><br/>Sincerely,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Participate in a comprehensive interview",
+          "outcome": {
+            "description": "The transparent approach developed a positive relationship with the CDO. Your candid acknowledgment of challenges and commitment to improvement resonated with them.",
+            "impact": {
+              "profit": 1000000000,
+              "dataQuality": 0,
+              "cdoBudget": 500000000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Submit a written statement highlighting our best practices",
+          "outcome": {
+            "description": "The controlled message highlighted your strengths but was presented alongside more candid interviews from other PMs.",
+            "impact": {
+              "profit": 500000000,
+              "dataQuality": 0,
+              "cdoBudget": 1500000000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Decline to comment",
+          "outcome": {
+            "description": "Your absence allowed other PMs to shape the narrative. The CDO has highlighted your unwillingness to participate and speculated about potential reasons, creating a negative impression.",
+            "impact": {
+              "profit": -1000000000,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 30
+    },
+    {
+      "name": "misc_5",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Unhappy with delivery delays",
+      "content": "Dear Project Team Leader,<br/><br/>We’re concerned about the recent delays in project delivery. Could you please update us on the reasons for these delays and what steps are being taken to get things back on track? Timely delivery is critical for our operations.<br/><br/>Thank you,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Commit to accelerating work by limiting data quality checks",
+          "outcome": {
+            "description": "You prioritise speed of delivery, but problems with the quality of your data are identified.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": -20,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Explain data quality issues causing this and propose a revised timeline to resolve these",
+          "outcome": {
+            "description": "Builds trust and improves data quality, but you frustrate the client who was expecting a quick fix.",
+            "impact": {
+              "profit": -200000,
+              "dataQuality": 30,
+              "cdoBudget": -100000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Allocate more budget to data engineering",
+          "outcome": {
+            "description": "Satisfies delivery targets and client, but at the cost of a bigger chunk of budget.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 30,
+              "cdoBudget": -400000,
+              "clientRelationship": 30
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_6",
+      "end": false,
+      "default": true,
+      "sender": "Learning & Development",
+      "title": "Introduction to Data Course",
+      "content": "Dear Project Team Leader,<br/><br/>We encourage your team to complete our new Introduction to Data Course!<br/><br/>Kind regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Mandate completion of the course for everyone on your project.",
+          "outcome": {
+            "description": "Guarantees completion and higher data literacy, but slows delivery.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 30,
+              "cdoBudget": -200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Encourage self-paced completion",
+          "outcome": {
+            "description": "Some team members complete course when they have time, but adoption and upskilling is more limited.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Only nominate key team members",
+          "outcome": {
+            "description": "This saves time, but it creates knowledge gaps in your team and data quality risks.",
+            "impact": {
+              "profit": 200000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_7",
+      "end": false,
+      "default": true,
+      "sender": "APEX Team",
+      "title": "Data Register Reminder",
+      "content": "Dear Project Team Leader,<br/><br/>Now that APEX has released globally, please complete your data register.<br/><br/>Best regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Assign a dedicated team member to complete",
+          "outcome": {
+            "description": "Ensures a central reference for project data, but adds workload to a key team member.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 30,
+              "cdoBudget": -100000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Share responsibility across the team",
+          "outcome": {
+            "description": "The team isn't slowed significantly, but this creates inconsistencies in the data register.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Delay completion for now as we are close to a deadline",
+          "outcome": {
+            "description": "Your team is not slowed down, but this signals poor planning and data quality concerns are raised.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": -20,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_8",
+      "end": false,
+      "default": true,
+      "sender": "Lead Engineer",
+      "title": "Data Processing approach",
+      "content": "Dear Project Team Leader,<br/><br/>We would like your advice regarding how we should digitise our borehole log data.<br/><br/>Sincerely,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Manual data entry",
+          "outcome": {
+            "description": "No initial investment cost is incurred, and no training is required. However, data capture is time-consuming.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Use a third party",
+          "outcome": {
+            "description": "You digitise data more quickly in parallel with your project, but incur more cost.",
+            "impact": {
+              "profit": 200000,
+              "dataQuality": 15,
+              "cdoBudget": -300000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Develop an optical character recognition (OCR) tool internally",
+          "outcome": {
+            "description": "Development requires significant up-front cost, but saves money in the long-run.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": 20,
+              "cdoBudget": -500000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_9",
+      "end": false,
+      "default": true,
+      "sender": "Lead Engineer",
+      "title": "Our data is organised inconsistently",
+      "content": "Dear Project Team Leader,<br/><br/>Our files have no clear naming conventions or folder structure and it's becoming difficult to find what we're looking for. What should we do?<br/><br/>Thank you,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Implement a strict folder naming convention and holder hierarchy immediately.",
+          "outcome": {
+            "description": "You improve long-term efficiency and compliance, but this requires significant upfront effort and disruption.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 30,
+              "cdoBudget": -300000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Introduce a lightweight tagging system",
+          "outcome": {
+            "description": "This enables faster adoption and flexibility, but it takes time to reach a concensus.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 20,
+              "cdoBudget": -100000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Do nothing for now and rely on search tools. ",
+          "outcome": {
+            "description": "Saves time short-term, but inefficiency and frustration persist and compliance risks increase.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -20,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_10",
+      "end": false,
+      "default": true,
+      "sender": "Data Engineer",
+      "title": "Dataset ownership unclear",
+      "content": "Dear Project Team Leader,<br/><br/>We're not sure who should decide on the standard for this dataset. Can you advise?<br/><br/>Kind regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Assign a single data owner to make the decision.",
+          "outcome": {
+            "description": "Decisions are clearer and faster, but you risk missing others' input.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 20,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Form a small working group of stewards to agree on a standard",
+          "outcome": {
+            "description": "This approach accomodates wider perspectives, but is slower.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 30,
+              "cdoBudget": -200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Escalate to leadership for a global, cross-project view.",
+          "outcome": {
+            "description": "Fosters longer-term authority and clarity, but delays progress and reduces team autonomy.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 30,
+              "cdoBudget": -100000,
+              "clientRelationship": -10
             },
             "next": []
           }
