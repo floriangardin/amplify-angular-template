@@ -231,7 +231,7 @@
       "sender": "CEO Office",
       "title": "We're releasing APEX! Will you join?",
       "content": "Dear Project Team Leader,<br/><br/>We’re launching APEX, our new central project management tool, and we'd like you to be a part of the testing group! Are you interested?<br/><br/>Best regards,\n",
-      "category": "budget",
+      "category": "strategy",
       "isUrgent": false,
       "choices": {
         "1": {
@@ -958,7 +958,7 @@
       "default": true,
       "sender": "Digital Technology Group",
       "title": "Data Labs Proposal",
-      "content": "Dear Project Team Leader,<br/><br/>Our Digital Technology Group have partnered with Arup University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Our Digital Technology Group have partnered with Arup University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Thank you,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1014,9 +1014,9 @@
       "default": true,
       "sender": "CDO",
       "title": "[URGENT] Data Practices CDO Query",
-      "content": "Dear Project Team Leader,<br/><br/>the CDO is assessing our data practices across the company. They've requested an interview about our data governance, privacy practices, and how we're addressing emerging regulatory challenges.<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>the CDO is assessing our data practices across the company. They've requested an interview about our data governance, privacy practices, and how we're addressing emerging regulatory challenges.<br/><br/>Kind regards,\n",
       "category": "misc",
-      "isUrgent": false,
+      "isUrgent": true,
       "choices": {
         "1": {
           "name": "1",
@@ -1024,9 +1024,9 @@
           "outcome": {
             "description": "The transparent approach developed a positive relationship with the CDO. Your candid acknowledgment of challenges and commitment to improvement resonated with them.",
             "impact": {
-              "profit": 1000000000,
+              "profit": 100000,
               "dataQuality": 0,
-              "cdoBudget": 500000000,
+              "cdoBudget": 500000,
               "clientRelationship": 15
             },
             "next": []
@@ -1038,9 +1038,9 @@
           "outcome": {
             "description": "The controlled message highlighted your strengths but was presented alongside more candid interviews from other PMs.",
             "impact": {
-              "profit": 500000000,
+              "profit": 50000,
               "dataQuality": 0,
-              "cdoBudget": 1500000000,
+              "cdoBudget": 150000,
               "clientRelationship": 5
             },
             "next": []
@@ -1052,7 +1052,7 @@
           "outcome": {
             "description": "Your absence allowed other PMs to shape the narrative. The CDO has highlighted your unwillingness to participate and speculated about potential reasons, creating a negative impression.",
             "impact": {
-              "profit": -1000000000,
+              "profit": -100000,
               "dataQuality": 0,
               "cdoBudget": 0,
               "clientRelationship": -5
@@ -1070,7 +1070,7 @@
       "default": true,
       "sender": "Client",
       "title": "Unhappy with delivery delays",
-      "content": "Dear Project Team Leader,<br/><br/>We’re concerned about the recent delays in project delivery. Could you please update us on the reasons for these delays and what steps are being taken to get things back on track? Timely delivery is critical for our operations.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We’re concerned about the recent delays in project delivery. Could you please update us on the reasons for these delays and what steps are being taken to get things back on track? Timely delivery is critical for our operations.<br/><br/>Best regards,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1095,9 +1095,9 @@
             "description": "Builds trust and improves data quality, but you frustrate the client who was expecting a quick fix.",
             "impact": {
               "profit": -200000,
-              "dataQuality": 30,
+              "dataQuality": 20,
               "cdoBudget": -100000,
-              "clientRelationship": 20
+              "clientRelationship": 0
             },
             "next": []
           }
@@ -1109,9 +1109,9 @@
             "description": "Satisfies delivery targets and client, but at the cost of a bigger chunk of budget.",
             "impact": {
               "profit": 100000,
-              "dataQuality": 30,
+              "dataQuality": 20,
               "cdoBudget": -400000,
-              "clientRelationship": 30
+              "clientRelationship": 20
             },
             "next": []
           }
@@ -1126,7 +1126,7 @@
       "default": true,
       "sender": "Learning & Development",
       "title": "Introduction to Data Course",
-      "content": "Dear Project Team Leader,<br/><br/>We encourage your team to complete our new Introduction to Data Course!<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We encourage your team to complete our new Introduction to Data Course!<br/><br/>Sincerely,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1137,7 +1137,7 @@
             "description": "Guarantees completion and higher data literacy, but slows delivery.",
             "impact": {
               "profit": -100000,
-              "dataQuality": 30,
+              "dataQuality": 20,
               "cdoBudget": -200000,
               "clientRelationship": 10
             },
@@ -1182,7 +1182,7 @@
       "default": true,
       "sender": "APEX Team",
       "title": "Data Register Reminder",
-      "content": "Dear Project Team Leader,<br/><br/>Now that APEX has released globally, please complete your data register.<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Now that APEX has released globally, please complete your data register.<br/><br/>Thank you,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1193,7 +1193,7 @@
             "description": "Ensures a central reference for project data, but adds workload to a key team member.",
             "impact": {
               "profit": 0,
-              "dataQuality": 30,
+              "dataQuality": 20,
               "cdoBudget": -100000,
               "clientRelationship": 10
             },
@@ -1238,8 +1238,8 @@
       "default": true,
       "sender": "Lead Engineer",
       "title": "Data Processing approach",
-      "content": "Dear Project Team Leader,<br/><br/>We would like your advice regarding how we should digitise our borehole log data.<br/><br/>Sincerely,\n",
-      "category": "misc",
+      "content": "Dear Project Team Leader,<br/><br/>We would like your advice regarding how we should digitise our borehole log data.<br/><br/>Kind regards,\n",
+      "category": "dataQuality",
       "isUrgent": false,
       "choices": {
         "1": {
@@ -1294,8 +1294,8 @@
       "default": true,
       "sender": "Lead Engineer",
       "title": "Our data is organised inconsistently",
-      "content": "Dear Project Team Leader,<br/><br/>Our files have no clear naming conventions or folder structure and it's becoming difficult to find what we're looking for. What should we do?<br/><br/>Thank you,\n",
-      "category": "misc",
+      "content": "Dear Project Team Leader,<br/><br/>Our files have no clear naming conventions or folder structure and it's becoming difficult to find what we're looking for. What should we do?<br/><br/>Best regards,\n",
+      "category": "dataQuality",
       "isUrgent": false,
       "choices": {
         "1": {
@@ -1305,7 +1305,7 @@
             "description": "You improve long-term efficiency and compliance, but this requires significant upfront effort and disruption.",
             "impact": {
               "profit": 100000,
-              "dataQuality": 30,
+              "dataQuality": 20,
               "cdoBudget": -300000,
               "clientRelationship": 20
             },
@@ -1350,7 +1350,7 @@
       "default": true,
       "sender": "Data Engineer",
       "title": "Dataset ownership unclear",
-      "content": "Dear Project Team Leader,<br/><br/>We're not sure who should decide on the standard for this dataset. Can you advise?<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We're not sure who should decide on the standard for this dataset. Can you advise?<br/><br/>Sincerely,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1457,12 +1457,12 @@
   "medals": [
     {
       "name": "gold",
-      "threshold": 3000000,
+      "threshold": 2000000,
       "emoji": "🥇"
     },
     {
       "name": "silver",
-      "threshold": 2000000,
+      "threshold": 1500000,
       "emoji": "🥈"
     },
     {

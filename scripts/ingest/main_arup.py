@@ -205,15 +205,15 @@ for index, row in df.iterrows():
 # Indicators
 indicators = [
     Indicator(name="Profit", nameId="profit", emoji="📈", initial=0, min=-10000000, max=10000000, type="dollars", displayed=True, color="primary", priority=1),
-    Indicator(name="CDO Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=True, color="#9c27b0", priority=2),
+    Indicator(name="Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=True, color="#9c27b0", priority=2),
     Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=10, min=0, max=100, type="percentage", displayed=True, color="primary", priority=3),
     Indicator(name="Client Relationship", nameId="clientRelationship", emoji="🤝", initial=10, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
 ]
 
 # Medals
 medals = [
-    Medal(name="gold", threshold=3_000_000, emoji="🥇"),
-    Medal(name="silver", threshold=2_000_000, emoji="🥈"),
+    Medal(name="gold", threshold=2_000_000, emoji="🥇"),
+    Medal(name="silver", threshold=1_500_000, emoji="🥈"),
     Medal(name="bronze", threshold=500_000, emoji="🥉")
 ]
 
