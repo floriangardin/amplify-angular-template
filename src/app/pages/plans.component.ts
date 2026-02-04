@@ -46,12 +46,8 @@ import { Router } from '@angular/router';
           <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-400 mt-0.5"></i> Privileged access to new features</li>
         </ul>
         <div class="mt-6 relative">
-          @if(isPro()) {
-            <button disabled class="w-full py-2 rounded bg-green-700/60 cursor-not-allowed text-sm">You're Pro</button>
-          } @else {
-            <button (click)="startCheckout()" class="w-full py-2 rounded bg-green-600 hover:bg-green-500 transition text-sm font-medium">Upgrade Now</button>
-          }
-          <p class="text-xs text-indigo-200 mt-2">Cancel anytime. Secure checkout.</p>
+            <button disabled class="w-full py-2 rounded bg-gray-600 cursor-not-allowed text-sm opacity-60">Coming Soon</button>
+          <p class="text-xs text-indigo-200 mt-2">Pro version will be available after launch.</p>
         </div>
       </section>
     </div>
@@ -94,11 +90,7 @@ import { Router } from '@angular/router';
     <div class="mt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
       <div class="text-gray-300 text-sm max-w-xl">The Pro plan unlocks the complete experience and continuous improvements. We actively ship new scenarios, content modules, and analytics. As a Pro member you'll often be first to try them.</div>
       <div>
-        @if(!isPro()) {
-          <button (click)="startCheckout()" class="px-6 py-3 rounded bg-indigo-600 hover:bg-indigo-500 font-semibold text-white shadow text-sm">Upgrade for $109/mo</button>
-        } @else {
-          <button disabled class="px-6 py-3 rounded bg-green-700/60 font-semibold text-white text-sm">Already Pro</button>
-        }
+          <button disabled class="px-6 py-3 rounded bg-gray-600 cursor-not-allowed font-semibold text-white text-sm opacity-60">Coming Soon</button>
       </div>
     </div>
   </main>

@@ -8,11 +8,12 @@ import { Scenario, Medal, Indicator } from '../../models/game-content';
 import { EditableTextComponent } from '../../ui/fields/editable-text.component';
 import type { Schema } from '../../../../amplify/data/resource';
 import { EndResult, DefeatReason } from '../../models/stats';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-leaderboard-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, EditableTextComponent],
+  imports: [CommonModule, HeaderComponent, EditableTextComponent, LucideAngularModule],
   styles: [`
   :host {
       width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-start;
@@ -62,6 +63,15 @@ import { EndResult, DefeatReason } from '../../models/stats';
               </ng-container>
             </dl>
           }
+          @if (earnedBadges().length > 0) {
+            <div class="flex flex-wrap gap-2 mt-3">
+              <ng-container *ngFor="let badge of earnedBadges()">
+                <span class="inline-flex items-center rounded-full bg-yellow-500/20 border border-yellow-400/30 px-3 py-1 text-xs font-semibold text-yellow-200">
+                  {{ badge }}
+                </span>
+              </ng-container>
+            </div>
+          }
         </section>
       }
 
@@ -72,7 +82,7 @@ import { EndResult, DefeatReason } from '../../models/stats';
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Medal</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -97,6 +107,21 @@ import { EndResult, DefeatReason } from '../../models/stats';
         <div class="text-sm text-gray-300">Page {{ pageIndex() + 1 }}</div>
         <button class="px-3 py-2 rounded bg-primary-600 text-white disabled:opacity-50" [disabled]="!canNext()" (click)="next()">Next</button>
       </div>
+
+      <!-- Learning Resources -->
+      <div class="mt-8">
+        <h2 class="text-2xl font-semibold text-white mb-4">Continue Learning</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a *ngFor="let resource of learningResources" [href]="resource.url" target="_blank" rel="noopener noreferrer"
+             class="bg-black/20 hover:bg-black/10 text-white rounded-lg px-4 py-3 shadow border border-black/30 flex items-start gap-3 transition">
+            <lucide-icon [name]="resource.icon" [size]="24" class="shrink-0 mt-0.5"></lucide-icon>
+            <div>
+              <div class="text-sm font-semibold">{{ resource.title }}</div>
+              <div class="text-xs text-gray-400 mt-1">{{ resource.description }}</div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   `
 })
@@ -106,12 +131,20 @@ export class LeaderboardPageComponent implements OnInit {
   private client = inject(ClientService).client;
   private lb = inject(LeaderboardService);
 
+  // Placeholder learning resources (Arup to provide actual links/descriptions/images)
+  learningResources = [
+    { title: 'Data Governance Fundamentals', description: 'Learn the basics of data governance and why it matters.', url: '#', icon: 'book-open' },
+    { title: 'Arup Data & AI Academy', description: 'Explore Arup\'s data literacy and AI training programs.', url: '#', icon: 'graduation-cap' },
+    { title: 'Data Quality Best Practices', description: 'Discover techniques to improve data quality in your projects.', url: '#', icon: 'chart-column' },
+    { title: 'Client Relationship Management', description: 'Build stronger client relationships through data-driven insights.', url: '#', icon: 'handshake' },
+  ];
+
   scenarioNameId = signal<string>('');
   scenario = signal<Scenario | null>(null);
   rows = signal<Schema['LeaderboardEntry']['type'][]>([] as any);
   endResult = signal<EndResult | null>(null);
   // pagination state
-  pageSize = 20;
+  pageSize = 10;
   pageIndex = signal(0);
   tokensStack: (string | null | undefined)[] = [null]; // token before each page
   nextToken: string | null | undefined = null;
@@ -165,6 +198,26 @@ export class LeaderboardPageComponent implements OnInit {
       });
     });
     return summaries;
+  });
+
+  earnedBadges = computed<string[]>(() => {
+    const result = this.endResult();
+    if (!result) return [];
+    const stats = result.stats || {};
+    const scenario = this.scenario();
+    const indicators = scenario?.indicators || [];
+    const badges: string[] = [];
+    for (const ind of indicators) {
+      const value = stats[ind.nameId];
+      if (typeof value !== 'number') continue;
+      if (ind.nameId === 'dataQuality' && value >= ind.max) {
+        badges.push('📊 Data Quality Champion');
+      }
+      if (ind.nameId === 'clientRelationship' && value >= ind.max) {
+        badges.push('⭐ Client Relationship Master');
+      }
+    }
+    return badges;
   });
 
   private readonly defeatReasonDescriptions: Record<DefeatReason, string> = {

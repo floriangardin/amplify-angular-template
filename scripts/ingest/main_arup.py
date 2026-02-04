@@ -219,7 +219,7 @@ medals = [
 
 # Card
 card = Card(
-    title="Who can lead with data?",
+    title="Data or Disaster?",
     shortDescription="Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Beginner",
     context=CardContext(
@@ -232,7 +232,7 @@ card = Card(
     )
 )
 card_pro = Card(
-    title="Who can lead with data? (Pro)",
+    title="Data or Disaster? (Pro)",
     shortDescription="Test your strategic decision-making skills in a data driven organization. This time with increased difficulty! Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Intermediate",
     context=CardContext(

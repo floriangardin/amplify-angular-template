@@ -17,6 +17,7 @@ import { ResponsiveService } from '../services/responsive.service';
 import { ProgressComponent } from '../components/progress.component';
 import { ProgressPerScenarioComponent } from '../components/progress-per-scenario.component';
 import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
+import { LucideAngularModule } from 'lucide-angular';
 // UI KIT HOME PAGE DEMO
 @Component({
   selector: 'app-home',
@@ -28,11 +29,12 @@ import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
     MainLoadingComponent,
     ProgressComponent,
     ProgressPerScenarioComponent,
-    ScenarioCardComponent
+    ScenarioCardComponent,
+    LucideAngularModule
   ],
   template: `
   @if(loading()) {
-    <app-main-loading [text]="'Building your data governance experience'"></app-main-loading>
+    <app-main-loading [text]="'Loading Data or Disaster'"></app-main-loading>
   } @else {
     <app-header></app-header>
 
@@ -71,10 +73,27 @@ import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
         <div class="order-1 lg:order-2">
           <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">The leaderboards</h1>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-            <app-progress-per-scenario 
+            <app-progress-per-scenario
               (clickedScenarioLeaderboard)="onLeaderboard($event)"
               [currentUserId]="currentUserId()" [scenarios]="scenarios()" [progressSummary]="progressSummary()">
             </app-progress-per-scenario>
+          </div>
+
+          <!-- Learning Resources -->
+          <div class="mt-8">
+            <h2 class="text-2xl font-semibold text-white mb-4 spectral-font">Continue Learning</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              @for (resource of learningResources; track resource.title) {
+                <a [href]="resource.url" target="_blank" rel="noopener noreferrer"
+                   class="bg-black/20 hover:bg-black/10 text-white rounded-lg px-4 py-3 shadow border border-black/30 flex items-start gap-3 transition">
+                  <lucide-icon [name]="resource.icon" [size]="24" class="shrink-0 mt-0.5"></lucide-icon>
+                  <div>
+                    <div class="text-sm font-semibold">{{ resource.title }}</div>
+                    <div class="text-xs text-gray-400 mt-1">{{ resource.description }}</div>
+                  </div>
+                </a>
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -161,6 +180,14 @@ export class HomeComponent implements OnInit{
   progressSummary = signal<ProgressSummary | null>(null);
   currentUserId = this.userService.currentUserId;
   
+  // Placeholder learning resources (Arup to provide actual links/descriptions/images)
+  learningResources = [
+    { title: 'Data Governance Fundamentals', description: 'Learn the basics of data governance and why it matters.', url: '#', icon: 'book-open' },
+    { title: 'Arup Data & AI Academy', description: 'Explore Arup\'s data literacy and AI training programs.', url: '#', icon: 'graduation-cap' },
+    { title: 'Data Quality Best Practices', description: 'Discover techniques to improve data quality in your projects.', url: '#', icon: 'chart-column' },
+    { title: 'Client Relationship Management', description: 'Build stronger client relationships through data-driven insights.', url: '#', icon: 'handshake' },
+  ];
+
   // Progress metrics for wrapper visibility
   totalRuns = computed(() => {
     const summary = this.progressSummary();

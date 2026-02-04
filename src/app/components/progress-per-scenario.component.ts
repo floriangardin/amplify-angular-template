@@ -28,13 +28,23 @@ import { LeaderboardService } from '../services/leaderboard.service';
                       {{ item.rank ? ('#' + item.rank) : '—' }}
                     </span>
                     <span class="text-xl" [attr.title]="item.medalTitle">{{ item.trophy ? '🏆' : item.medalEmoji }}</span>
-                    <span class="text-lg text-gray-200" [title]="'Your best profit'">{{ item.profit | number:'1.0-0' }}</span>
+                    <span class="text-lg text-gray-200" [title]="'Your best score'">{{ item.profit | number:'1.0-0' }}</span>
                   </div>
                 } @else {
                   <div class="w-6 h-6 rounded-full border border-dashed border-gray-500" title="No result yet"></div>
                 }
               </div>
             </div>
+            <!-- Achievement Badges -->
+            @if(item.badges?.length) {
+              <div class="flex flex-wrap gap-1 mt-2">
+                @for (badge of item.badges; track badge) {
+                  <span class="inline-flex items-center rounded-full bg-yellow-500/20 border border-yellow-400/30 px-2 py-0.5 text-[10px] font-semibold text-yellow-200">
+                    {{ badge }}
+                  </span>
+                }
+              </div>
+            }
 
             <!-- Bottom row: Top 3 leaderboard (hidden on mobile) -->
             @if(item.top3?.length) {
@@ -95,6 +105,7 @@ export class ProgressPerScenarioComponent {
     medalEmoji?: string;
     medalTitle?: string | null;
     trophy?: boolean;
+    badges?: string[];
     top3?: Array<{ rank: number; userId?: string; username?: string; profit?: number }>;
     done: boolean;
     priority: number;
@@ -120,12 +131,14 @@ export class ProgressPerScenarioComponent {
         const priority = (s as any)?.priority ?? Number.MAX_SAFE_INTEGER;
         // Initialize row if missing or update basic fields
         const existing = map[nameId];
+        const badges = this.computeBadges(progress, nameId, s);
         map[nameId] = {
           ...(existing ?? {} as any),
           done,
           profit: typeof profit === 'number' ? profit : existing?.profit,
           priority,
           scenario: s,
+          badges,
           // Medal depends on profit & scenario thresholds
           ...this.computeMedalFields(s, typeof profit === 'number' ? profit : undefined, existing)
         } as any;
@@ -160,6 +173,25 @@ export class ProgressPerScenarioComponent {
     const profitScore = entry?.indicatorScores?.find((s: any) => s?.indicatorNameId === 'profit');
     const val = profitScore?.value;
     return typeof val === 'number' ? val : undefined;
+  }
+
+  private computeBadges(progress: ProgressSummary | null | undefined, scenarioNameId: string, scenario: Scenario): string[] {
+    const badges: string[] = [];
+    const entry = progress?.byScenario?.[scenarioNameId];
+    if (!entry?.indicatorScores) return badges;
+    const indicators = scenario.indicators || [];
+    for (const score of entry.indicatorScores) {
+      if (!score?.indicatorNameId || typeof score.value !== 'number') continue;
+      const def = indicators.find(i => i.nameId === score.indicatorNameId);
+      if (!def) continue;
+      if (score.indicatorNameId === 'dataQuality' && score.value >= def.max) {
+        badges.push('📊 Data Quality Champion');
+      }
+      if (score.indicatorNameId === 'clientRelationship' && score.value >= def.max) {
+        badges.push('⭐ Client Relationship Master');
+      }
+    }
+    return badges;
   }
 
   private computeMedalFields(s: Scenario, profit: number | undefined, existing?: any): { medalEmoji?: string; medalTitle?: string | null } {

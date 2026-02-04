@@ -64,14 +64,15 @@ export interface CompanyContext {
       <div class="min-h-screen flex items-center justify-center text-white">Loading game…</div>
     } @else {
     <!-- Parent fills the viewport; horizontal padding responsive -->
-    <div class="min-h-screen flex items-center justify-center md:px-16 lg:px-32">
-      <div class="w-full h-[100vh] md:h-[75svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
+    <div class="min-h-screen flex items-center justify-center md:px-8 lg:px-16 md:pt-12">
+      <div class="w-full h-[100vh] md:h-[90svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
         <!-- Top notice -->
         <app-header class="md:fixed top-0 left-0 static w-screen z-[2000]"></app-header>
         <!-- Header bar with stats -->
         <app-game-stats-header
           [isMusicMuted]="sounds.isMusicMuted()"
           [timeLeftSeconds]="timeLeftSeconds()"
+          [lastEmail]="lastReceivedEmail()"
           (soundToggled)="sounds.toggleMute()"
         />
 
@@ -116,13 +117,49 @@ export interface CompanyContext {
         </div>
       </div>
     </div>
-        <!-- Chatbot
-    @if(this.showEmailList()){
-      <app-chatbot></app-chatbot>
-      
-    }
-       -->
       }
+
+    <!-- End-game results overlay -->
+    @if (showEndOverlay()) {
+      <div class="fixed inset-0 z-[3000] bg-black/70 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 md:p-8 text-gray-900 space-y-5">
+          <h2 class="text-2xl font-bold text-center" [ngClass]="pendingEndResult()!.hasWon ? 'text-green-600' : 'text-red-600'">
+            {{ pendingEndResult()!.hasWon ? 'Game Complete!' : 'Game Over' }}
+          </h2>
+
+          <p class="text-sm text-gray-600 text-center">{{ endOverlayMessage() }}</p>
+
+          <!-- Score breakdown -->
+          <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm">
+            <div class="flex justify-between"><span>💰 Profit:</span><span class="font-bold">{{ formatCurrency(pendingEndResult()!.stats['profit'] || 0) }}</span></div>
+            <div class="flex justify-between"><span>📊 Data Quality:</span><span class="font-bold">{{ pendingEndResult()!.stats['dataQuality'] || 0 }}%</span></div>
+            <div class="flex justify-between"><span>⭐ Client Relationship:</span><span class="font-bold">{{ pendingEndResult()!.stats['clientRelationship'] || 0 }}%</span></div>
+            <div class="border-t border-gray-300 pt-2 flex justify-between font-semibold">
+              <span>Final Score:</span>
+              <span class="text-primary-600">{{ (pendingEndResult()!.stats['weightedScore'] || 0) | number:'1.0-0' }}</span>
+            </div>
+          </div>
+
+          <!-- Tiered feedback -->
+          <p class="text-sm text-gray-700 italic text-center">{{ tieredFeedback() }}</p>
+
+          <!-- Badges -->
+          @if (endOverlayBadges().length > 0) {
+            <div class="flex flex-wrap justify-center gap-2">
+              @for (badge of endOverlayBadges(); track badge) {
+                <span class="inline-flex items-center rounded-full bg-yellow-100 border border-yellow-300 px-3 py-1 text-xs font-semibold text-yellow-800">
+                  {{ badge }}
+                </span>
+              }
+            </div>
+          }
+
+          <button class="w-full py-3 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-semibold transition" (click)="acknowledgeEnd()">
+            Acknowledge
+          </button>
+        </div>
+      </div>
+    }
   `
 })
 export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, OnDestroy {
@@ -154,12 +191,15 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   outcomeEffects = signal<Stats | null>(null);
   nbMails = signal<number>(0);
   lastMailId = signal<string>('__START__');
+  lastReceivedEmail = signal<Email | null>(null);
   showEmailList = signal<boolean>(false);
   timeLeftMs = signal<number>(this.timeLimitMs);
   private urgentDeadlines = signal<Record<string, number>>({});
   // End flow
   isEnding = signal(false);
   fadeOut = signal(false);
+  showEndOverlay = signal(false);
+  pendingEndResult = signal<EndResult | null>(null);
   private endTimeoutHandle: any = null;
   private navigateTimeoutHandle: any = null;
 
@@ -252,6 +292,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.outcomeEffects.set(null);
     this.nbMails.set(0);
     this.lastMailId.set('__START__');
+    this.lastReceivedEmail.set(null);
     this.showEmailList.set(false);
     this.isEnding.set(false);
     this.fadeOut.set(false);
@@ -369,8 +410,9 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       this.addUrgentDeadline(mail.name, currentTime);
     }
     this.lastMailId.set(mail.name);
+    this.lastReceivedEmail.set(mail);
     this.nbMails.set(this.nbMails() + 1);
-    
+
     this.inbox.set([...this.inbox(), mail]);
     this.emailQueueService.removeEmail(mail.name);
     this.emailQueueService.markEmailSent(currentTime);
@@ -482,6 +524,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     }
     // Apply outcome to stats
     this.gameStatsService.applyOutcome(choice.outcome);
+    // Update last email context for dynamic message bar
+    this.lastReceivedEmail.set(mail);
 
     // Set outcome display (generic indicators)
     this.outcomeMessage.set(choice.outcome.description);
@@ -532,6 +576,82 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
         });
       }
     }
+  }
+
+  /* ──────────────── end overlay helpers ──── */
+  endOverlayMessage = computed(() => {
+    const result = this.pendingEndResult();
+    if (!result) return '';
+    if (result.hasWon) {
+      return 'Congratulations! Here is your score breakdown:';
+    }
+    const reason = result.defeatReason;
+    const descriptions: Record<string, string> = {
+      dataBreach: 'A data breach forced the board to end the program.',
+      burnout: 'Critical emails were missed and the team burned out.',
+      budget: 'Budget collapsed before you could finish.',
+      dataQuality: 'Data quality dropped too low to continue.',
+      reputation: 'Stakeholders lost confidence in leadership.'
+    };
+    return reason ? descriptions[reason] || 'The run ended.' : 'The run ended before objectives were met.';
+  });
+
+  endOverlayBadges = computed<string[]>(() => {
+    const result = this.pendingEndResult();
+    if (!result) return [];
+    const stats = result.stats || {};
+    const defs = this.content()?.indicators || [];
+    const badges: string[] = [];
+    for (const def of defs) {
+      const value = stats[def.nameId];
+      if (typeof value !== 'number') continue;
+      if (def.nameId === 'dataQuality' && value >= def.max) {
+        badges.push('📊 Data Quality Champion');
+      }
+      if (def.nameId === 'clientRelationship' && value >= def.max) {
+        badges.push('⭐ Client Relationship Master');
+      }
+    }
+    return badges;
+  });
+
+  tieredFeedback = computed(() => {
+    const result = this.pendingEndResult();
+    if (!result) return '';
+    const stats = result.stats || {};
+    const profit = stats['profit'] || 0;
+    const dataQuality = stats['dataQuality'] || 0;
+    const clientRelationship = stats['clientRelationship'] || 0;
+    const score = stats['weightedScore'] || 0;
+
+    if (!result.hasWon) {
+      if (profit <= 0) return 'A tough run. Focus on balancing short-term costs with long-term value next time.';
+      if (dataQuality < 30) return 'Data quality was a major weakness. Prioritize data governance investments early.';
+      if (clientRelationship < 30) return 'Client relationships suffered. Building trust takes consistent attention.';
+      return 'Not the outcome you wanted, but every failure is a learning opportunity. Try again!';
+    }
+
+    if (score > 3_000_000) return 'Outstanding performance! You mastered the balance of profit, quality, and relationships.';
+    if (score > 2_000_000) return 'Excellent work! You demonstrated strong data governance leadership.';
+    if (score > 1_000_000) return 'Good job! There is room to improve your data quality and client relationships for a higher score.';
+    if (score > 500_000) return 'Decent result. Try focusing more on maintaining data quality and building client relationships.';
+    return 'You completed the game, but there is significant room for improvement. Balance all three dimensions next time.';
+  });
+
+  acknowledgeEnd(): void {
+    const result = this.pendingEndResult();
+    const scenarioNameId = this.currentScenarioNameId();
+    this.showEndOverlay.set(false);
+    this.fadeOut.set(true);
+    this.navigateTimeoutHandle = setTimeout(() => {
+      if (scenarioNameId && result) {
+        this.router.navigate(['/leaderboard', scenarioNameId], {
+          state: { endResult: result }
+        });
+      } else {
+        this.router.navigate(['/']);
+      }
+    }, 750);
   }
 
   /* ──────────────── utility ─────────────── */
@@ -587,11 +707,17 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.urgentDeadlines.set({});
     // Stop the engine so no more emails arrive
     this.gameEngineService.stop();
-    // Save best score before navigating
+    // Save best score before navigating (weighted scoring)
     const scenarioNameId = this.currentScenarioNameId();
     const profit = this.statValue('profit');
+    const dataQuality = this.statValue('dataQuality');
+    const clientRelationship = this.statValue('clientRelationship');
+    const finishBonus = endResult.hasWon ? profit : 0;
+    const weightedScore = Math.round((1 / 100) * profit * (100 + dataQuality + clientRelationship) + finishBonus);
+    // Store weighted score in endResult for display
+    endResult.stats = { ...endResult.stats, weightedScore };
     if (scenarioNameId) {
-      this.leaderboardService.saveMyBestScore(scenarioNameId, profit).catch(err => console.warn('Save score failed', err));
+      this.leaderboardService.saveMyBestScore(scenarioNameId, weightedScore).catch(err => console.warn('Save score failed', err));
       // Also persist per-user scenario progress with changed indicators
       try {
         const content = this.content();
@@ -611,19 +737,10 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
         console.warn('Progress computation failed', err);
       }
     }
-    // After 5 seconds, fade out then navigate
+    // Show end overlay with score breakdown; user must click "Acknowledge" to proceed
     this.endTimeoutHandle = setTimeout(() => {
-      this.fadeOut.set(true);
-      // Allow CSS transition (700ms as per template) to play before navigation
-      this.navigateTimeoutHandle = setTimeout(() => {
-        if (scenarioNameId) {
-          this.router.navigate(['/leaderboard', scenarioNameId], {
-            state: { endResult }
-          });
-        } else {
-          this.router.navigate(['/']);
-        }
-      }, 750);
-    }, timeOut);
+      this.pendingEndResult.set(endResult);
+      this.showEndOverlay.set(true);
+    }, Math.min(timeOut, 2000));
   }
 }

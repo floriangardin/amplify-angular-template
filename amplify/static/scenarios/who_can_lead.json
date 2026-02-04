@@ -678,7 +678,7 @@
       "default": true,
       "sender": "CEO",
       "title": "Welcome aboard!",
-      "content": "Dear Project Team Leader,<br/><br/>As you know, Arup has some major data challenges and they're are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>As you know, Arup has some major data challenges and they are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Sincerely,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -1473,7 +1473,7 @@
   ],
   "card": {
     "plan": "free",
-    "title": "Who can lead with data?",
+    "title": "Data or Disaster?",
     "shortDescription": "Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     "difficulty": "Beginner",
     "skillsAcquired": [],

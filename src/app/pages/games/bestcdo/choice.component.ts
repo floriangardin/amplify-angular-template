@@ -14,7 +14,7 @@ import { BaseCDOComponent } from './base.component';
       <!-- Header -->
       <div class="text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
-          <span class="text-primary-600">Data Governance Roles</span> Simulator
+          <span class="text-primary-600">Data or Disaster</span> <span class="text-lg font-normal text-gray-500">Inbox Challenge</span>
         </h1>
         <p class="text-lg md:text-xl text-gray-600">
           Engage your team in real-life data governance challenges.
@@ -73,34 +73,22 @@ import { BaseCDOComponent } from './base.component';
         </div>
       </div>
 
-      <!-- Marketing Disclaimer -->
-      <div class="w-full mt-6 p-6 bg-gradient-to-r from-primary-50 to-primary-200 rounded-lg border border-primary-200">
+      <!-- Coming Soon Disclaimer -->
+      <div class="w-full mt-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
         <div class="flex items-start gap-3">
           <div class="flex-shrink-0 mt-1">
-            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
           <div class="flex-1">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">
-              🚀 Full Version Features
+            <h3 class="text-lg font-semibold text-gray-600 mb-2">
+              Coming Soon
             </h3>
-            <p class="text-sm text-gray-700 leading-relaxed">
-              This is a demo version. The <strong>full version</strong> includes access to <strong>multiple roles</strong> 
-              (Data Steward, Data Owner, Data Sponsor) with <strong>several unique & longer scenarios</strong> 
-              for each role. Experience comprehensive data governance challenges tailored to every position in your organization.
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Additional roles (Data Owner, Data Sponsor) and more scenarios are being developed
+              and will be available in a future update.
             </p>
-            <div class="mt-3 flex gap-2 text-xs text-gray-600">
-              <span class="inline-flex items-center">
-                ✓ 3+ Data governance Roles
-              </span>
-              <span class="inline-flex items-center">
-                ✓ 10+ Unique Scenarios
-              </span>
-              <span class="inline-flex items-center">
-                ✓ Learning content associated with each scenario
-              </span>
-            </div>
           </div>
         </div>
       </div>

@@ -126,10 +126,10 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
                 <span>Play</span>
               </button>
             }@else {
-              <button type="button" class="inline-flex items-center gap-2 rounded-full bg-yellow-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
-              (click)="onUpgrade($event)" aria-label="Play scenario">
-                <i class="fa-solid fa-arrow-up"></i>
-                <span>Upgrade</span>
+              <button type="button" disabled class="inline-flex items-center gap-2 rounded-full bg-gray-500 px-4 py-2 text-sm font-semibold text-white shadow-sm opacity-60 cursor-not-allowed"
+              aria-label="Coming soon">
+                <i class="fa-solid fa-lock"></i>
+                <span>Coming Soon</span>
               </button>
             }
             <button type="button" class="inline-flex items-center gap-2 rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" (click)="onLeaderboard($event)" aria-label="View leaderboard">
