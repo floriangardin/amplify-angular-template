@@ -1,4 +1,4 @@
-def main():
+    def main():
     print("Hello from amplify-angular-template!")
 
 
