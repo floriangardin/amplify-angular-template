@@ -72,6 +72,12 @@ import { LucideAngularModule } from 'lucide-angular';
               </ng-container>
             </div>
           }
+          @if (finalPointsScore()) {
+            <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+              <span class="text-sm text-gray-300">🏆 Your Final Points:</span>
+              <span class="text-2xl font-bold text-white">{{ finalPointsScore() }}</span>
+            </div>
+          }
         </section>
       }
 
@@ -220,6 +226,14 @@ export class LeaderboardPageComponent implements OnInit {
     return badges;
   });
 
+  finalPointsScore = computed<string | null>(() => {
+    const result = this.endResult();
+    if (!result) return null;
+    const weightedScore = (result.stats || {})['weightedScore'];
+    if (typeof weightedScore !== 'number') return null;
+    return this.formatScore(weightedScore);
+  });
+
   private readonly defeatReasonDescriptions: Record<DefeatReason, string> = {
     dataBreach: 'Your defenses cracked and a breach forced the board to stop the program.',
     burnout: 'Critical emails were missed and the team burned out before objectives were met.',
@@ -353,6 +367,16 @@ export class LeaderboardPageComponent implements OnInit {
       .replace(/([a-z])([A-Z])/g, '$1 $2')
       .replace(/_/g, ' ')
       .replace(/^\w/, (c) => c.toUpperCase());
+  }
+
+  private formatScore(score: number): string {
+    if (Math.abs(score) >= 1_000_000) {
+      return (score / 1_000_000).toFixed(1) + 'K Pts';
+    }
+    if (Math.abs(score) >= 1_000) {
+      return (score / 1_000).toFixed(0) + ' Pts';
+    }
+    return score.toFixed(0) + ' Pts';
   }
 
 }

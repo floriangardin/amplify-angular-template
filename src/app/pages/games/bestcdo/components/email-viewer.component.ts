@@ -24,7 +24,7 @@ export interface OutcomeData {
     
     @if (email()) {
       <!-- Email Header -->
-      <div class="py-2 px-4 md:py-4 border-b border-gray-200 bg-gray-50 relative shrink-0">
+      <div class="py-2 px-4 md:py-3 border-b border-gray-200 bg-gray-50 relative shrink-0">
         @if (isMobile()) {
           <button
             class="bg-primary-500 text-white rounded px-3 py-1 text-sm mb-3" 
@@ -34,9 +34,9 @@ export interface OutcomeData {
           </button>
         }
 
-        <div class="text-sm font-semibold flex flex-wrap gap-3 items-center mb-3">
+        <div class="text-sm font-semibold flex flex-wrap gap-3 items-center mb-1">
           <app-editable-text 
-            [contentClass]="'text-base md:text-xl font-normal'" 
+            [contentClass]="'text-base md:text-lg font-normal'" 
             [isEditable]="isEditable()" 
             [isMarkdown]="true"
             [text]="emailTitle()" 
@@ -70,7 +70,7 @@ export interface OutcomeData {
 
       <!-- Content Area -->
       @if (!outcomeData()) {
-        <div class="flex-1 min-h-0 overflow-y-auto p-5 space-y-6 text-sm leading-relaxed">
+        <div class="flex-1 min-h-0 overflow-y-auto p-5 space-y-3 text-sm leading-snug">
           <!-- Email Content -->
           <div class="space-y-4">
             <app-editable-text 
@@ -103,8 +103,8 @@ export interface OutcomeData {
           }
 
           <!-- Choices -->
-          <div class="pt-5 mt-2 border-t border-gray-300 bg-gray-100 p-4 rounded-lg">
-            <div class="text-base font-semibold mb-4">Your Response:</div>
+          <div class="pt-4 mt-2 border-t border-gray-300 bg-gray-100 p-2 rounded-lg">
+            <div class="text-base mb-2">Your Response:</div>
             @for (choice of emailChoices(); track choice.name; let i = $index) {
               <app-choice-button
                 [choice]="choice"
@@ -159,11 +159,12 @@ export interface OutcomeData {
         <div class="max-w-xl text-primary">Select an email from your inbox to respond</div>
         <div class="text-sm text-primary-500 border-2 border-primary-500 rounded-lg p-6 max-w-xl leading-relaxed">
           <b>⚠️ IMPORTANT ⚠️</b><br />
-          • Your final score depends on profit, data quality AND client relationship 📈<br />
-          • Increase your client relationship (⭐) to get more budget (💰) 🤝  <br/>
-          • Low data quality can lead to crisis 📊   <br/>
+          • Your final score depends on profit, data quality AND client relationship<br />
+          • Increase your client relationship (🤝) to get more budget (💰)  <br/>
+          • Low data quality (📊) can lead to crisis  <br/>
           • Each decision determines what comes next <br/>
         </div>
+
         @if (!gameStarted()) {
           <app-button [contentClass]="'btn-cta'" class="w-full max-w-sm" (click)="startGameClicked.emit()"></app-button>
         }

@@ -64,7 +64,7 @@ export interface CompanyContext {
       <div class="min-h-screen flex items-center justify-center text-white">Loading game…</div>
     } @else {
     <!-- Parent fills the viewport; horizontal padding responsive -->
-    <div class="min-h-screen flex items-center justify-center md:px-8 lg:px-16 md:pt-12">
+    <div class="min-h-screen flex items-center justify-center md:px-8 lg:px-16 md:pt-14">
       <div class="w-full h-[100vh] md:h-[90svh] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-opacity duration-700" [class.opacity-0]="fadeOut()">
         <!-- Top notice -->
         <app-header class="md:fixed top-0 left-0 static w-screen z-[2000]"></app-header>
@@ -88,6 +88,10 @@ export interface CompanyContext {
               [isEditable]="isEditable()"
               [urgentTimers]="urgentCountdowns()"
               (emailSelected)="selectEmail($event)"
+              [currentScore]="liveWeightedScore()"
+              [scoreProfit]="statValue('profit')"
+              [scoreDataQuality]="statValue('dataQuality')"
+              [scoreClientRelationship]="statValue('clientRelationship')"
               (libraryItemSelected)="libraryItemSelected($event)"
               [ngClass]="inboxPanelClasses()"
             />
@@ -136,7 +140,7 @@ export interface CompanyContext {
             <div class="flex justify-between"><span>⭐ Client Relationship:</span><span class="font-bold">{{ pendingEndResult()!.stats['clientRelationship'] || 0 }}%</span></div>
             <div class="border-t border-gray-300 pt-2 flex justify-between font-semibold">
               <span>Final Score:</span>
-              <span class="text-primary-600">{{ (pendingEndResult()!.stats['weightedScore'] || 0) | number:'1.0-0' }}</span>
+              <span class="text-primary-600">{{ formatScore(pendingEndResult()!.stats['weightedScore'] || 0) }}</span>
             </div>
           </div>
 
@@ -177,7 +181,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
 
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
-  private readonly timeLimitMs: number = 4 * 60 * 1000; // 4 minutes
+  private readonly timeLimitMs: number = 0 * 60 * 1000; // 4 minutes
   private readonly urgentTimeLimitMs: number = 25_000; // 25 seconds to answer urgent emails
 
   /* ──────────────── state signals ───────── */
@@ -207,6 +211,14 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   showInbox = computed(() => !this.isMobile() || this.showEmailList());
   timeLeftSeconds = computed(() => Math.floor(this.timeLeftMs() / 1000));
   
+  /** Live weighted score (same formula used for leaderboard, without finish bonus) */
+  liveWeightedScore = computed(() => {
+    const profit = this.statValue('profit');
+    const dataQuality = this.statValue('dataQuality');
+    const clientRelationship = this.statValue('clientRelationship');
+    return Math.round((1 / 100) * profit * (100 + dataQuality + clientRelationship));
+  });
+
   selectedEmailChoices = computed(() => {
     const email = this.selectedEmail();
     if (!email) return [];
@@ -253,6 +265,18 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     const timers = this.urgentCountdowns();
     return timers[email.name] ?? null;
   });
+
+  /* ──────────────── helper methods ─────────────── */
+  /** Format score with Pts & K Pts suffix */
+  formatScore(score: number): string {
+    if (Math.abs(score) >= 1_000_000) {
+      return (score / 1_000_000).toFixed(1) + 'K Pts';
+    }
+    if (Math.abs(score) >= 1_000) {
+      return (score / 1_000).toFixed(0) + ' Pts';
+    }
+    return score.toFixed(0) + ' Pts';
+  }
 
   /* ──────────────── effects ───────────── */
   mobileEffect = effect(() => {
