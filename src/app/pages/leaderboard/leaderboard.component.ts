@@ -8,12 +8,12 @@ import { Scenario, Medal, Indicator } from '../../models/game-content';
 import { EditableTextComponent } from '../../ui/fields/editable-text.component';
 import type { Schema } from '../../../../amplify/data/resource';
 import { EndResult, DefeatReason } from '../../models/stats';
-import { LucideAngularModule } from 'lucide-angular';
+import { LearningResourcesComponent } from '../../components/learning-resources.component';
 
 @Component({
   selector: 'app-leaderboard-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, EditableTextComponent, LucideAngularModule],
+  imports: [CommonModule, HeaderComponent, EditableTextComponent, LearningResourcesComponent],
   styles: [`
   :host {
       width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-start;
@@ -117,16 +117,7 @@ import { LucideAngularModule } from 'lucide-angular';
       <!-- Learning Resources -->
       <div class="mt-8">
         <h2 class="text-2xl font-semibold text-white mb-4">Continue Learning</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a *ngFor="let resource of learningResources" [href]="resource.url" target="_blank" rel="noopener noreferrer"
-             class="bg-black/20 hover:bg-black/10 text-white rounded-lg px-4 py-3 shadow border border-black/30 flex items-start gap-3 transition">
-            <lucide-icon [name]="resource.icon" [size]="24" class="shrink-0 mt-0.5"></lucide-icon>
-            <div>
-              <div class="text-sm font-semibold">{{ resource.title }}</div>
-              <div class="text-xs text-gray-400 mt-1">{{ resource.description }}</div>
-            </div>
-          </a>
-        </div>
+        <app-learning-resources variant="dark" />
       </div>
     </div>
   `
@@ -136,14 +127,6 @@ export class LeaderboardPageComponent implements OnInit {
   router = inject(Router);
   private client = inject(ClientService).client;
   private lb = inject(LeaderboardService);
-
-  // Placeholder learning resources (Arup to provide actual links/descriptions/images)
-  learningResources = [
-    { title: 'Data Governance Fundamentals', description: 'Learn the basics of data governance and why it matters.', url: '#', icon: 'book-open' },
-    { title: 'Arup Data & AI Academy', description: 'Explore Arup\'s data literacy and AI training programs.', url: '#', icon: 'graduation-cap' },
-    { title: 'Data Quality Best Practices', description: 'Discover techniques to improve data quality in your projects.', url: '#', icon: 'chart-column' },
-    { title: 'Client Relationship Management', description: 'Build stronger client relationships through data-driven insights.', url: '#', icon: 'handshake' },
-  ];
 
   scenarioNameId = signal<string>('');
   scenario = signal<Scenario | null>(null);

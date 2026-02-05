@@ -22,6 +22,7 @@ import { GameEngineService } from './services/game-engine.service';
 import { formatCurrency, getImpactColor } from './utils/game-formatters';
 import { changeAndSetEmail } from './utils/change-emails';
 import { HeaderComponent } from '../../../components/header.component';
+import { LearningResourcesComponent } from '../../../components/learning-resources.component';
 import { LeaderboardService } from '../../../services/leaderboard.service';
 import { ContentDialogComponent } from '../../../ui/elements/content-dialog.component';
 import { StorageService } from '../../../services/storage.service';
@@ -42,7 +43,7 @@ export interface CompanyContext {
 @Component({
   selector: 'app-bestcdo-game',
   standalone: true,
-  imports: [CommonModule, GameStatsHeaderComponent, ContentDialogComponent, EmailInboxComponent, EmailViewerComponent, HeaderComponent],
+  imports: [CommonModule, GameStatsHeaderComponent, ContentDialogComponent, EmailInboxComponent, EmailViewerComponent, HeaderComponent, LearningResourcesComponent],
   providers: [GameStatsService, EmailQueueService, GameEngineService],
   styles: [`
     :host {
@@ -144,8 +145,8 @@ export interface CompanyContext {
             </div>
           </div>
 
-          <!-- Tiered feedback -->
-          <p class="text-sm text-gray-700 italic text-center">{{ tieredFeedback() }}</p>
+          <!-- Learning Resources -->
+          <app-learning-resources variant="light" class="mt-4" />
 
           <!-- Badges -->
           @if (endOverlayBadges().length > 0) {
@@ -159,7 +160,7 @@ export interface CompanyContext {
           }
 
           <button class="w-full py-3 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-semibold transition" (click)="acknowledgeEnd()">
-            Acknowledge
+            Go to leaderboard
           </button>
         </div>
       </div>
@@ -276,6 +277,18 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       return (score / 1_000).toFixed(0) + ' Pts';
     }
     return score.toFixed(0) + ' Pts';
+  }
+
+  /** Get the medal achieved for a given score */
+  getMedalForScore(score: number): 'gold' | 'silver' | 'bronze' | null {
+    const medals = this.content()?.medals || [];
+    const sorted = [...medals].sort((a, b) => b.threshold - a.threshold);
+    for (const m of sorted) {
+      if (score >= m.threshold) {
+        return m.name;
+      }
+    }
+    return null;
   }
 
   /* ──────────────── effects ───────────── */
@@ -607,7 +620,18 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     const result = this.pendingEndResult();
     if (!result) return '';
     if (result.hasWon) {
-      return 'Congratulations! Here is your score breakdown:';
+      const score = result.stats?.['weightedScore'] || 0;
+      const medal = this.getMedalForScore(score);
+      switch (medal) {
+        case 'gold':
+          return 'Congratulations! You avoided disaster and levelled up your data skills!';
+        case 'silver':
+          return 'Well done! You saved your data and staved off disaster. Take a silver medal. Fancy going for gold?';
+        case 'bronze':
+          return "Not bad! You survived – just. Here's a bronze medal. A silver medal's within reach…";
+        default:
+          return "Disaster! It's tougher than it looks to balance data with deliverables.";
+      }
     }
     const reason = result.defeatReason;
     const descriptions: Record<string, string> = {
@@ -639,28 +663,6 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     return badges;
   });
 
-  tieredFeedback = computed(() => {
-    const result = this.pendingEndResult();
-    if (!result) return '';
-    const stats = result.stats || {};
-    const profit = stats['profit'] || 0;
-    const dataQuality = stats['dataQuality'] || 0;
-    const clientRelationship = stats['clientRelationship'] || 0;
-    const score = stats['weightedScore'] || 0;
-
-    if (!result.hasWon) {
-      if (profit <= 0) return 'A tough run. Focus on balancing short-term costs with long-term value next time.';
-      if (dataQuality < 30) return 'Data quality was a major weakness. Prioritize data governance investments early.';
-      if (clientRelationship < 30) return 'Client relationships suffered. Building trust takes consistent attention.';
-      return 'Not the outcome you wanted, but every failure is a learning opportunity. Try again!';
-    }
-
-    if (score > 3_000_000) return 'Outstanding performance! You mastered the balance of profit, quality, and relationships.';
-    if (score > 2_000_000) return 'Excellent work! You demonstrated strong data governance leadership.';
-    if (score > 1_000_000) return 'Good job! There is room to improve your data quality and client relationships for a higher score.';
-    if (score > 500_000) return 'Decent result. Try focusing more on maintaining data quality and building client relationships.';
-    return 'You completed the game, but there is significant room for improvement. Balance all three dimensions next time.';
-  });
 
   acknowledgeEnd(): void {
     const result = this.pendingEndResult();

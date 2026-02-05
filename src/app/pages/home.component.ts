@@ -17,7 +17,7 @@ import { ResponsiveService } from '../services/responsive.service';
 import { ProgressComponent } from '../components/progress.component';
 import { ProgressPerScenarioComponent } from '../components/progress-per-scenario.component';
 import { ScenarioCardComponent } from '../ui/elements/scenario-card.component';
-import { LucideAngularModule } from 'lucide-angular';
+import { LearningResourcesComponent } from '../components/learning-resources.component';
 // UI KIT HOME PAGE DEMO
 @Component({
   selector: 'app-home',
@@ -30,7 +30,7 @@ import { LucideAngularModule } from 'lucide-angular';
     ProgressComponent,
     ProgressPerScenarioComponent,
     ScenarioCardComponent,
-    LucideAngularModule
+    LearningResourcesComponent
   ],
   template: `
   @if(loading()) {
@@ -82,18 +82,7 @@ import { LucideAngularModule } from 'lucide-angular';
           <!-- Learning Resources -->
           <div class="mt-8">
             <h2 class="text-2xl font-semibold text-white mb-4 spectral-font">Continue Learning</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              @for (resource of learningResources; track resource.title) {
-                <a [href]="resource.url" target="_blank" rel="noopener noreferrer"
-                   class="bg-black/20 hover:bg-black/10 text-white rounded-lg px-4 py-3 shadow border border-black/30 flex items-start gap-3 transition">
-                  <lucide-icon [name]="resource.icon" [size]="24" class="shrink-0 mt-0.5"></lucide-icon>
-                  <div>
-                    <div class="text-sm font-semibold">{{ resource.title }}</div>
-                    <div class="text-xs text-gray-400 mt-1">{{ resource.description }}</div>
-                  </div>
-                </a>
-              }
-            </div>
+            <app-learning-resources variant="dark" />
           </div>
         </div>
       </div>
@@ -179,14 +168,6 @@ export class HomeComponent implements OnInit{
   scenarios = signal<Scenario[]>([]);
   progressSummary = signal<ProgressSummary | null>(null);
   currentUserId = this.userService.currentUserId;
-  
-  // Placeholder learning resources (Arup to provide actual links/descriptions/images)
-  learningResources = [
-    { title: 'Data Governance Fundamentals', description: 'Learn the basics of data governance and why it matters.', url: '#', icon: 'book-open' },
-    { title: 'Arup Data & AI Academy', description: 'Explore Arup\'s data literacy and AI training programs.', url: '#', icon: 'graduation-cap' },
-    { title: 'Data Quality Best Practices', description: 'Discover techniques to improve data quality in your projects.', url: '#', icon: 'chart-column' },
-    { title: 'Client Relationship Management', description: 'Build stronger client relationships through data-driven insights.', url: '#', icon: 'handshake' },
-  ];
 
   // Progress metrics for wrapper visibility
   totalRuns = computed(() => {
