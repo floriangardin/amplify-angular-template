@@ -64,10 +64,14 @@ export class ProgressService {
       const existing = await this.client.models.UserScenarioProgress.get({ userId, scenarioNameId });
       if (existing?.data) {
         let previousIndicatorScores = existing.data.indicatorScores || [];
-        let previousProfit = previousIndicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value || -Infinity;
-        let currentProfit = indicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value;
-        let previousProfitLessThanCurrent = typeof previousProfit === 'number' && typeof currentProfit === 'number' && currentProfit > previousProfit;
-        let chosenIndicators = previousProfitLessThanCurrent ? indicatorScores : previousIndicatorScores;
+        // Compare using weightedScore (points) if available, falling back to profit
+        let previousScore = previousIndicatorScores.find(s => s && s.indicatorNameId === 'weightedScore')?.value
+          ?? previousIndicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value
+          ?? -Infinity;
+        let currentScore = indicatorScores.find(s => s && s.indicatorNameId === 'weightedScore')?.value
+          ?? indicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value;
+        let currentIsBetter = typeof previousScore === 'number' && typeof currentScore === 'number' && currentScore > previousScore;
+        let chosenIndicators = currentIsBetter ? indicatorScores : previousIndicatorScores;
         const runs = (existing.data.runs ?? 0) + (params.incrementRuns === false ? 0 : 1);
         await this.client.models.UserScenarioProgress.update({
           userId,

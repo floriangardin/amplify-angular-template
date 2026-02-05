@@ -58,7 +58,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
       @if (locked()) {
         <div class="absolute top-2 left-2 inline-flex items-center gap-1 rounded-md bg-yellow-400/95 px-2 py-0.5 text-[10px] font-bold text-gray-900 shadow">
           <i class="fa-solid fa-lock"></i>
-          <span>PRO</span>
+          <span>Coming soon</span>
         </div>
       }
       <!-- Completion tick -->
@@ -91,7 +91,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
             <span>Back</span>
           </button>
           @if (scenarioPlan() === 'pro') {
-            <span class="ml-2 shrink-0 self-start rounded-full bg-yellow-500 px-2.5 py-1 text-[11px] font-semibold text-gray-900">PRO</span>
+            <span class="ml-2 shrink-0 self-start rounded-full bg-yellow-500 px-2.5 py-1 text-[11px] font-semibold text-gray-900">Coming soon</span>
           }
         </div>
         <!-- Image -->
@@ -117,7 +117,7 @@ import { ScenarioFlyoutRegistryService } from '../utils/scenario-flyout-registry
         <!-- Details -->
         <div class="p-4 md:p-5 md:overflow-y-auto md:max-h-[calc(80vh-4rem)]">
           @if (locked()) {
-            <div class="text-xs md:text-sm text-gray-500 mt-4">This scenario requires a Pro plan.</div>
+            <div class="text-xs md:text-sm text-gray-500 mt-4">Coming soon</div>
           }
           <div class="mt-4 flex items-center gap-3">
             @if (!locked()) {

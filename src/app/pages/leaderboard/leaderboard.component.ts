@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header.component';
 import { ClientService } from '../../services/client.service';
 import { LeaderboardService } from '../../services/leaderboard.service';
+import { ScoringService } from '../../services/scoring.service';
 import { Scenario, Medal, Indicator } from '../../models/game-content';
 import { EditableTextComponent } from '../../ui/fields/editable-text.component';
 import type { Schema } from '../../../../amplify/data/resource';
@@ -127,6 +128,7 @@ export class LeaderboardPageComponent implements OnInit {
   router = inject(Router);
   private client = inject(ClientService).client;
   private lb = inject(LeaderboardService);
+  private scoringService = inject(ScoringService);
 
   scenarioNameId = signal<string>('');
   scenario = signal<Scenario | null>(null);
@@ -353,13 +355,7 @@ export class LeaderboardPageComponent implements OnInit {
   }
 
   private formatScore(score: number): string {
-    if (Math.abs(score) >= 1_000_000) {
-      return (score / 1_000_000).toFixed(1) + 'K Pts';
-    }
-    if (Math.abs(score) >= 1_000) {
-      return (score / 1_000).toFixed(0) + ' Pts';
-    }
-    return score.toFixed(0) + ' Pts';
+    return this.scoringService.formatScore(score);
   }
 
 }

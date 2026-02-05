@@ -15,6 +15,7 @@
     "seed:content": "tsx scripts/seed-content.ts",
     "seed:library": "tsx scripts/seed-library.ts",
     "delete:all": "tsx scripts/delete-all.ts",
+    "clear:leaderboard": "tsx scripts/clear-leaderboard.ts",
     "refresh:all": "tsx scripts/orchestrate-refresh.ts",
     "configure:cognito-domain": "tsx scripts/configure-cognito-domain.ts"
   },

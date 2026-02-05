@@ -60,10 +60,10 @@ import { LearningResourcesComponent } from '../components/learning-resources.com
               </app-scenario-card>
             }
             </div>
-                      @if(totalRuns() > 0 || totalProfit() !== null){
+                      @if(totalRuns() > 0 || hasProgress()){
             <h1 class="text-2xl space-y-4 md:space-y-8 font-semibold text-white mb-4 md:mb-8 spectral-font">Your progress</h1>
             <div class="flex flex-wrap gap-2 mb-8">
-              <app-progress [progressSummary]="progressSummary()"></app-progress>
+              <app-progress [progressSummary]="progressSummary()" [scenarios]="scenarios()"></app-progress>
             </div>
           }
 
@@ -177,10 +177,14 @@ export class HomeComponent implements OnInit{
     return entries.reduce((acc, p: any) => acc + (Number(p?.runs) || 0), 0);
   });
 
-  totalProfit = computed(() => {
+  hasProgress = computed(() => {
     const summary = this.progressSummary();
-    const val = summary?.totals?.['profit'];
-    return typeof val === 'number' ? val : null;
+    if (!summary) return false;
+    // Check if any scenario has any indicator scores
+    for (const entry of Object.values(summary.byScenario || {})) {
+      if (entry?.indicatorScores?.length) return true;
+    }
+    return false;
   });
   
   progressMap = computed(() => this.progressSummary()?.byScenario || {});
@@ -194,13 +198,20 @@ export class HomeComponent implements OnInit{
   });
   profitByScenario = computed(() => {
     const map = this.progressMap();
-    console.log('Computing profit by scenario from progress map', map);
     const res: Record<string, number | undefined> = {};
     Object.values(map).forEach(p => {
       if (!p?.scenarioNameId) return;
-      const profitEntry = (p.indicatorScores || []).find((s: any): s is any => !!s && s.indicatorNameId === 'profit');
-      const profit = profitEntry?.value as number | undefined;
-      if (typeof profit === 'number') res[p.scenarioNameId] = profit;
+      // Use weightedScore (points) for display, falling back to profit if not available
+      const scoreEntry = (p.indicatorScores || []).find((s: any): s is any => !!s && s.indicatorNameId === 'weightedScore');
+      const score = scoreEntry?.value as number | undefined;
+      if (typeof score === 'number') {
+        res[p.scenarioNameId] = score;
+      } else {
+        // Fallback to profit for older progress entries that don't have weightedScore
+        const profitEntry = (p.indicatorScores || []).find((s: any): s is any => !!s && s.indicatorNameId === 'profit');
+        const profit = profitEntry?.value as number | undefined;
+        if (typeof profit === 'number') res[p.scenarioNameId] = profit;
+      }
     });
     return res;
   });

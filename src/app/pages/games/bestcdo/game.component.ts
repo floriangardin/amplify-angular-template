@@ -27,6 +27,7 @@ import { LeaderboardService } from '../../../services/leaderboard.service';
 import { ContentDialogComponent } from '../../../ui/elements/content-dialog.component';
 import { StorageService } from '../../../services/storage.service';
 import { ProgressService } from '../../../services/progress.service';
+import { ScoringService } from '../../../services/scoring.service';
 import { EndResult } from '../../../models/stats';
 
 export interface CompanyContext {
@@ -178,11 +179,12 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   leaderboardService = inject(LeaderboardService);
   storageService = inject(StorageService);
   progressService = inject(ProgressService);
+  scoringService = inject(ScoringService);
 
 
   /* ──────────────── constants ───────────── */
   private readonly initialScore: number = 1_000_000;
-  private readonly timeLimitMs: number = 0 * 60 * 1000; // 4 minutes
+  private readonly timeLimitMs: number = 4 * 60 * 1000; // 4 minutes
   private readonly urgentTimeLimitMs: number = 25_000; // 25 seconds to answer urgent emails
 
   /* ──────────────── state signals ───────── */
@@ -214,10 +216,11 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   
   /** Live weighted score (same formula used for leaderboard, without finish bonus) */
   liveWeightedScore = computed(() => {
-    const profit = this.statValue('profit');
-    const dataQuality = this.statValue('dataQuality');
-    const clientRelationship = this.statValue('clientRelationship');
-    return Math.round((1 / 100) * profit * (100 + dataQuality + clientRelationship));
+    return this.scoringService.calculateWeightedScore({
+      profit: this.statValue('profit'),
+      dataQuality: this.statValue('dataQuality'),
+      clientRelationship: this.statValue('clientRelationship'),
+    });
   });
 
   selectedEmailChoices = computed(() => {
@@ -270,13 +273,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
   /* ──────────────── helper methods ─────────────── */
   /** Format score with Pts & K Pts suffix */
   formatScore(score: number): string {
-    if (Math.abs(score) >= 1_000_000) {
-      return (score / 1_000_000).toFixed(1) + 'K Pts';
-    }
-    if (Math.abs(score) >= 1_000) {
-      return (score / 1_000).toFixed(0) + ' Pts';
-    }
-    return score.toFixed(0) + ' Pts';
+    return this.scoringService.formatScore(score);
   }
 
   /** Get the medal achieved for a given score */
@@ -735,11 +732,12 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.gameEngineService.stop();
     // Save best score before navigating (weighted scoring)
     const scenarioNameId = this.currentScenarioNameId();
-    const profit = this.statValue('profit');
-    const dataQuality = this.statValue('dataQuality');
-    const clientRelationship = this.statValue('clientRelationship');
-    const finishBonus = endResult.hasWon ? profit : 0;
-    const weightedScore = Math.round((1 / 100) * profit * (100 + dataQuality + clientRelationship) + finishBonus);
+    const weightedScore = this.scoringService.calculateFinalScore({
+      profit: this.statValue('profit'),
+      dataQuality: this.statValue('dataQuality'),
+      clientRelationship: this.statValue('clientRelationship'),
+      hasWon: endResult.hasWon,
+    });
     // Store weighted score in endResult for display
     endResult.stats = { ...endResult.stats, weightedScore };
     if (scenarioNameId) {
@@ -753,6 +751,8 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
           .map(d => ({ indicatorNameId: d.nameId, value: (snapshot[d.nameId] ?? d.initial ?? 0) as number, initial: d.initial }))
           .filter(s => typeof s.value === 'number' && s.value !== (s.initial ?? s.value))
           .map(s => ({ indicatorNameId: s.indicatorNameId, value: s.value }));
+        // Also store the weighted score (points) for display on scenario cards
+        indicatorScores.push({ indicatorNameId: 'weightedScore', value: weightedScore });
         this.progressService.upsertMyScenarioProgress({
           scenarioNameId,
           indicatorScores,
