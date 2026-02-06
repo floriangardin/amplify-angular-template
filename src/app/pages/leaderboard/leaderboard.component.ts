@@ -138,7 +138,7 @@ export class LeaderboardPageComponent implements OnInit {
   pageSize = 10;
   pageIndex = signal(0);
   tokensStack: (string | null | undefined)[] = [null]; // token before each page
-  nextToken: string | null | undefined = null;
+  nextToken = signal<string | null | undefined>(null);
 
   currentUserId = signal<string>('');
   private medals = signal<Medal[] | undefined>(undefined);
@@ -274,18 +274,19 @@ export class LeaderboardPageComponent implements OnInit {
     const token = this.tokensStack[page] ?? null;
     const pageRes = await this.lb.listTopByScenario(this.scenarioNameId(), this.pageSize, token);
     this.rows.set(pageRes.items as any);
-    this.nextToken = pageRes.nextToken ?? null;
+    const newToken = pageRes.nextToken ?? null;
+    this.nextToken.set(newToken);
     this.pageIndex.set(page);
     // Ensure stack length
     if (this.tokensStack.length === page) {
-      this.tokensStack.push(this.nextToken);
+      this.tokensStack.push(newToken);
     } else {
-      this.tokensStack[page + 1] = this.nextToken;
+      this.tokensStack[page + 1] = newToken;
     }
   }
 
   canPrev = computed(() => this.pageIndex() > 0);
-  canNext = computed(() => !!this.nextToken);
+  canNext = computed(() => !!this.nextToken());
 
   async prev() {
     if (!this.canPrev()) return;

@@ -1457,17 +1457,17 @@
   "medals": [
     {
       "name": "gold",
-      "threshold": 2000000,
+      "threshold": 3000000,
       "emoji": "🥇"
     },
     {
       "name": "silver",
-      "threshold": 1500000,
+      "threshold": 2500000,
       "emoji": "🥈"
     },
     {
       "name": "bronze",
-      "threshold": 500000,
+      "threshold": 1500000,
       "emoji": "🥉"
     }
   ],
