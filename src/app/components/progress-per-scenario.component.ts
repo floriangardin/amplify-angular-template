@@ -161,10 +161,11 @@ export class ProgressPerScenarioComponent {
     });
   }
 
-  // View models sorted by priority
+  // View models sorted by priority, excluding pro scenarios
   viewModels = computed(() => {
     const map = this.byScenario();
     return Object.values(map)
+      .filter(item => item.scenario?.card?.plan !== 'pro')
       .sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0));
   });
 
