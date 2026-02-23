@@ -55,12 +55,10 @@ For arup
 npx dotenvx run --env-file=.env.local -- ampx sandbox --identifier arup --stream-function-logs
 ```
 
-
 ## Configure custom domain
 
 To add to amplify.yml
         - npm run configure:cognito-domain || true
-
 
 ## Extract qual or prod amplify_outputs.json file
 
