@@ -140,9 +140,15 @@ export interface CompanyContext {
             <div class="flex justify-between"><span>💰 Profit:</span><span class="font-bold">{{ formatCurrency(pendingEndResult()!.stats['profit'] || 0) }}</span></div>
             <div class="flex justify-between"><span>📊 Data Quality:</span><span class="font-bold">{{ pendingEndResult()!.stats['dataQuality'] || 0 }}%</span></div>
             <div class="flex justify-between"><span>⭐ Client Relationship:</span><span class="font-bold">{{ pendingEndResult()!.stats['clientRelationship'] || 0 }}%</span></div>
-            <div class="border-t border-gray-300 pt-2 flex justify-between font-semibold">
-              <span>Final Score:</span>
-              <span class="text-primary-600">{{ formatScore(pendingEndResult()!.stats['weightedScore'] || 0) }}</span>
+            <div class="border-t border-gray-300 pt-2 space-y-1">
+              <div class="flex justify-between text-gray-600"><span>Base Score:</span><span>{{ formatScore(pendingEndResult()!.stats['baseScore'] || 0) }}</span></div>
+              @if (pendingEndResult()!.hasWon) {
+                <div class="flex justify-between text-green-600"><span>🏆 Completion Bonus:</span><span>+{{ formatScore(pendingEndResult()!.stats['finishBonus'] || 0) }}</span></div>
+              }
+              <div class="flex justify-between font-semibold">
+                <span>Final Score:</span>
+                <span class="text-primary-600">{{ formatScore(pendingEndResult()!.stats['weightedScore'] || 0) }}</span>
+              </div>
             </div>
           </div>
 
@@ -589,20 +595,13 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       });
     }
 
-    // If not an explicit end email, check if there are no more emails
+    // If not an explicit end email, check if there are no more emails at all
+    // Only end the game if the inbox is empty AND the entire email pool is empty
+    // (not just filtered — emails gated by clientRelationship/dataQuality may become available later)
     if (!mail.end && !this.isEditable()) {
       const hasInboxEmails = this.inbox().length > 0;
-      const maybeNext = this.emailQueueService.getNextEmail(
-        this.lastMailId(),
-        {
-          minClientRelationship: this.statValue('clientRelationship'),
-          maxDataQuality: this.statValue('dataQuality'),
-          budget: this.statValue('cdoBudget')
-
-        }
-      );
-      const noNextAvailable = !maybeNext;
-      if (!hasInboxEmails && noNextAvailable) {
+      const hasAnyAvailable = this.emailQueueService.availableCount() > 0;
+      if (!hasInboxEmails && !hasAnyAvailable) {
         this.triggerEndSequence({
           hasWon: true,
           defeatReason: null,
@@ -732,14 +731,16 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.gameEngineService.stop();
     // Save best score before navigating (weighted scoring)
     const scenarioNameId = this.currentScenarioNameId();
-    const weightedScore = this.scoringService.calculateFinalScore({
+    const scoreInputs = {
       profit: this.statValue('profit'),
       dataQuality: this.statValue('dataQuality'),
       clientRelationship: this.statValue('clientRelationship'),
-      hasWon: endResult.hasWon,
-    });
-    // Store weighted score in endResult for display
-    endResult.stats = { ...endResult.stats, weightedScore };
+    };
+    const baseScore = this.scoringService.calculateWeightedScore(scoreInputs);
+    const finishBonus = endResult.hasWon ? scoreInputs.profit : 0;
+    const weightedScore = Math.round(baseScore + finishBonus);
+    // Store weighted score and breakdown in endResult for display
+    endResult.stats = { ...endResult.stats, weightedScore, baseScore, finishBonus };
     if (scenarioNameId) {
       this.leaderboardService.saveMyBestScore(scenarioNameId, weightedScore).catch(err => console.warn('Save score failed', err));
       // Also persist per-user scenario progress with changed indicators

@@ -230,7 +230,7 @@
       "default": true,
       "sender": "CEO Office",
       "title": "We're releasing APEX! Will you join?",
-      "content": "Dear Project Team Leader,<br/><br/>We’re launching APEX, our new central project management tool, and we'd like you to be a part of the testing group! Are you interested?<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We\u2019re launching APEX, our new central project management tool, and we'd like you to be a part of the testing group! Are you interested?<br/><br/>Best regards,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -333,7 +333,7 @@
           }
         }
       },
-      "minClientRelationship": 10,
+      "minClientRelationship": 30,
       "maxDataQuality": 100
     },
     {
@@ -389,7 +389,7 @@
           }
         }
       },
-      "minClientRelationship": 20,
+      "minClientRelationship": 30,
       "maxDataQuality": 100
     },
     {
@@ -398,7 +398,7 @@
       "default": true,
       "sender": "Group Director",
       "title": "The Digital Transformation of Arup",
-      "content": "Dear Project Team Leader,<br/><br/>You've been identified as one of thought leaders for AI in the company. I’ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>You've been identified as one of thought leaders for AI in the company. I\u2019ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.<br/><br/>Kind regards,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
@@ -453,8 +453,8 @@
       "end": false,
       "default": true,
       "sender": "CDO",
-      "title": "Let’s Empower Everyone With Data",
-      "content": "Dear Project Team Leader,<br/><br/>All Arup members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.<br/><br/>Sincerely,\n",
+      "title": "Let\u2019s Empower Everyone With Data",
+      "content": "Dear Project Team Leader,<br/><br/>All Arup members need to speak data. I\u2019m unlocking funds so all of your team can complete the Introduction to Data course. Let\u2019s build a culture of data fluency together.<br/><br/>Sincerely,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
@@ -566,7 +566,7 @@
       "default": true,
       "sender": "Team Member - Data Engineer",
       "title": "Community Engagement Survey Data",
-      "content": "Dear Project Team Leader,<br/><br/>As part of our current project, I’ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we’re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>As part of our current project, I\u2019ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we\u2019re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.<br/><br/>Kind regards,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -1070,7 +1070,7 @@
       "default": true,
       "sender": "Client",
       "title": "Unhappy with delivery delays",
-      "content": "Dear Project Team Leader,<br/><br/>We’re concerned about the recent delays in project delivery. Could you please update us on the reasons for these delays and what steps are being taken to get things back on track? Timely delivery is critical for our operations.<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>We\u2019re concerned about the recent delays in project delivery. Could you please update us on the reasons for these delays and what steps are being taken to get things back on track? Timely delivery is critical for our operations.<br/><br/>Best regards,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1406,7 +1406,7 @@
     {
       "name": "Profit",
       "nameId": "profit",
-      "emoji": "📈",
+      "emoji": "\ud83d\udcc8",
       "initial": 0,
       "priority": 1,
       "min": -10000000,
@@ -1418,7 +1418,7 @@
     {
       "name": "Budget",
       "nameId": "cdoBudget",
-      "emoji": "💰",
+      "emoji": "\ud83d\udcb0",
       "initial": 1000000,
       "priority": 2,
       "min": 0,
@@ -1430,7 +1430,7 @@
     {
       "name": "Data Quality",
       "nameId": "dataQuality",
-      "emoji": "📊",
+      "emoji": "\ud83d\udcca",
       "initial": 10,
       "priority": 3,
       "min": 0,
@@ -1442,7 +1442,7 @@
     {
       "name": "Client Relationship",
       "nameId": "clientRelationship",
-      "emoji": "🤝",
+      "emoji": "\ud83e\udd1d",
       "initial": 10,
       "priority": 4,
       "min": 0,
@@ -1458,17 +1458,17 @@
     {
       "name": "gold",
       "threshold": 3000000,
-      "emoji": "🥇"
+      "emoji": "\ud83e\udd47"
     },
     {
       "name": "silver",
       "threshold": 2500000,
-      "emoji": "🥈"
+      "emoji": "\ud83e\udd48"
     },
     {
       "name": "bronze",
       "threshold": 1500000,
-      "emoji": "🥉"
+      "emoji": "\ud83e\udd49"
     }
   ],
   "card": {

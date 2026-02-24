@@ -16,17 +16,17 @@ import { Scenario } from '../models/game-content';
       }
       @if(bestProfit() !== null){
         <div class="inline-flex items-center rounded-full bg-black/20 px-4 py-1 text-sm md:text-lg font-medium text-white border border-black/20" title="Best profit achieved">
-          📈 Best Profit: &nbsp;<span class="font-bold">\${{ bestProfit() | number:'1.0-0' }}</span>
+          📈 All time best Profit: &nbsp;<span class="font-bold">\${{ bestProfit() | number:'1.0-0' }}</span>
         </div>
       }
       @if(bestDataQuality() !== null){
         <div class="inline-flex items-center rounded-full bg-black/20 px-4 py-1 text-sm md:text-lg font-medium text-white border border-black/20" title="Best data quality achieved">
-          📊 Best Data Quality: &nbsp;<span class="font-bold">{{ bestDataQuality() | number:'1.0-0' }}%</span>
+          📊 All time best Data Quality: &nbsp;<span class="font-bold">{{ bestDataQuality() | number:'1.0-0' }}%</span>
         </div>
       }
       @if(bestClientRelationship() !== null){
         <div class="inline-flex items-center rounded-full bg-black/20 px-4 py-1 text-sm md:text-lg font-medium text-white border border-black/20" title="Best client relationship achieved">
-          ⭐ Best Client Relationship: &nbsp;<span class="font-bold">{{ bestClientRelationship() | number:'1.0-0' }}%</span>
+          ⭐ All time best Client Relationship: &nbsp;<span class="font-bold">{{ bestClientRelationship() | number:'1.0-0' }}%</span>
         </div>
       }
       @for (badge of allBadges(); track badge) {

@@ -212,10 +212,11 @@ indicators = [
 
 # Medals
 medals = [
-    Medal(name="gold", threshold=2_000_000, emoji="🥇"),
-    Medal(name="silver", threshold=1_500_000, emoji="🥈"),
-    Medal(name="bronze", threshold=500_000, emoji="🥉")
+    Medal(name="gold", threshold=3_000_000, emoji="🥇"),
+    Medal(name="silver", threshold=2_500_000, emoji="🥈"),
+    Medal(name="bronze", threshold=1_500_000, emoji="🥉")
 ]
+
 
 # Card
 card = Card(
