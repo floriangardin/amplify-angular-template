@@ -11,10 +11,3 @@ const backend = defineBackend({
   storage,
 });
 
-const domainPrefix = process.env.COGNITO_DOMAIN_PREFIX;
-console.log("Using Cognito domain prefix:", domainPrefix);
-
-if (domainPrefix)
-backend.auth.resources.userPool.addDomain('cognito-domain', {
-  cognitoDomain: { domainPrefix: domainPrefix },
-});
