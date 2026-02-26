@@ -31,14 +31,12 @@
     "@angular/router": "^20.1.0",
     "@aws-amplify/ui-angular": "^5.1.5",
     "@aws-sdk/client-cognito-identity-provider": "^3.670.0",
-    "@aws-sdk/client-route-53": "^3.670.0",
     "@dotenvx/dotenvx": "^1.51.0",
     "@tailwindcss/postcss": "^4.1.11",
     "aws-amplify": "^6.6.6",
     "lucide-angular": "^0.563.0",
     "marked": "^12.0.2",
     "rxjs": "~7.8.0",
-    "stripe": "^19.1.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
