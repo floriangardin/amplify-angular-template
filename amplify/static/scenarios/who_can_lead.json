@@ -126,7 +126,7 @@
           "name": "1",
           "text": "Demand the vendor handle all notifications and remediation.",
           "outcome": {
-            "description": "The vendor's poor communication and slow response reflected badly on Arup. Customers are angry that you attempted to shift responsibility, and regulators question your vendor management practices.",
+            "description": "The vendor's poor communication and slow response reflected badly on Globex. Customers are angry that you attempted to shift responsibility, and regulators question your vendor management practices.",
             "impact": {
               "profit": -100000,
               "dataQuality": 0,
@@ -138,9 +138,9 @@
         },
         "2": {
           "name": "2",
-          "text": "Take control of the response and work closely with Arup's Legal team to establish a way forward.",
+          "text": "Take control of the response and work closely with Globex's Legal team to establish a way forward.",
           "outcome": {
-            "description": "Your proactive approach demonstrated strong customer focus but excluding the vendor increased Arup's costs substantially. The vendor has agreed to partial cost reimbursement, but the incident has strained the relationship.",
+            "description": "Your proactive approach demonstrated strong customer focus but excluding the vendor increased Globex's costs substantially. The vendor has agreed to partial cost reimbursement, but the incident has strained the relationship.",
             "impact": {
               "profit": -200000,
               "dataQuality": 0,
@@ -196,7 +196,7 @@
           "name": "2",
           "text": "Notify the Cyber Security and Legal Team and work closely with them to ensure the data you provide is complete and appropriate.",
           "outcome": {
-            "description": "The Data Subject Access Request was successfully fulfilled but took longer than expected. Your project delivery operations were impacted, but Arup's business integrity remains intact with industry peers.",
+            "description": "The Data Subject Access Request was successfully fulfilled but took longer than expected. Your project delivery operations were impacted, but Globex's business integrity remains intact with industry peers.",
             "impact": {
               "profit": -200000,
               "dataQuality": 0,
@@ -342,7 +342,7 @@
       "default": true,
       "sender": "CEO Office",
       "title": "Time to Build Our Data & AI Future",
-      "content": "Dear Project Team Leader,<br/><br/>You've been invited to attend the next Leading Digital Change - Data & AI programme which starts soon. It's a great opportunity for you to boost your knowledge and understanding of how you can lead Arup to a Data and AI powered future. Can you attend?<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>You've been invited to attend the next Leading Digital Change - Data & AI programme which starts soon. It's a great opportunity for you to boost your knowledge and understanding of how you can lead Globex to a Data and AI powered future. Can you attend?<br/><br/>Thank you,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -378,7 +378,7 @@
           "name": "3",
           "text": "Decline the invite and focus solely on your project.",
           "outcome": {
-            "description": "This is the safe option in the short term, but Arup risk's falling behind - and what are the consequences?",
+            "description": "This is the safe option in the short term, but Globex risk's falling behind - and what are the consequences?",
             "impact": {
               "profit": 0,
               "dataQuality": 0,
@@ -397,7 +397,7 @@
       "end": false,
       "default": true,
       "sender": "Group Director",
-      "title": "The Digital Transformation of Arup",
+      "title": "The Digital Transformation of Globex",
       "content": "Dear Project Team Leader,<br/><br/>You've been identified as one of thought leaders for AI in the company. I’ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.<br/><br/>Kind regards,\n",
       "category": "budget",
       "isUrgent": false,
@@ -510,7 +510,7 @@
       "default": true,
       "sender": "CDO",
       "title": "Let’s Empower Everyone With Data",
-      "content": "Dear Project Team Leader,<br/><br/>All Arup members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>All Globex members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.<br/><br/>Sincerely,\n",
       "category": "budget",
       "isUrgent": false,
       "choices": {
@@ -518,7 +518,7 @@
           "name": "1",
           "text": "Complete the course and ask your team to do the same as soon as possible.",
           "outcome": {
-            "description": "Members across Arup have the same base understanding and are empowered to collaborate on data-related issues.",
+            "description": "Members across Globex have the same base understanding and are empowered to collaborate on data-related issues.",
             "impact": {
               "profit": 600000,
               "dataQuality": 10,
@@ -628,7 +628,7 @@
       "choices": {
         "1": {
           "name": "1",
-          "text": "Store the survey data in the standard project SharePoint folder, provided you apply the correct information security tags. Ensure you follow Arup's retention policies.",
+          "text": "Store the survey data in the standard project SharePoint folder, provided you apply the correct information security tags. Ensure you follow Globex's retention policies.",
           "outcome": {
             "description": "This action was quick to implement using the existing SharePoint structure, with low cost and minimal disruption. However, there is a moderate compliance risk and potential audit issues if access controls and retention policies are not strictly enforced.",
             "impact": {
@@ -658,7 +658,7 @@
           "name": "3",
           "text": "Keep the survey data on your local drive or email it to the team. Review this approach once the project is further down the line.",
           "outcome": {
-            "description": "Your approach is both low cost and convenient but carries a high risk of data loss and severe non-compliance. This could lead to reputational damage and financial penalties for Arup.",
+            "description": "Your approach is both low cost and convenient but carries a high risk of data loss and severe non-compliance. This could lead to reputational damage and financial penalties for Globex.",
             "impact": {
               "profit": 600000,
               "dataQuality": 5,
@@ -734,13 +734,13 @@
       "default": true,
       "sender": "CEO",
       "title": "Welcome aboard!",
-      "content": "Dear Project Team Leader,<br/><br/>As you know, Arup has some major data challenges and they are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Sincerely,\n",
+      "content": "Dear Project Team Leader,<br/><br/>As you know, Globex has some major data challenges and they are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Sincerely,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
         "1": {
           "name": "1",
-          "text": "Engage your teams and peers to survey Arup's data needs.",
+          "text": "Engage your teams and peers to survey Globex's data needs.",
           "outcome": {
             "description": "You gain insights into current gaps and build goodwill.",
             "impact": {
@@ -845,8 +845,8 @@
       "end": false,
       "default": true,
       "sender": "CRM Team",
-      "title": "Arup Projects Data",
-      "content": "Dear Project Team Leader,<br/><br/>Your recent project has been assigned \"confirmed\" status in the CRM system and an Arup Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Arup Projects page now to update this information.\nArup Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Arup globally.\nPlease update your project information.<br/><br/>Kind regards,\n",
+      "title": "Globex Projects Data",
+      "content": "Dear Project Team Leader,<br/><br/>Your recent project has been assigned \"confirmed\" status in the CRM system and an Globex Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Globex Projects page now to update this information.\nGlobex Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Globex globally.\nPlease update your project information.<br/><br/>Kind regards,\n",
       "category": "dataQuality",
       "isUrgent": false,
       "choices": {
@@ -868,7 +868,7 @@
           "name": "2",
           "text": "Implement a workflow process that requires teams review and update data at key project milestones.",
           "outcome": {
-            "description": "This approach ensured that accurate project data was eventually included into Arup Projects. Other teams missed out on your data in the interim but ultimately received more accurate data than in previous quarters.",
+            "description": "This approach ensured that accurate project data was eventually included into Globex Projects. Other teams missed out on your data in the interim but ultimately received more accurate data than in previous quarters.",
             "impact": {
               "profit": 250000,
               "dataQuality": 10,
@@ -938,7 +938,7 @@
           "name": "3",
           "text": "Only address the most critical findings and focus on your client delivery challenges. ",
           "outcome": {
-            "description": "The minimal approach met basic requirements but drew regulatory scrutiny. Arup avoided immediate penalties but remains under increased oversight, and your client has expressed privacy concerns.",
+            "description": "The minimal approach met basic requirements but drew regulatory scrutiny. Globex avoided immediate penalties but remains under increased oversight, and your client has expressed privacy concerns.",
             "impact": {
               "profit": 0,
               "dataQuality": -5,
@@ -1014,7 +1014,7 @@
       "default": true,
       "sender": "Digital Technology Group",
       "title": "Data Labs Proposal",
-      "content": "Dear Project Team Leader,<br/><br/>Our Digital Technology Group have partnered with Arup University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Our Digital Technology Group have partnered with Globex University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Thank you,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1238,7 +1238,7 @@
       "default": true,
       "sender": "APEX Team",
       "title": "Data Register Reminder",
-      "content": "Dear Project Team Leader,<br/><br/>Now that Planisware - Arup's new central project delivery tool - has released globally, please complete your data register.<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Now that Planisware - Globex's new central project delivery tool - has released globally, please complete your data register.<br/><br/>Thank you,\n",
       "category": "misc",
       "isUrgent": false,
       "choices": {
@@ -1574,7 +1574,7 @@
       "default": true,
       "sender": "Digital Technology Group",
       "title": "Standardising workflows in your project",
-      "content": "Dear Project Team Leader,<br/><br/>Arup is looking to standardise its workflows and your project has been chosen as a pilot candidate. How would you proceed?<br/><br/>Best regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>Globex is looking to standardise its workflows and your project has been chosen as a pilot candidate. How would you proceed?<br/><br/>Best regards,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -1686,7 +1686,7 @@
       "default": true,
       "sender": "Digital Technology Group",
       "title": "Talent Transformation - Digital Leadership",
-      "content": "Dear Project Team Leader,<br/><br/>You have been provided with budget to help shape Arup's digital future by appointing new leadership roles. What do you want to do from here?<br/><br/>Thank you,\n",
+      "content": "Dear Project Team Leader,<br/><br/>You have been provided with budget to help shape Globex's digital future by appointing new leadership roles. What do you want to do from here?<br/><br/>Thank you,\n",
       "category": "hr",
       "isUrgent": false,
       "choices": {
@@ -1742,7 +1742,7 @@
       "default": true,
       "sender": "Lead Engineer",
       "title": "BIM Modelling for Product Engine",
-      "content": "Dear Project Team Leader,<br/><br/>I believe my BIM modelling solution could be a strong candidate for Arup's Product Engine and would really value your view on its potential. What do you think?<br/><br/>Kind regards,\n",
+      "content": "Dear Project Team Leader,<br/><br/>I believe my BIM modelling solution could be a strong candidate for Globex's Product Engine and would really value your view on its potential. What do you think?<br/><br/>Kind regards,\n",
       "category": "strategy",
       "isUrgent": false,
       "choices": {
@@ -1750,7 +1750,7 @@
           "name": "1",
           "text": "The solution shows promise - actively sponsor the solution for Product Engine assessment. ",
           "outcome": {
-            "description": "Solution could be highly beneficial for Arup as a whole but requires significant refinement, standardisation and governance effort.",
+            "description": "Solution could be highly beneficial for Globex as a whole but requires significant refinement, standardisation and governance effort.",
             "impact": {
               "profit": 150000,
               "dataQuality": 10,

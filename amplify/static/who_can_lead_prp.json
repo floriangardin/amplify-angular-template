@@ -654,13 +654,13 @@
       "default": true,
       "sender": "Library Team",
       "title": "Congratulations!",
-      "content": "\"Our project: Blanchardstown Shopping Centre- Amalgamation job number 30747400 has recently been assigned \"\"confirmed\"\" status in the CRM system and an Arup Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Arup Projects page now to update this information (description, participants, client’s objective, key data of the project brief, etc.)\nArup Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Arup globally.\nBy ensuring that our project records are complete, accurate and up-to-date, you will help us to win more work and to find relevant and useful information when bidding or doing projects of a similar nature in the future.\nPlease take 15 minutes at each project review to identify and upload new information to Arup Projects. For more information on how to manage / review your project records, click here.\nBest regards,\nCRM Team.\"",
+      "content": "\"Our project: Blanchardstown Shopping Centre- Amalgamation job number 30747400 has recently been assigned \"\"confirmed\"\" status in the CRM system and an Globex Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Globex Projects page now to update this information (description, participants, client’s objective, key data of the project brief, etc.)\nGlobex Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Globex globally.\nBy ensuring that our project records are complete, accurate and up-to-date, you will help us to win more work and to find relevant and useful information when bidding or doing projects of a similar nature in the future.\nPlease take 15 minutes at each project review to identify and upload new information to Globex Projects. For more information on how to manage / review your project records, click here.\nBest regards,\nCRM Team.\"",
       "category": "Work Winning",
       "isUrgent": false,
       "choices": {
         "1": {
           "name": "1",
-          "text": "Go back into Arup Projects and update your entry - this data will help our company.",
+          "text": "Go back into Globex Projects and update your entry - this data will help our company.",
           "outcome": {
             "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
             "impact": {
@@ -924,13 +924,13 @@
       "default": true,
       "sender": "Administrative Assisstant",
       "title": "Project Background Information?",
-      "content": "I've been looking at one of your previous projects as I'm supporting another PD in their bid and there's a lot of similarities in our projects. There's very little data in the Arup Projects database about it, could you share a bit more detail about that project.",
+      "content": "I've been looking at one of your previous projects as I'm supporting another PD in their bid and there's a lot of similarities in our projects. There's very little data in the Globex Projects database about it, could you share a bit more detail about that project.",
       "category": "Work Winning",
       "isUrgent": false,
       "choices": {
         "1": {
           "name": "1",
-          "text": "Go back into Arup Projects and update your entry - this data will help our company",
+          "text": "Go back into Globex Projects and update your entry - this data will help our company",
           "outcome": {
             "description": "Positive outcome: Builds trust, ensures compliance, and strengthens client relationship.",
             "impact": {
@@ -978,7 +978,7 @@
       "default": true,
       "sender": "Portfolio Leader",
       "title": "Update Your Page",
-      "content": "Now that your project is closing please could update the Arup Projects page associated with it and add some nuggets, statistics and value stories to help us share our knowledge between our members.",
+      "content": "Now that your project is closing please could update the Globex Projects page associated with it and add some nuggets, statistics and value stories to help us share our knowledge between our members.",
       "category": "Work Winning",
       "isUrgent": false,
       "choices": {
