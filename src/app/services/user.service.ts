@@ -1,57 +1,54 @@
-import '../../amplify-config';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 import { Injectable, signal } from '@angular/core';
-import { fetchAuthSession } from 'aws-amplify/auth';
 import { PlanName } from '../models/user';
 
+const ADJECTIVES = ['Bold','Clever','Swift','Bright','Calm','Daring','Eager','Fierce','Gentle','Happy','Keen','Lucky','Noble','Quick','Sharp','Brave','Witty','Zesty','Cool','Wise'];
+const ANIMALS = ['Falcon','Panda','Tiger','Eagle','Wolf','Dolphin','Fox','Owl','Hawk','Bear','Lion','Raven','Lynx','Orca','Crane','Heron','Koala','Otter','Stag','Viper'];
+
+function generateGuestName(): string {
+  const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
+  const animal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+  const num = Math.floor(Math.random() * 100);
+  return `${adj} ${animal} #${num}`;
+}
+
+function generateGuestId(): string {
+  return 'guest-' + crypto.randomUUID();
+}
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    public client = generateClient<Schema>();
+  isAdmin = signal<boolean>(false);
+  isPro = signal<boolean>(true);
+  email = signal<string>('');
+  preferredUsername = signal<string>('');
+  planName = signal<PlanName>('pro');
+  periodEnd = signal<string | null>(null);
+  currentUserId = signal<string>('');
 
-    isAdmin = signal<boolean>(false);
-    isPro = signal<boolean>(false);
-    email = signal<string>('Unknown');
-    preferredUsername = signal<string>('');
-    planName = signal<PlanName>('');
-    periodEnd = signal<string | null>(null);
-    currentUserId = signal<string>('');
+  constructor() {
+    this.init();
+  }
 
-    constructor() {
-        this.init();
+  async init(): Promise<void> {
+    let guestId = localStorage.getItem('demo_guest_id');
+    let guestName = localStorage.getItem('demo_guest_name');
+    if (!guestId) {
+      guestId = generateGuestId();
+      localStorage.setItem('demo_guest_id', guestId);
     }
-    async init(): Promise<void> {
-        await this.refreshNow(false);
+    if (!guestName) {
+      guestName = generateGuestName();
+      localStorage.setItem('demo_guest_name', guestName);
     }
+    this.currentUserId.set(guestId);
+    this.preferredUsername.set(guestName);
+    this.email.set(`${guestName.toLowerCase().replace(/\s+/g, '.')}@demo`);
+  }
 
-    async refreshNow(showWarnings: boolean = true): Promise<void> {
-        try {
-            const { tokens } = await fetchAuthSession({ forceRefresh: true });
-                        const payload = tokens?.idToken?.payload || {};
-                        const accessPayload = tokens?.accessToken?.payload || {};
-                        const email = (payload?.['email'] as string | undefined)
-                            || (accessPayload?.['username'] as string | undefined)
-                            || '';
-                        this.email.set(email);
-                        const preferred = (payload?.['preferred_username'] as string | undefined)
-                            || (payload?.['nickname'] as string | undefined)
-                            || (email ? email.split('@')[0] : '');
-                        this.preferredUsername.set(preferred);
-            let plan = tokens?.idToken?.payload?.['plan'] as PlanName | "free";
-            const groups = (tokens?.idToken?.payload?.['cognito:groups'] as string[] | undefined) ?? [];
-            this.isAdmin.set(groups.includes('ADMIN'));
-            this.isPro.set(plan === 'pro' || plan === 'pro_cancelling');
-            this.planName.set(plan);
-            const periodEnd = (tokens?.idToken?.payload?.['custom:periodEnd'] as string | undefined) || null;
-            this.periodEnd.set(periodEnd);
-            this.currentUserId.set(tokens?.idToken?.payload?.sub as string || '');
-        } catch (err) {
-            if (showWarnings) console.warn('Could not determine user groups', err);
-            this.isAdmin.set(false);
-            this.isPro.set(false);
-            this.planName.set('free');
-        }
-    }
+  async refreshNow(_showWarnings: boolean = true): Promise<void> {}
 
+  setDisplayName(name: string): void {
+    localStorage.setItem('demo_guest_name', name);
+    this.preferredUsername.set(name);
+  }
 }

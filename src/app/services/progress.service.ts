@@ -2,8 +2,6 @@ import '../../amplify-config';
 import { Injectable } from '@angular/core';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../../amplify/data/resource';
-import { fetchAuthSession } from 'aws-amplify/auth';
-
 export type UserScenarioProgress = Schema['UserScenarioProgress']['type'];
 export type IndicatorScore = Schema['IndicatorScore']['type'];
 
@@ -17,12 +15,9 @@ export class ProgressService {
   private client = generateClient<Schema>();
 
   async getIdentity(): Promise<{ userId: string; username: string }> {
-    const { tokens } = await fetchAuthSession();
-    const userId = (tokens?.idToken?.payload?.sub as string) || '';
-    const preferred = (tokens?.idToken?.payload?.['preferred_username'] as string | undefined)
-      || (tokens?.idToken?.payload?.['nickname'] as string | undefined)
-      || ((tokens?.idToken?.payload?.['email'] as string | undefined)?.split('@')[0] ?? '');
-    return { userId, username: preferred };
+    const userId = localStorage.getItem('demo_guest_id') || '';
+    const username = localStorage.getItem('demo_guest_name') || 'Anonymous';
+    return { userId, username };
   }
 
   async listMyProgress(): Promise<ProgressSummary> {

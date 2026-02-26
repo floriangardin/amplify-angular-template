@@ -243,10 +243,7 @@ export class ScenarioCardComponent implements OnInit, OnDestroy {
   locked = computed(() => {
     const explicit = this.disabled();
     if (explicit !== null) return !!explicit;
-    const plan = this.scenarioPlan();
-    const isPro = this.isPro();
-    // Locked if scenario is pro-only and user isn't pro or pro_cancelling
-    return plan === 'pro' && !isPro;
+    return false;
   });
 
   // Thumbnail handling

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {
-    public client = generateClient<Schema>();
+    public client = generateClient<Schema>({ authMode: 'apiKey' });
     
     constructor() {}
 
