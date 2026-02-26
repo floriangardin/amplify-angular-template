@@ -1,11 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { ResourceType } from 'aws-cdk-lib/aws-config';
 import { sayHello } from "../functions/say-hello/resource"
-import { createCheckoutSession } from '../functions/create-checkout-session/resource';
-import { cancelSubscription } from '../functions/cancel-subscription/resource';
-import { reinstateSubscription } from '../functions/reinstate-subscription/resource';
-import { verifySubscription } from '../functions/verify-subscription/resource';
-import { listInvoices } from '../functions/list-invoices/resource';
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
@@ -14,54 +9,6 @@ specifies that any user authenticated via an API key can "create", "read",
 =========================================================================*/
 
 export const schema = a.schema({
-  InvoiceSummary: a.customType({
-    id: a.string().required(),
-    number: a.string().required(),
-    hostedInvoiceUrl: a.string().required(),
-    invoicePdf: a.string().required(),
-    currency: a.string().required(),
-    total: a.integer().required(),
-    created: a.string().required(),
-    status: a.string().required(),
-  }),
-  
-    createCheckoutSession: a
-    .query()
-    .arguments({})
-    .returns(a.string())
-    .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(createCheckoutSession)),
-
-  cancelSubscription: a
-  .mutation()
-  .arguments({})
-  .returns(a.string())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(cancelSubscription)),
-
-  reinstateSubscription: a
-  .mutation()
-  .arguments({})
-  .returns(a.string())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(reinstateSubscription)),
-
-  verifySubscription: a
-  .mutation()
-  .arguments({
-    sessionId: a.string().required(),
-  })
-  .returns(a.string())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(verifySubscription)),
-
-  listInvoices: a
-  .query()
-  .arguments({})
-  .returns(a.ref('InvoiceSummary').array().required())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(listInvoices)),
-
   sayHello: a
     .query()
     .arguments({
@@ -131,8 +78,6 @@ export const schema = a.schema({
     track: a.string().required(),
   }),
 
-  PlanEnum: a.enum(['free','pro']),
-
   // Progress tracking enums and types
   ProgressStatusEnum: a.enum(['in_progress','completed']),
 
@@ -142,7 +87,6 @@ export const schema = a.schema({
   }),
 
   Card: a.customType({
-    plan: a.ref('PlanEnum').required(),
     title: a.string().required(),
     shortDescription: a.string().required(),
     difficulty: a.string().required(),
@@ -238,8 +182,8 @@ export const schema = a.schema({
       index('userId').queryField('listProgressByUser')
     ])
     .authorization(allow => [
-      allow.ownerDefinedIn('userId'),
-      allow.groups(['ADMIN']).to(['read', 'create', 'update', 'delete'])
+      allow.publicApiKey().to(['read', 'create', 'update']),
+      allow.authenticated().to(['read', 'create', 'update', 'delete']),
     ]),
   // LeaderboardEntry model: stores best profit per user per scenario
   LeaderboardEntry: a
@@ -256,16 +200,15 @@ export const schema = a.schema({
     .secondaryIndexes(index => [
       index('scenarioNameId').sortKeys(['profit']).queryField('listLeaderboardByScenario')
     ])
-    // Model-level auth: everyone signed-in can read; owners can create/update; admins full control
+    // Model-level auth: public can read/create/update; authenticated can also delete
     .authorization(allow => [
-      allow.authenticated().to(['read']),
-      allow.ownerDefinedIn('userId').to(['create', 'update']),
-      allow.groups(['ADMIN']).to(['read', 'create', 'update', 'delete']),
+      allow.publicApiKey().to(['read', 'create', 'update']),
+      allow.authenticated().to(['read', 'create', 'update', 'delete']),
     ]),
 
   // ...existing code...
 })
-.authorization((allow) => [allow.authenticated().to(['read']), allow.groups(['ADMIN']).to(['create', 'delete'])]);
+.authorization((allow) => [allow.publicApiKey().to(['read']), allow.authenticated().to(['read', 'create', 'delete'])]);
 
 
 export type Schema = ClientSchema<typeof schema>;
@@ -273,10 +216,9 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
-    // API Key is used for a.allow.public() rules
+    defaultAuthorizationMode: 'apiKey',
     apiKeyAuthorizationMode: {
-      expiresInDays: 30,
+      expiresInDays: 365,
     },
   },
 });

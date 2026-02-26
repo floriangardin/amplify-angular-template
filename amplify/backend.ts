@@ -2,27 +2,14 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { sayHello } from './functions/say-hello/resource';
-import { createCheckoutSession } from './functions/create-checkout-session/resource';
-import { cancelSubscription } from './functions/cancel-subscription/resource';
-import { reinstateSubscription } from './functions/reinstate-subscription/resource';
-import { verifySubscription } from './functions/verify-subscription/resource';
-import { listInvoices } from './functions/list-invoices/resource';
 import { storage } from './storage/resource';
-import * as iam from "aws-cdk-lib/aws-iam";
 
-// Define all Amplify resources
 const backend = defineBackend({
   auth,
   data,
   sayHello,
-  createCheckoutSession,
-  cancelSubscription,
-  reinstateSubscription,
-  verifySubscription,
-  listInvoices,
   storage,
 });
-
 
 const domainPrefix = process.env.COGNITO_DOMAIN_PREFIX;
 console.log("Using Cognito domain prefix:", domainPrefix);
@@ -31,11 +18,3 @@ if (domainPrefix)
 backend.auth.resources.userPool.addDomain('cognito-domain', {
   cognitoDomain: { domainPrefix: domainPrefix },
 });
-
-// Deactivate self signup
-const { cfnUserPool } = backend.auth.resources.cfnResources
-
-cfnUserPool.adminCreateUserConfig = {
-  // disables self sign-up for non-federated users
-  allowAdminCreateUserOnly: true,
-}
