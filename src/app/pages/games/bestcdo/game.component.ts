@@ -133,6 +133,10 @@ export interface CompanyContext {
             {{ pendingEndResult()!.hasWon ? 'Game Complete!' : 'Game Over' }}
           </h2>
 
+          @if (endOverlayMedal(); as medal) {
+            <div class="text-center text-5xl">{{ medal }}</div>
+          }
+
           <p class="text-sm text-gray-600 text-center">{{ endOverlayMessage() }}</p>
 
           <!-- Score breakdown -->
@@ -638,6 +642,19 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
       reputation: 'Stakeholders lost confidence in leadership.'
     };
     return reason ? descriptions[reason] || 'The run ended.' : 'The run ended before objectives were met.';
+  });
+
+  endOverlayMedal = computed(() => {
+    const result = this.pendingEndResult();
+    if (!result?.hasWon) return null;
+    const score = result.stats?.['weightedScore'] || 0;
+    const medal = this.getMedalForScore(score);
+    switch (medal) {
+      case 'gold': return '🥇';
+      case 'silver': return '🥈';
+      case 'bronze': return '🥉';
+      default: return null;
+    }
   });
 
   endOverlayBadges = computed<string[]>(() => {

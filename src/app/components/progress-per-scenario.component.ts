@@ -53,8 +53,11 @@ import { LeaderboardService } from '../services/leaderboard.service';
                   @for (t of item.top3; track t.userId) {
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-3 rounded-lg bg-black/30 border border-black/20 px-3 py-2 shadow-inner">
-                        <div class="w-9 h-9 flex items-center justify-center rounded-full bg-black/40 border border-black/30 text-2xl">
-                          {{ t.rank === 1 ? '🥇' : (t.rank === 2 ? '🥈' : '🥉') }}
+                        <div class="w-9 h-9 flex items-center justify-center rounded-full bg-black/40 border border-black/30 text-base font-bold"
+                             [class.text-yellow-300]="t.rank===1"
+                             [class.text-slate-200]="t.rank===2"
+                             [class.text-amber-300]="t.rank===3">
+                          {{ t.rank }}
                         </div>
                         <div class="min-w-0 flex-1">
                           <div class="flex items-baseline justify-between gap-3">

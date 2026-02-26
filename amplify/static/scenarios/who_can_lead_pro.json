@@ -1849,17 +1849,17 @@
   "medals": [
     {
       "name": "gold",
-      "threshold": 3000000,
+      "threshold": 5000000,
       "emoji": "🥇"
     },
     {
       "name": "silver",
-      "threshold": 2500000,
+      "threshold": 3500000,
       "emoji": "🥈"
     },
     {
       "name": "bronze",
-      "threshold": 1500000,
+      "threshold": 2000000,
       "emoji": "🥉"
     }
   ],
