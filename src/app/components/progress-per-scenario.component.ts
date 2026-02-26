@@ -192,7 +192,7 @@ export class ProgressPerScenarioComponent {
         badges.push('📊 Data Quality Champion');
       }
       if (score.indicatorNameId === 'clientRelationship' && score.value >= def.max) {
-        badges.push('⭐ Client Relationship Master');
+        badges.push('⭐ Thrust Master');
       }
     }
     return badges;

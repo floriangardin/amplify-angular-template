@@ -143,7 +143,7 @@ export interface CompanyContext {
           <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm">
             <div class="flex justify-between"><span>💰 Profit:</span><span class="font-bold">{{ formatCurrency(pendingEndResult()!.stats['profit'] || 0) }}</span></div>
             <div class="flex justify-between"><span>📊 Data Quality:</span><span class="font-bold">{{ pendingEndResult()!.stats['dataQuality'] || 0 }}%</span></div>
-            <div class="flex justify-between"><span>⭐ Client Relationship:</span><span class="font-bold">{{ pendingEndResult()!.stats['clientRelationship'] || 0 }}%</span></div>
+            <div class="flex justify-between"><span>⭐ Thrust:</span><span class="font-bold">{{ pendingEndResult()!.stats['clientRelationship'] || 0 }}%</span></div>
             <div class="border-t border-gray-300 pt-2 space-y-1">
               <div class="flex justify-between text-gray-600"><span>Base Score:</span><span>{{ formatScore(pendingEndResult()!.stats['baseScore'] || 0) }}</span></div>
               @if (pendingEndResult()!.hasWon) {
@@ -670,7 +670,7 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
         badges.push('📊 Data Quality Champion');
       }
       if (def.nameId === 'clientRelationship' && value >= def.max) {
-        badges.push('⭐ Client Relationship Master');
+        badges.push('⭐ Thrust Master');
       }
     }
     return badges;

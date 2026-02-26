@@ -25,8 +25,8 @@ import { Scenario } from '../models/game-content';
         </div>
       }
       @if(bestClientRelationship() !== null){
-        <div class="inline-flex items-center rounded-full bg-black/20 px-4 py-1 text-sm md:text-lg font-medium text-white border border-black/20" title="Best client relationship achieved">
-          ⭐ All time best Client Relationship: &nbsp;<span class="font-bold">{{ bestClientRelationship() | number:'1.0-0' }}%</span>
+        <div class="inline-flex items-center rounded-full bg-black/20 px-4 py-1 text-sm md:text-lg font-medium text-white border border-black/20" title="Best thrust achieved">
+          ⭐ All time best Thrust: &nbsp;<span class="font-bold">{{ bestClientRelationship() | number:'1.0-0' }}%</span>
         </div>
       }
       @for (badge of allBadges(); track badge) {
@@ -83,7 +83,7 @@ export class ProgressComponent {
     return best;
   });
 
-  // Best client relationship achieved across all scenarios (maximum value)
+  // Best thrust achieved across all scenarios (maximum value)
   bestClientRelationship = computed(() => {
     const summary = this.progressSummary();
     if (!summary) return null;
@@ -121,7 +121,7 @@ export class ProgressComponent {
           badgeSet.add('📊 Data Quality Champion');
         }
         if (score.indicatorNameId === 'clientRelationship' && score.value >= def.max) {
-          badgeSet.add('⭐ Client Relationship Master');
+          badgeSet.add('⭐ Thrust Master');
         }
       }
     }

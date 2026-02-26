@@ -87,7 +87,7 @@ export class GameStatsService {
         let name = def.name;
         if (def.nameId === 'cdoBudget') name = 'Budget';
         if (def.nameId === 'dataQuality') name = 'Data Quality';
-        if (def.nameId === 'clientRelationship') name = 'Client Relationship';
+        if (def.nameId === 'clientRelationship') name = 'Thrust';
         return { canSelect: false, reason: `Not enough ${name}` };
       }
     }

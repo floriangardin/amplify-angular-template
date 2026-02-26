@@ -159,8 +159,8 @@ export interface OutcomeData {
         <div class="max-w-xl text-primary">Select an email from your inbox to respond</div>
         <div class="text-sm text-primary-500 border-2 border-primary-500 rounded-lg p-6 max-w-xl leading-relaxed">
           <b>⚠️ IMPORTANT ⚠️</b><br />
-          • Your final score depends on profit, data quality AND client relationship<br />
-          • Increase your client relationship (🤝) to get more budget (💰)  <br/>
+          • Your final score depends on profit, data quality AND thrust<br />
+          • Increase your thrust (🤝) to get more budget (💰)  <br/>
           • Low data quality (📊) can lead to crisis  <br/>
           • Each decision determines what comes next <br/>
         </div>
