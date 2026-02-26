@@ -7,26 +7,26 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div [ngClass]="containerClass()">
-      <a href="https://moodle.arup.com/course/view.php?id=8395"
+      <a href="https://en.wikipedia.org/wiki/Data_governance"
          target="_blank"
          rel="noopener noreferrer"
          [ngClass]="linkClass()">
-        <span class="text-lg">🎓</span>
-        <span class="underline">Learn data fundamentals with our Introduction to Data Course!</span>
+        <span class="text-lg">📚</span>
+        <span class="underline">Learn the core principles of data governance</span>
       </a>
-      <a href="https://teams.microsoft.com/l/app/f6405520-7907-4464-8f6e-9889e2fb7d8f?source=app-header-share-entrypoint&templateInstanceId=84c82f5c-e85e-4f98-8453-eeccb8583698&environment=503fd5b2-326c-ebe4-a05d-2661519175a2"
+      <a href="https://en.wikipedia.org/wiki/Data_quality"
          target="_blank"
          rel="noopener noreferrer"
          [ngClass]="linkClass()">
-        <span class="text-lg">🤖</span>
-        <span class="underline">Ask Data & AI questions to Lexi, our agent!</span>
+        <span class="text-lg">🔐</span>
+        <span class="underline">Understand what makes data trustworthy and reliable</span>
       </a>
-      <a href="https://arup.sharepoint.com/sites/essentials-global-digital-technology/SitePages/Data-Literacy.aspx"
+      <a href="https://en.wikipedia.org/wiki/Chief_data_officer"
          target="_blank"
          rel="noopener noreferrer"
          [ngClass]="linkClass()">
-        <span class="text-lg">🧪</span>
-        <span class="underline">Attend Data Labs, live virtual collaborative sessions!</span>
+        <span class="text-lg">🏛️</span>
+        <span class="underline">Discover what a CDO does and why it matters</span>
       </a>
     </div>
   `

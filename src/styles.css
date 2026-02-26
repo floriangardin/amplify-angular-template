@@ -111,12 +111,12 @@ body {
 @theme {
   /* PRIMARY */
   /*--color-primary-500: #333e7e; */
-  --color-primary-500: #e61e28;          /* fallback */
-  --color-secondary-500: #7d4196;          /* fallback */
-  --color-third-500:   #32a4a0;          /* fallback */
-  --color-fourth-500: #4ba056;
-  --color-fifth-500: #c83c96;
-  --color-header-500: #005aaa;
+  --color-primary-500: #6366f1;          /* Indigo */
+  --color-secondary-500: #8b5cf6;          /* Violet */
+  --color-third-500:   #14b8a6;          /* Teal */
+  --color-fourth-500: #22c55e;
+  --color-fifth-500: #f43f5e;
+  --color-header-500: #1e1b4b;
 
   --color-primary: var(--color-primary-500);
   --color-primary-fg-500: var(--color-primary-500);       /* fallback */

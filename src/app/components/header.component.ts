@@ -15,13 +15,13 @@ import { StripeService } from '../services/stripe.service';
     <header class="px-4 py-2 w-full flex items-center spectral-font justify-between bg-white text-black relative z-50">
       <div class="flex flex-row items-center gap-3">
         <i class="fa-solid fa-home text-2xl cursor-pointer md:ml-8 text-primary" title="Home" (click)="goHome()"></i>
-        <img src="arup_logo.png" alt="Arup Logo" class="h-8 cursor-pointer" title="Home" (click)="goHome()"/>
+        <span class="text-lg font-bold text-primary-500 cursor-pointer" title="Home" (click)="goHome()">Best CDO</span>
         <!--<app-plan [planName]="planName()" (goPro)="goPro()"></app-plan>-->
       </div>
 
       <h1 class="hidden md:block text-xl spectral-font font-bold text-center text-primary-500
        absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-        Data or Disaster <span class="text-sm font-normal text-gray-500">Inbox Challenge</span></h1>
+        Who is the best CDO? <span class="text-sm font-normal text-gray-500">Demo</span></h1>
 
       <div class="relative" #menuWrapper>
         <button
