@@ -173,7 +173,7 @@ for index, row in df.iterrows():
         if col in row and pd.notna(row[col]):
             impact.dataQuality = int(row[col])
             
-        # Client Relationship
+        # Trust
         col = f'Outcome {i} Reputation Impact'
         if col in row and pd.notna(row[col]):
             impact.clientRelationship = int(row[col])
@@ -212,7 +212,7 @@ indicators = [
     Indicator(name="Profit", nameId="profit", emoji="📈", initial=0, min=-10000000, max=10000000, type="dollars", displayed=True, color="primary", priority=1),
     Indicator(name="Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=True, color="#9c27b0", priority=2),
     Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=10, min=0, max=100, type="percentage", displayed=True, color="primary", priority=3),
-    Indicator(name="Thrust", nameId="clientRelationship", emoji="🤝", initial=10, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
+    Indicator(name="Trust", nameId="clientRelationship", emoji="🤝", initial=10, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
 ]
 
 # Medals
@@ -226,7 +226,7 @@ medals = [
 # Card
 card = Card(
     title="Who is the best CDO?",
-    shortDescription="Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
+    shortDescription="Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, trust, and budget constraints.",
     difficulty="Beginner",
     context=CardContext(
     ),
@@ -240,7 +240,7 @@ card = Card(
 card_pro = Card(
     title="Who is the best CDO? (Pro)",
     plan="pro",
-    shortDescription="Test your strategic decision-making skills in a data driven organization. This time with increased difficulty! Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
+    shortDescription="Test your strategic decision-making skills in a data driven organization. This time with increased difficulty! Maximize long-term profit while balancing data quality, trust, and budget constraints.",
     difficulty="Intermediate",
     context=CardContext(
 

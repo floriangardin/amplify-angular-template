@@ -102,9 +102,9 @@ export class GameStatsHeaderComponent {
       return { text: '⚠️ You received an urgent email because your data quality is too low', color: 'red' };
     }
 
-    // Priority 2: Last email was a budget email (triggered by high thrust)
+    // Priority 2: Last email was a budget email (triggered by high trust)
     if (email?.category === 'budget') {
-      return { text: '💰 You received budget because your thrust is high', color: 'green' };
+      return { text: '💰 You received budget because your trust is high', color: 'green' };
     }
 
     // Priority 3: Default messages based on lowest metric
@@ -116,13 +116,13 @@ export class GameStatsHeaderComponent {
     // Check thresholds: only show message if metric is below threshold
     const candidates: { key: string; pct: number; msg: DynamicMessage }[] = [];
     if (crPct < 80) {
-      candidates.push({ key: 'cr', pct: crPct, msg: { text: '⭐ Improve your thrust to get more budget', color: 'orange' } });
+      candidates.push({ key: 'cr', pct: crPct, msg: { text: '⭐ Improve your trust to get more budget', color: 'orange' } });
     }
     if (dqPct < 50) {
       candidates.push({ key: 'dq', pct: dqPct, msg: { text: '📊 Data quality is critically low — incoming emails may reflect data issues', color: 'orange' } });
     }
     if (budgetPct < 20) { // 200k / 1e6 = 20%
-      candidates.push({ key: 'budget', pct: budgetPct, msg: { text: '💰 Budget is very low, consider improving thrust', color: 'orange' } });
+      candidates.push({ key: 'budget', pct: budgetPct, msg: { text: '💰 Budget is very low, consider improving trust', color: 'orange' } });
     }
 
     if (candidates.length > 0) {

@@ -205,7 +205,7 @@ export class LeaderboardPageComponent implements OnInit {
         badges.push('📊 Data Quality Champion');
       }
       if (ind.nameId === 'clientRelationship' && value >= ind.max) {
-        badges.push('⭐ Thrust Master');
+        badges.push('⭐ Trust Master');
       }
     }
     return badges;
