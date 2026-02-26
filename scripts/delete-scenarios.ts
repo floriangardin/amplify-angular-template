@@ -91,7 +91,7 @@ async function main() {
     process.exit(1);
   }
 
-  const client = generateClient<Schema>();
+  const client = generateClient<Schema>({ authMode: 'userPool' });
 
   console.log('Fetching all scenarios to delete...');
   const scenarios = await listAllScenarios(client);

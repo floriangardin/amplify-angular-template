@@ -1,10 +1,11 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-main-loading',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   template: `
     <div class="relative w-full h-screen md:h-screen grid place-items-center bg-gradient-to-b from-secondary-900 via-secondary-950 to-black overflow-hidden">
       <!-- Soft pulsing aura -->
@@ -14,12 +15,10 @@ import { CommonModule } from '@angular/common';
 
       <!-- Loading card -->
       <div class="flex flex-col items-center gap-6 text-slate-200">
-        <!-- Centered loading logo -->
-        <img
-          src="loading_logo.png"
-          alt="Loading"
-          class="w-[120px] h-[120px] md:w-[160px] md:h-[160px] drop-shadow-lg object-contain animate-pulse-node"
-        />
+        <!-- Centered loading icon -->
+        <div class="w-[120px] h-[120px] md:w-[160px] md:h-[160px] drop-shadow-lg animate-pulse-node flex items-center justify-center">
+          <lucide-icon name="shield-check" class="text-primary-300" [size]="96" [strokeWidth]="1.5"></lucide-icon>
+        </div>
 
         <!-- Title and status -->
         <div class="text-center">

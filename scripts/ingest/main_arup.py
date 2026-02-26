@@ -101,10 +101,10 @@ if not os.path.exists(filepath):
     filepath = os.path.join(root_dir, filepath)
 
 print(f"Reading from {filepath}")
-df = pd.read_excel(filepath, sheet_name='Edited CDO Statements')
+df = pd.read_excel(filepath, sheet_name='CDO Statements')
 
 introduction_formula = [
-    'Dear Project Team Leader,<br/><br/>'
+    'Dear CDO,<br/><br/>'
 ]
 conclusion_formula = [
     'Best regards,\n',
@@ -138,6 +138,11 @@ columns = ["Review",
            "Outcome 3 Profit Impact",
            "Outcome 3 Data Quality Impact",
            "Outcome 3 Reputation Impact"]
+df['Use?'] = 'Y'  # Default to 'Y' if column is missing
+df['Urgent'] = df['Title'].str.contains('urgent', case=False, na=False)
+df['Default'] = 'Y'
+df['Review'] = ''
+
 df = df[df["Use?"] == "Y"][columns]
 
 nodes = []
@@ -156,12 +161,12 @@ for index, row in df.iterrows():
         # Budget
         col = f'Outcome {i} Budget Impact'
         if col in row and pd.notna(row[col]):
-            impact.cdoBudget = 10000*int(row[col])
+            impact.cdoBudget = int(row[col])
             
         # Profit
         col = f'Outcome {i} Profit Impact'
         if col in row and pd.notna(row[col]):
-            impact.profit = 10000*int(row[col])
+            impact.profit = int(row[col])
             
         # Data Quality
         col = f'Outcome {i} Data Quality Impact'
@@ -186,7 +191,7 @@ for index, row in df.iterrows():
     # Apply introduction formula if any
     random_intro = introduction_formula[index % len(introduction_formula)]
     random_conclusion = conclusion_formula[index % len(conclusion_formula)]
-    content = random_intro + content + "<br/><br/>" + random_conclusion
+    content = random_intro + content.replace("Dear CDO,", "") + "<br/><br/>" + random_conclusion
     
     node = Node(
         name=str(row['Key']),
@@ -207,7 +212,7 @@ indicators = [
     Indicator(name="Profit", nameId="profit", emoji="📈", initial=0, min=-10000000, max=10000000, type="dollars", displayed=True, color="primary", priority=1),
     Indicator(name="Budget", nameId="cdoBudget", emoji="💰", initial=1000000, min=0, max=10000000, type="dollars", displayed=True, color="#9c27b0", priority=2),
     Indicator(name="Data Quality", nameId="dataQuality", emoji="📊", initial=10, min=0, max=100, type="percentage", displayed=True, color="primary", priority=3),
-    Indicator(name="Client Relationship", nameId="clientRelationship", emoji="🤝", initial=10, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
+    Indicator(name="Thrust", nameId="clientRelationship", emoji="🤝", initial=10, min=0, max=100, type="percentage", displayed=True, color="#9c27b0", priority=4)
 ]
 
 # Medals
@@ -220,7 +225,7 @@ medals = [
 
 # Card
 card = Card(
-    title="Data or Disaster?",
+    title="Who is the best CDO?",
     shortDescription="Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Beginner",
     context=CardContext(
@@ -233,7 +238,7 @@ card = Card(
     )
 )
 card_pro = Card(
-    title="Data or Disaster? (Pro)",
+    title="Who is the best CDO? (Pro)",
     plan="pro",
     shortDescription="Test your strategic decision-making skills in a data driven organization. This time with increased difficulty! Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Intermediate",

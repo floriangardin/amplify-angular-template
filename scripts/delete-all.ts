@@ -152,7 +152,7 @@ async function main() {
     }
   }
 
-  const client = generateClient<Schema>();
+  const client = generateClient<Schema>({ authMode: 'userPool' });
 
   // Delete user-generated tracking models first
   console.log('Cleaning user tracking models (UserScenarioProgress, LeaderboardEntry)...');

@@ -41,7 +41,7 @@ async function main() {
     console.error('Sign-in failed: no tokens returned.');
     process.exit(1);
   }
-  const client = generateClient<Schema>();
+  const client = generateClient<Schema>({ authMode: 'userPool' });
   const progresses = await listAllScenariosProgress(client);
   console.log(progresses);
   console.log(`Found ${progresses.length} scenario progress entries to delete.`);

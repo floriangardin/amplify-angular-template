@@ -101,7 +101,7 @@ async function main() {
     }
   }
 
-  const client = generateClient<Schema>();
+  const client = generateClient<Schema>({ authMode: 'userPool' });
 
   // --- Leaderboard Entries ---
   console.log('\n--- Leaderboard Entries ---');

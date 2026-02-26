@@ -1,0 +1,1828 @@
+{
+  "nodes": [
+    {
+      "name": "breach_1",
+      "end": false,
+      "default": true,
+      "sender": "CISO Office",
+      "title": "[URGENT] Potential Data Breach Detected",
+      "content": "Dear CDO,<br/><br/>Our security monitoring system has detected unusual access patterns to your customer database. Initial investigation suggests unauthorised access to approximately 10,000 customer records. We need your immediate guidance on how to proceed with this potential breach. <br/><br/>Best regards,\n",
+      "category": "dataBreach",
+      "isUrgent": true,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Immediately shut down all affected systems to prevent further access.",
+          "outcome": {
+            "description": "You've contained the breach quickly, but business operations were disrupted for 4 hours. The rapid response prevented further data exposure.",
+            "impact": {
+              "profit": -400000,
+              "dataQuality": 0,
+              "cdoBudget": -100000,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Continue monitoring while our team investigates the extent of the breach",
+          "outcome": {
+            "description": "The continued monitoring revealed it was a false alarm triggered by a new analytics tool. Your measured approach avoided unnecessary disruption.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": -15,
+              "cdoBudget": -200000,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Notify affected customers immediately while investigation continues. ",
+          "outcome": {
+            "description": "Your transparency was appreciated by customers, but it caused significant concern. Further investigation revealed the breach was much smaller than initially thought, making your response seem somewhat excessive.",
+            "impact": {
+              "profit": -300000,
+              "dataQuality": -5,
+              "cdoBudget": -200000,
+              "clientRelationship": -25
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 20,
+      "maxDataQuality": 30
+    },
+    {
+      "name": "breach_2",
+      "end": false,
+      "default": true,
+      "sender": "Security Operations",
+      "title": "[URGENT] Data Breach Confirmed",
+      "content": "Dear CDO,<br/><br/>We have confirmed unauthorised access to your project data. The breach appears to have exposed data obtained in a community engagement survey including names, addresses, and phone numbers of approximately 500 members of the public. Law enforcement has been notified, but we need your decision on public disclosure.<br/><br/>Sincerely,\n",
+      "category": "dataBreach",
+      "isUrgent": true,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Issue immediate public statement and notify all affected members of the public.",
+          "outcome": {
+            "description": "Your rapid and transparent response earned praise from privacy advocates and regulators. While there was short-term negative press, the long-term damage to company reputation was minimised.",
+            "impact": {
+              "profit": -150000,
+              "dataQuality": 0,
+              "cdoBudget": -150000,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Quietly notify those directly affected  while completing the investigation.",
+          "outcome": {
+            "description": "Your targeted approach contained initial panic, but a whistleblower leaked the breach to the press, causing accusations of a cover-up. The controlled initial response was overshadowed by the perception of secrecy.",
+            "impact": {
+              "profit": -300000,
+              "dataQuality": 0,
+              "cdoBudget": -400000,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Delay all notifications for 48 hours until we have complete information. ",
+          "outcome": {
+            "description": "The delay allowed your team to develop a comprehensive response, but it violated regulatory requirements for timely notification. The company faces potential fines for the delayed reporting.",
+            "impact": {
+              "profit": -400000,
+              "dataQuality": 0,
+              "cdoBudget": -100000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 20,
+      "maxDataQuality": 30
+    },
+    {
+      "name": "breach_3",
+      "end": false,
+      "default": true,
+      "sender": "Legal Department",
+      "title": "[URGENT] Third-party Vendor Data Breach",
+      "content": "Dear CDO,<br/><br/>We've just been informed that one of our cloud service providers has experienced a significant data breach. They believe data from your current project may have been compromised. As the data controller, we have legal obligations regardless of the breach occurring out of our environment.<br/><br/>Thank you,\n",
+      "category": "dataBreach",
+      "isUrgent": true,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Demand the vendor handle all notifications and remediation.",
+          "outcome": {
+            "description": "The vendor's poor communication and slow response reflected badly on Globex. Customers are angry that you attempted to shift responsibility, and regulators question your vendor management practices.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Take control of the response and work closely with Globex's Legal team to establish a way forward.",
+          "outcome": {
+            "description": "Your proactive approach demonstrated strong customer focus but excluding the vendor increased Globex's costs substantially. The vendor has agreed to partial cost reimbursement, but the incident has strained the relationship.",
+            "impact": {
+              "profit": -200000,
+              "dataQuality": 0,
+              "cdoBudget": -150000,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Notify your Legal Team and share the contractual obligations with them. Set up a meeting with the Legal Team and the Vendor to form a joint response strategy.",
+          "outcome": {
+            "description": "The collaborative approach balanced responsibilities effectively. Customers appreciated the unified and comprehensive response, while costs were shared appropriately between both companies.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 0,
+              "cdoBudget": -300000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 20,
+      "maxDataQuality": 40
+    },
+    {
+      "name": "breach_4",
+      "end": false,
+      "default": true,
+      "sender": "Legal Team",
+      "title": "[URGENT] Data Subject Access Request",
+      "content": "Dear CDO,<br/><br/>We've received a Data Subject Access Request about the data we hold about certain subcontractors. As we work closely with them we have to respond. Can you share a copy of any data you have relating to those listed in the request?<br/><br/>Kind regards,\n",
+      "category": "misc",
+      "isUrgent": true,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Use Copilot to quickly search through our documentation and send through the results to the third-party that made the request.",
+          "outcome": {
+            "description": "The data was received but the quality and validity of the data was further questioned. This created follow up requests and there are concerns about our data and security practices.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": -500000,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Notify the Cyber Security and Legal Team and work closely with them to ensure the data you provide is complete and appropriate.",
+          "outcome": {
+            "description": "The Data Subject Access Request was successfully fulfilled but took longer than expected. Your project delivery operations were impacted, but Globex's business integrity remains intact with industry peers.",
+            "impact": {
+              "profit": -200000,
+              "dataQuality": 0,
+              "cdoBudget": -100000,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Notify the Cyber Security and Legal Team and become an active advocate for reshaping the governance framework surrounding data obtained through subcontractors.",
+          "outcome": {
+            "description": "The Data Subject Access Request was successfully fulfilled but took longer than expected. Your work reshaping the governance frameworks positively impacted exposure to risk but took time away from your project work.",
+            "impact": {
+              "profit": -150000,
+              "dataQuality": 0,
+              "cdoBudget": -200000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 10,
+      "maxDataQuality": 70
+    },
+    {
+      "name": "email-009",
+      "end": false,
+      "default": true,
+      "sender": "CEO Office",
+      "title": "We're releasing APEX! Will you join?",
+      "content": "Dear CDO,<br/><br/>We’re launching Planisware, our new central project management tool, and we'd like you to be a part of the testing group! Are you interested?<br/><br/>Best regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Be a part of the initial testing group and leverage the tool end-to-end, shaping new project management processes.",
+          "outcome": {
+            "description": "New project management processes increase consistency and quality of your data, but slow delivery. You are recognised as a champion of modern project management processes.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 20,
+              "cdoBudget": -200000,
+              "clientRelationship": 30
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Use the tool for key project management processes only.",
+          "outcome": {
+            "description": "You foster more robust project management processes, but the tension between old and new ways of working causes friction.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 20,
+              "cdoBudget": -100000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Decline to participate. ",
+          "outcome": {
+            "description": "Retaining processes you're comfortable with safeguards delivery, but inconsistencies in reporting arise.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 50,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "email-020",
+      "end": false,
+      "default": true,
+      "sender": "CEO Office",
+      "title": "Good News: Bid Success!",
+      "content": "Dear CDO,<br/><br/>We've just won a big contract and the client referenced how impressed they were with your inclusion of Data and AI.<br/><br/>Sincerely,\n",
+      "category": "budget",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Celebrate your success and decide how your project budget could be best utilised.",
+          "outcome": {
+            "description": "You take a deep breath and start planning your next moves.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 500000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Set up your team with a dedicated digital expert who is brought into design conversations early on.",
+          "outcome": {
+            "description": "Data and AI approaches are incorporated into your project, but you can do more.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": 400000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Allocate significant project budget into new and innovative Data and AI approaches to showcase just what is possible.",
+          "outcome": {
+            "description": "Your data practices and quality improve because of your pioneering approach. Not all of your endeavours are successful or deemed necessary by the client however.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": 200000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "email-012",
+      "end": false,
+      "default": true,
+      "sender": "CEO Office",
+      "title": "Time to Build Our Data & AI Future",
+      "content": "Dear CDO,<br/><br/>You've been invited to attend the next Leading Digital Change - Data & AI programme which starts soon. It's a great opportunity for you to boost your knowledge and understanding of how you can lead Globex to a Data and AI powered future. Can you attend?<br/><br/>Thank you,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Carve out some time to attend the next cohort. This could be a game-changer!",
+          "outcome": {
+            "description": "You collaborate with other Directors and gain a core understanding of what it means to be a Data-led organisation.",
+            "impact": {
+              "profit": 400000,
+              "dataQuality": 5,
+              "cdoBudget": 600000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Delay your decision until the next cohort - focus on your project delivery for now. Attend some of the open alumni talks to better understand the programme.",
+          "outcome": {
+            "description": "Your project work benefits but your grasp of digital practices is being left behind.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 5,
+              "cdoBudget": 400000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Decline the invite and focus solely on your project.",
+          "outcome": {
+            "description": "This is the safe option in the short term, but Globex risk's falling behind - and what are the consequences?",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 200000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "email-014",
+      "end": false,
+      "default": true,
+      "sender": "Group Director",
+      "title": "The Digital Transformation of Globex",
+      "content": "Dear CDO,<br/><br/>You've been identified as one of thought leaders for AI in the company. I’ve carved out resources for you to lead our AI push : productivity tools, tasks automation, etc. Run with it.<br/><br/>Kind regards,\n",
+      "category": "budget",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Launch a full-scale AI program across your projects.",
+          "outcome": {
+            "description": "While these AI initiatives strengthen our competitive position, they also introduce risks to data quality due to inconsistent or careless usage.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -20,
+              "cdoBudget": 500000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Start with a focused AI pilot in your team to begin with and gather \"lessons learned\".",
+          "outcome": {
+            "description": "You make a solid case for scaling with real results taking into account data quality.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": 10,
+              "cdoBudget": 300000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Prioritise finding specific tools and resources for your team now and wait for the wider business to catch up.",
+          "outcome": {
+            "description": "Safe route, but we risk falling behind.",
+            "impact": {
+              "profit": 20000,
+              "dataQuality": 15,
+              "cdoBudget": 200000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "email-013",
+      "end": false,
+      "default": true,
+      "sender": "CEO Office",
+      "title": "Where should we store all this data?",
+      "content": "Dear CDO,<br/><br/>We're generating terabytes of video and audio data. What should we do with it?<br/><br/>Best regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Expand storage immediately to future-proof our needs.",
+          "outcome": {
+            "description": "No disruptions, smooth growth for teams and systems, but no archive strategy increases costs.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": -10,
+              "cdoBudget": -300000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Optimise by archiving older data first.",
+          "outcome": {
+            "description": "You balance storage and cost, but slow some access.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 5,
+              "cdoBudget": -200000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Monitor usage, and act later if necessary. ",
+          "outcome": {
+            "description": "Risky if data growth continues unexpectedly.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 15,
+              "cdoBudget": -100000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "email-011",
+      "end": false,
+      "default": true,
+      "sender": "CDO",
+      "title": "Let’s Empower Everyone With Data",
+      "content": "Dear CDO,<br/><br/>All Globex members need to speak data. I’m unlocking funds so all of your team can complete the Introduction to Data course. Let’s build a culture of data fluency together.<br/><br/>Sincerely,\n",
+      "category": "budget",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Complete the course and ask your team to do the same as soon as possible.",
+          "outcome": {
+            "description": "Members across Globex have the same base understanding and are empowered to collaborate on data-related issues.",
+            "impact": {
+              "profit": 600000,
+              "dataQuality": 10,
+              "cdoBudget": -600000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Create tailored internal workshops to upskill your team.",
+          "outcome": {
+            "description": "Your team builds specialised capacity over time at lower cost, but isn't as connected to the wider firm as it could be.",
+            "impact": {
+              "profit": 400000,
+              "dataQuality": 20,
+              "cdoBudget": -250000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Use the time and budget elsewhere and delay the training.",
+          "outcome": {
+            "description": "You save now for other issues, but miss the chance to scale data literacy.",
+            "impact": {
+              "profit": 200000,
+              "dataQuality": 5,
+              "cdoBudget": -50000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 70,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "strategy_2",
+      "end": false,
+      "default": true,
+      "sender": "DSP",
+      "title": "Commercial Models for our Data",
+      "content": "Dear CDO,<br/><br/>We're interested in exploring opportunities to monetize our data assets. This could create new revenue streams but there are issues around customer privacy and data usage. How should you approach future projects?<br/><br/>Thank you,\n",
+      "category": "strategy",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Engage Digital Services Portfolio for all new projects. Collaborate to create anonymised data products for industry benchmarking.",
+          "outcome": {
+            "description": "The benchmarking products have generated significant new revenue with minimal privacy concerns. Customers have responded positively to the industry insights they receive in return for data sharing.",
+            "impact": {
+              "profit": 800000,
+              "dataQuality": 0,
+              "cdoBudget": -400000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Work with Digital Services Portfolio on select projects to develop APIs for partners to access select data with customer consent.",
+          "outcome": {
+            "description": "The API program has created a vibrant ecosystem of partners and developers. While implementation was complex, it has positioned the company as a platform leader in the industry.",
+            "impact": {
+              "profit": 200000,
+              "dataQuality": -5,
+              "cdoBudget": -300000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Work with the Digital Technology Group and focus on using our internal data to improve existing products instead of monetisation.",
+          "outcome": {
+            "description": "Your cautious approach has avoided potential privacy pitfalls. While no new revenue streams were created, improved products have increased customer satisfaction and retention.",
+            "impact": {
+              "profit": 500000,
+              "dataQuality": 10,
+              "cdoBudget": -200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 50,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "strategy_3",
+      "end": false,
+      "default": true,
+      "sender": "Team Member - Data Engineer",
+      "title": "Community Engagement Survey Data",
+      "content": "Dear CDO,<br/><br/>As part of our current project, I’ve been asked to conduct a community engagement survey to gather feedback from local stakeholders. I want to make sure we’re handling the resulting data correctly from the outset.\nCould you please advise where the survey data should be stored? Is it acceptable to keep it within our standard project files, or should we use a different location to ensure compliance with our data governance requirements?\nThanks for your guidance.<br/><br/>Kind regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Store the survey data in the standard project SharePoint folder, provided you apply the correct information security tags. Ensure you follow Globex's retention policies.",
+          "outcome": {
+            "description": "This action was quick to implement using the existing SharePoint structure, with low cost and minimal disruption. However, there is a moderate compliance risk and potential audit issues if access controls and retention policies are not strictly enforced.",
+            "impact": {
+              "profit": 800000,
+              "dataQuality": -10,
+              "cdoBudget": 300000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "We can't trust that users won't share this more widely on SharePoint. Use a designated, secure data repository approved for personal/sensitive data.",
+          "outcome": {
+            "description": "Provides strong compliance and security, reducing regulatory risk and supporting governance maturity. The extra effort and operational overhead slows down delivery and increases costs.",
+            "impact": {
+              "profit": 1000000,
+              "dataQuality": -20,
+              "cdoBudget": -350000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Keep the survey data on your local drive or email it to the team. Review this approach once the project is further down the line.",
+          "outcome": {
+            "description": "Your approach is both low cost and convenient but carries a high risk of data loss and severe non-compliance. This could lead to reputational damage and financial penalties for Globex.",
+            "impact": {
+              "profit": 600000,
+              "dataQuality": 5,
+              "cdoBudget": -250000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "new_1",
+      "end": false,
+      "default": true,
+      "sender": "CEO",
+      "title": "Welcome aboard!",
+      "content": "Dear CDO,<br/><br/>As you know, Globex has some major data challenges and they are a growing concern as we try to become a Data and AI powered organisation. We've been working on a new strategy to improve our data situation, and we'd love your input. What's your first move?<br/><br/>Sincerely,\n",
+      "category": "strategy",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Engage your teams and peers to survey Globex's data needs.",
+          "outcome": {
+            "description": "You gain insights into current gaps and build goodwill.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": 30000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Meet directly with execs to understand priorities.",
+          "outcome": {
+            "description": "You align with leadership but miss grassroots issues.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 0,
+              "cdoBudget": -50000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Review existing dashboards and past data-related reports to establish a sense of the situation. ",
+          "outcome": {
+            "description": "You identify a few red flags but miss team engagement.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": -50000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "new_2",
+      "end": false,
+      "default": true,
+      "sender": "HR Team",
+      "title": "Your Next Hire",
+      "content": "Dear CDO,<br/><br/>You are working with a team on a new bid. The RFP outlines the need for substantial data services as part of the work. Do you want a data engineer, analyst, or governance expert?<br/><br/>Thank you,\n",
+      "category": "hr",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Bring in a data engineer.",
+          "outcome": {
+            "description": "Data infrastructure details start to shape up quickly, but the data is slow to become available and accessible to support the project team to inform decisions",
+            "impact": {
+              "profit": 500000,
+              "dataQuality": 10,
+              "cdoBudget": -150000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Bring in a data analyst.",
+          "outcome": {
+            "description": "You get quick wins with examples of visual insights that can be included however each new request for insights requires time consuming re-processing.",
+            "impact": {
+              "profit": 400000,
+              "dataQuality": 5,
+              "cdoBudget": -120000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Bring in a data governance specialist. ",
+          "outcome": {
+            "description": "Your Data processes improve and you improve the quality of your data and lower risk, however tangible gains for your clients are slow to emerge.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": 10,
+              "cdoBudget": -200000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "quality_1",
+      "end": false,
+      "default": true,
+      "sender": "CRM Team",
+      "title": "Globex Projects Data",
+      "content": "Dear CDO,<br/><br/>Your recent project has been assigned \"confirmed\" status in the CRM system and an Globex Projects Page has been created for it.\nThe project has just started and the initial data is automatically populated with information from CRM.\nThis may have changed since you completed the opportunity report and we encourage you to visit the Globex Projects page now to update this information.\nGlobex Projects is a central location where you and your team can quickly and easily record, update, amend, share and search for project information across Globex globally.\nPlease update your project information.<br/><br/>Kind regards,\n",
+      "category": "dataQuality",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Organise a team meeting to review your project data focussing on getting as much accuracy into the system at this point to avoid having to repeat the task.",
+          "outcome": {
+            "description": "The quick fix improved data quality issues but doesn't address the challenge of having continuously accurate project data to support other bids/projects.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": 5,
+              "cdoBudget": -100000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Implement a workflow process that requires teams review and update data at key project milestones.",
+          "outcome": {
+            "description": "This approach ensured that accurate project data was eventually included into Globex Projects. Other teams missed out on your data in the interim but ultimately received more accurate data than in previous quarters.",
+            "impact": {
+              "profit": 250000,
+              "dataQuality": 10,
+              "cdoBudget": -200000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Include full project details including best-estimates for unknown entries based on previous experiences and an analysis of other projects.",
+          "outcome": {
+            "description": "Your statistical approach produced a reasonable approximation that meant more fields were filled in, but an audit later revealed some significant misrepresentations. The underlying data quality issues remain unresolved.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": -5,
+              "cdoBudget": -50000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 80
+    },
+    {
+      "name": "gdpr_1",
+      "end": false,
+      "default": true,
+      "sender": "Legal Department",
+      "title": "GDPR Compliance Audit Findings",
+      "content": "Dear CDO,<br/><br/>Our recent GDPR compliance audit has identified several areas requiring immediate attention. We need you to address these before our upcoming regulatory review.<br/><br/>Best regards,\n",
+      "category": "gdpr",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Comprehensive remediation of all findings regardless of severity.",
+          "outcome": {
+            "description": "The thorough approach satisfied regulators and established a gold standard for compliance. While costly to your project, it positioned the company as an industry leader in data protection.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": 20,
+              "cdoBudget": -300000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Complete a risk-based approach focusing only on high and medium severity issues.",
+          "outcome": {
+            "description": "The balanced approach addressed the most significant risks while managing costs. Regulators accepted the prioritisation plan, though requested a timeline for addressing remaining items.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": -100000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Only address the most critical findings and focus on your client delivery challenges. ",
+          "outcome": {
+            "description": "The minimal approach met basic requirements but drew regulatory scrutiny. Globex avoided immediate penalties but remains under increased oversight, and your client has expressed privacy concerns.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": -5,
+              "cdoBudget": 0,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "sharing_1",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Sharing site data?",
+      "content": "Dear CDO,<br/><br/>The project is running well. We're gathering a lot of data on-site at the moment, how do you want us to share that with you?<br/><br/>Sincerely,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Use the secure project portal to upload all data files, ensuring proper metadata tagging for easy access.",
+          "outcome": {
+            "description": "Proper metadata and secure storage improve efficiency and prevent rework, despite using some budget.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": -100000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Email the data files directly to the project manager for quick sharing.",
+          "outcome": {
+            "description": "Direct emailing allows for fast delivery with minimal additional cost, which can benefit short-term productivity. However, not using the secure portal may be perceived as careless and could damage trust in your data-handling practices.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": -5,
+              "cdoBudget": -50000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Share the data via a public file-sharing link for convenience.",
+          "outcome": {
+            "description": "Convenience is high and no extra effort is required, reducing immediate workload. Yet, the security risk is significant, and using public links may be viewed as unprofessional and non-compliant.",
+            "impact": {
+              "profit": 20000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_3",
+      "end": false,
+      "default": true,
+      "sender": "Digital Technology Group",
+      "title": "Data Labs Proposal",
+      "content": "Dear CDO,<br/><br/>Our Digital Technology Group have partnered with Globex University to organise some global Data Labs to develop data literacy and generate new ideas for data-driven products. They're requesting director sponsorship and time for team members to participate.<br/><br/>Thank you,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Encourage your teams to attend and become part of the steering committee to shape the design of the sessions.",
+          "outcome": {
+            "description": "The high-profile event achieved excellent engagement which resulted in numerous new product and service ideas. The global collaboration brought fresh thinking, though some concerns about intellectual property protection were raised.",
+            "impact": {
+              "profit": 400000,
+              "dataQuality": 5,
+              "cdoBudget": -300000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Encourage a few of your team to participate and report back what they learnt.",
+          "outcome": {
+            "description": "The team members who attended identified some practical solutions which could be brought into your team. This delivered some immediate value and boosted your team's efficiency.",
+            "impact": {
+              "profit": 150000,
+              "dataQuality": 10,
+              "cdoBudget": -100000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Decline the opportunity in favour of prioritising project delivery and innovation. ",
+          "outcome": {
+            "description": "Focusing solely on client delivery resulted in deadlines being met and client satisfaction but dampened enthusiasm for your team's professional development. Several innovative employees expressed disappointment about the lack of creative opportunities and spontaneous collaboration.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -5,
+              "cdoBudget": -300000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_4",
+      "end": false,
+      "default": true,
+      "sender": "CEO",
+      "title": "[URGENT] Data Practices inquiry",
+      "content": "Dear CDO,<br/><br/>We are assessing our data practices across the company. We've requested an interview about our data governance, privacy practices, and how we're addressing emerging regulatory challenges.<br/><br/>Kind regards,\n",
+      "category": "misc",
+      "isUrgent": true,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Participate in a comprehensive interview.",
+          "outcome": {
+            "description": "The transparent approach developed a positive relationship with the direction. Your candid acknowledgment of challenges and commitment to improvement resonated with them.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 0,
+              "cdoBudget": 500000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Submit a written statement highlighting our best practices.",
+          "outcome": {
+            "description": "The controlled message highlighted your strengths but was presented alongside more candid interviews from other PMs.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": 0,
+              "cdoBudget": 150000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Decline to comment. ",
+          "outcome": {
+            "description": "Your absence allowed other PMs to shape the narrative. The CEO has highlighted your unwillingness to participate and speculated about potential reasons, creating a negative impression.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 0,
+              "cdoBudget": 0,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 30
+    },
+    {
+      "name": "misc_5",
+      "end": false,
+      "default": true,
+      "sender": "Client",
+      "title": "Unhappy with delivery delays",
+      "content": "Dear CDO,<br/><br/>We’re concerned about the recent delays in project delivery. Could you please update us on the reasons for these delays and what steps are being taken to get things back on track? Timely delivery is critical for our operations.<br/><br/>Best regards,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Commit to accelerating work by limiting data quality checks.",
+          "outcome": {
+            "description": "You prioritise speed of delivery, but problems with the quality of your data are identified.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": -20,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Explain data quality issues causing this and propose a revised timeline to resolve these.",
+          "outcome": {
+            "description": "Builds trust and improves data quality, but you frustrate the client who was expecting a quick fix.",
+            "impact": {
+              "profit": -200000,
+              "dataQuality": 20,
+              "cdoBudget": -100000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Allocate more budget to data engineering. ",
+          "outcome": {
+            "description": "Satisfies delivery targets and client, but at the cost of a bigger chunk of budget.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 20,
+              "cdoBudget": -400000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_6",
+      "end": false,
+      "default": true,
+      "sender": "Learning & Development",
+      "title": "Introduction to Data Course",
+      "content": "Dear CDO,<br/><br/>We encourage your team to complete our new Introduction to Data Course!<br/><br/>Sincerely,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Mandate completion of the course for everyone on your project.",
+          "outcome": {
+            "description": "Guarantees completion and higher data literacy, but slows delivery.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 20,
+              "cdoBudget": -200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Encourage self-paced completion.",
+          "outcome": {
+            "description": "Some team members complete course when they have time, but adoption and upskilling is more limited.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 10,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Only nominate key team members. ",
+          "outcome": {
+            "description": "This saves time, but it creates knowledge gaps in your team and data quality risks.",
+            "impact": {
+              "profit": 200000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_7",
+      "end": false,
+      "default": true,
+      "sender": "APEX Team",
+      "title": "Data Register Reminder",
+      "content": "Dear CDO,<br/><br/>Now that Planisware - Globex's new central project delivery tool - has released globally, please complete your data register.<br/><br/>Thank you,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Assign a dedicated team member to complete.",
+          "outcome": {
+            "description": "Ensures a central reference for project data, but adds workload to a key team member.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 20,
+              "cdoBudget": -100000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Share responsibility across the team.",
+          "outcome": {
+            "description": "The team isn't slowed significantly, but this creates inconsistencies in the data register.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Delay completion for now as we are close to a deadline.",
+          "outcome": {
+            "description": "Your team is not slowed down, but this signals poor planning and data quality concerns are raised.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": -20,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_8",
+      "end": false,
+      "default": true,
+      "sender": "Lead Engineer",
+      "title": "Data Processing approach",
+      "content": "Dear CDO,<br/><br/>We would like your advice regarding how we should digitise our borehole log data.<br/><br/>Kind regards,\n",
+      "category": "dataQuality",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Manual data entry.",
+          "outcome": {
+            "description": "No initial investment cost is incurred, and no training is required. However, data capture is time-consuming.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Use a third party.",
+          "outcome": {
+            "description": "You digitise data more quickly in parallel with your project, but incur more cost.",
+            "impact": {
+              "profit": 200000,
+              "dataQuality": 15,
+              "cdoBudget": -300000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Develop an optical character recognition (OCR) tool internally.",
+          "outcome": {
+            "description": "Development requires significant up-front cost, but saves money in the long-run.",
+            "impact": {
+              "profit": 300000,
+              "dataQuality": 20,
+              "cdoBudget": -500000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_9",
+      "end": false,
+      "default": true,
+      "sender": "Lead Engineer",
+      "title": "Our data is organised inconsistently",
+      "content": "Dear CDO,<br/><br/>Our files have no clear naming conventions or folder structure and it's becoming difficult to find what we're looking for. What should we do?<br/><br/>Best regards,\n",
+      "category": "dataQuality",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Implement a strict folder naming convention and holder hierarchy immediately.",
+          "outcome": {
+            "description": "You improve long-term efficiency and compliance, but this requires significant upfront effort and disruption.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 20,
+              "cdoBudget": -300000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Introduce a lightweight tagging system.",
+          "outcome": {
+            "description": "This enables faster adoption and flexibility, but it takes time to reach a consensus.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 20,
+              "cdoBudget": -100000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Do nothing for now and rely on search tools. ",
+          "outcome": {
+            "description": "Saves time short-term, but inefficiency and frustration persist and compliance risks increase.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -20,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "misc_10",
+      "end": false,
+      "default": true,
+      "sender": "Data Engineer",
+      "title": "Dataset ownership unclear",
+      "content": "Dear CDO,<br/><br/>We're not sure who should decide on the standard for this dataset. Can you advise?<br/><br/>Sincerely,\n",
+      "category": "misc",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Assign a single data owner to make the decision.",
+          "outcome": {
+            "description": "Decisions are clearer and faster, but you risk missing others' input.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 20,
+              "cdoBudget": 0,
+              "clientRelationship": -20
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Form a small working group of stewards to agree on a standard. ",
+          "outcome": {
+            "description": "This approach accommodates wider perspectives, but is slower.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 30,
+              "cdoBudget": -200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Escalate to leadership for a global, cross-project view.",
+          "outcome": {
+            "description": "Fosters longer-term authority and clarity, but delays progress and reduces team autonomy.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 30,
+              "cdoBudget": -100000,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "budget_11",
+      "end": false,
+      "default": true,
+      "sender": "Project Director",
+      "title": "Project Extension - you've been given more budget!",
+      "content": "Dear CDO,<br/><br/>Great news - the client has approved an extension to your project along and allocated additional budget. How would you like to use the extra funds?<br/><br/>Thank you,\n",
+      "category": "budget",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Expand the scope of the project to include work the client has previously mentioned.",
+          "outcome": {
+            "description": "The client is pleased with the added value. However, increasing scope introduces complexities that stretches the team and quality of work decreases.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": -15,
+              "cdoBudget": 300000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Invest in strengthening data governance practises and devote budget to developing documentation, validation checks and lineage tracking.",
+          "outcome": {
+            "description": "You use the budget to improve data quality, documentation and governance. Delivery appears slower in the short term but fewer risks arise later in the project.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": 25,
+              "cdoBudget": 100000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Use the extra budget to bolster delivery capacity with contractors and automation tools.",
+          "outcome": {
+            "description": "Velocity increases without stretching the team and the client sees reliable delivery. However, underlying data issues remain unaddressed, occasionally resurfacing later.",
+            "impact": {
+              "profit": 150000,
+              "dataQuality": 5,
+              "cdoBudget": 200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "budget_12",
+      "end": false,
+      "default": true,
+      "sender": "Project Director",
+      "title": "Delivery Excellence - the client loves your work",
+      "content": "Dear CDO,<br/><br/>The client has been so impressed with the progress that they have released additional funds to \"take it to the next level\". How should we use this opportunity?<br/><br/>Kind regards,\n",
+      "category": "budget",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Deliver the same scope faster to reinforce confidence from the client.",
+          "outcome": {
+            "description": "Increased efficiency impresses the client and improves project margins. However, the \"next level\" ambition is not realised and the opportunity to differentiate is missed.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 0,
+              "cdoBudget": 200000,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Work with stakeholders to design \"next level\" value adds (dashboards/ automation/ insights). ",
+          "outcome": {
+            "description": "Meaningful innovation is delivered but there are risks to delivery timeline due to integrating new components.",
+            "impact": {
+              "profit": 150000,
+              "dataQuality": 5,
+              "cdoBudget": 200000,
+              "clientRelationship": 20
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Reinforce core delivery processes such as documentation and QA.",
+          "outcome": {
+            "description": "The client sees more stability and professionalism. There isn't any dramatic innovation but quality becomes more consistent.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": 20,
+              "cdoBudget": 100000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 30,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "strat_13",
+      "end": false,
+      "default": true,
+      "sender": "Digital Technology Group",
+      "title": "Standardising workflows in your project",
+      "content": "Dear CDO,<br/><br/>Globex is looking to standardise its workflows and your project has been chosen as a pilot candidate. How would you proceed?<br/><br/>Best regards,\n",
+      "category": "strategy",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Fully adopt and help define the standardised workflows.",
+          "outcome": {
+            "description": "You influence firm-wide ways of working and improve long term data consistency. However, the time commitment required creates delivery friction and tensions with some team members and stakeholders.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 30,
+              "cdoBudget": -250000,
+              "clientRelationship": 15
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Pilot standard workflows in select parts of the project.",
+          "outcome": {
+            "description": "You gain practical insight without overloading delivery. Standards improve gradually though there are inconsistencies across the project.",
+            "impact": {
+              "profit": -50000,
+              "dataQuality": 15,
+              "cdoBudget": -100000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Decline the pilot to avoid delivery risk.",
+          "outcome": {
+            "description": "Your project runs smoothly but your team misses a learning opportunity and is perceived as resistant to change.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": -5,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "hr_14",
+      "end": false,
+      "default": true,
+      "sender": "Digital Technology Group",
+      "title": "Using Data Literacy Budget",
+      "content": "Dear CDO,<br/><br/>The Data Literacy Campaign is offering a dedicated budget to support data upskilling within your team. What is your approach?<br/><br/>Sincerely,\n",
+      "category": "hr",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Enrol the whole team in Data Labs for structured Power BI and Databricks training.",
+          "outcome": {
+            "description": "Baseline capability improves across the team and data confidence increases. However, delivery slows while training is underway.",
+            "impact": {
+              "profit": -100000,
+              "dataQuality": 25,
+              "cdoBudget": 0,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Identify and inform the Data Literacy team on specific skills gaps - send key team members and champions to those sessions.",
+          "outcome": {
+            "description": "It takes more time to understand where skills gaps exist, but focused training supports sustainable, long term improvement.",
+            "impact": {
+              "profit": -50000,
+              "dataQuality": 20,
+              "cdoBudget": 0,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Work is too busy at the moment to allocate members to training - decline the offer from the data literacy team for the time being.",
+          "outcome": {
+            "description": "Project delivery continues on schedule but data literacy across the team remains low creating longer term quality and capability risks.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": -10,
+              "cdoBudget": 0,
+              "clientRelationship": -10
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "hr_15",
+      "end": false,
+      "default": true,
+      "sender": "Digital Technology Group",
+      "title": "Talent Transformation - Digital Leadership",
+      "content": "Dear CDO,<br/><br/>You have been provided with budget to help shape Globex's digital future by appointing new leadership roles. What do you want to do from here?<br/><br/>Thank you,\n",
+      "category": "hr",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "Appoint a senior digital leader who has a clear direction for DTG.",
+          "outcome": {
+            "description": "Digital ambition and strategic direction are strengthened. However, onboarding takes time and some teams feel disconnected from the new ways of working.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 10,
+              "cdoBudget": -300000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Promote and upskill an internal leader into the digital leadership role.",
+          "outcome": {
+            "description": "They have strong understanding of organisational context and current ways of working but digital capability develops more gradually.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": 10,
+              "cdoBudget": -200000,
+              "clientRelationship": 10
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Delegate digital-lead responsibilities among multiple team members",
+          "outcome": {
+            "description": "Team members intend to work collaboratively but accountability is diluted and processes become fragmented.",
+            "impact": {
+              "profit": 0,
+              "dataQuality": -5,
+              "cdoBudget": -100000,
+              "clientRelationship": -5
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    },
+    {
+      "name": "strat_15",
+      "end": false,
+      "default": true,
+      "sender": "Lead Engineer",
+      "title": "BIM Modelling for Product Engine",
+      "content": "Dear CDO,<br/><br/>I believe my BIM modelling solution could be a strong candidate for Globex's Product Engine and would really value your view on its potential. What do you think?<br/><br/>Kind regards,\n",
+      "category": "strategy",
+      "isUrgent": false,
+      "choices": {
+        "1": {
+          "name": "1",
+          "text": "The solution shows promise - actively sponsor the solution for Product Engine assessment. ",
+          "outcome": {
+            "description": "Solution could be highly beneficial for Globex as a whole but requires significant refinement, standardisation and governance effort.",
+            "impact": {
+              "profit": 150000,
+              "dataQuality": 10,
+              "cdoBudget": -250000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "2": {
+          "name": "2",
+          "text": "Run a limited pilot to test scalability and data quality first.",
+          "outcome": {
+            "description": "You gather evidence of business value before fully committing. Momentum slows down but the risks are better understood and evaluated for informed decision making.",
+            "impact": {
+              "profit": 100000,
+              "dataQuality": 15,
+              "cdoBudget": -150000,
+              "clientRelationship": 5
+            },
+            "next": []
+          }
+        },
+        "3": {
+          "name": "3",
+          "text": "Keep the solution project specific for now.",
+          "outcome": {
+            "description": "The project benefits quickly but wider reuse and standardisation opportunities are lost.",
+            "impact": {
+              "profit": 50000,
+              "dataQuality": -5,
+              "cdoBudget": 50000,
+              "clientRelationship": 0
+            },
+            "next": []
+          }
+        }
+      },
+      "minClientRelationship": 0,
+      "maxDataQuality": 100
+    }
+  ],
+  "priority": 2,
+  "indicators": [
+    {
+      "name": "Profit",
+      "nameId": "profit",
+      "emoji": "📈",
+      "initial": 0,
+      "priority": 1,
+      "min": -10000000,
+      "max": 10000000,
+      "type": "dollars",
+      "displayed": true,
+      "color": "primary"
+    },
+    {
+      "name": "Budget",
+      "nameId": "cdoBudget",
+      "emoji": "💰",
+      "initial": 1000000,
+      "priority": 2,
+      "min": 0,
+      "max": 10000000,
+      "type": "dollars",
+      "displayed": true,
+      "color": "#9c27b0"
+    },
+    {
+      "name": "Data Quality",
+      "nameId": "dataQuality",
+      "emoji": "📊",
+      "initial": 10,
+      "priority": 3,
+      "min": 0,
+      "max": 100,
+      "type": "percentage",
+      "displayed": true,
+      "color": "primary"
+    },
+    {
+      "name": "Client Relationship",
+      "nameId": "clientRelationship",
+      "emoji": "🤝",
+      "initial": 10,
+      "priority": 4,
+      "min": 0,
+      "max": 100,
+      "type": "percentage",
+      "displayed": true,
+      "color": "#9c27b0"
+    }
+  ],
+  "nameId": "who_can_lead",
+  "library": [],
+  "medals": [
+    {
+      "name": "gold",
+      "threshold": 5000000,
+      "emoji": "🥇"
+    },
+    {
+      "name": "silver",
+      "threshold": 3500000,
+      "emoji": "🥈"
+    },
+    {
+      "name": "bronze",
+      "threshold": 2000000,
+      "emoji": "🥉"
+    }
+  ],
+  "card": {
+    "plan": "free",
+    "title": "Data or Disaster?",
+    "shortDescription": "Test your strategic decision-making skills in a data driven organization. Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
+    "difficulty": "Beginner",
+    "skillsAcquired": [],
+    "context": {
+      "program": "",
+      "domains": "",
+      "roleFocus": "",
+      "objective": ""
+    },
+    "metadata": {
+      "category": "Strategy",
+      "estimatedDurationMinutes": 4,
+      "track": "Data Leadership"
+    }
+  }
+}

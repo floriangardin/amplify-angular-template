@@ -87,6 +87,7 @@ export const schema = a.schema({
   }),
 
   Card: a.customType({
+    plan: a.string().required(),
     title: a.string().required(),
     shortDescription: a.string().required(),
     difficulty: a.string().required(),

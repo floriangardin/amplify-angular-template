@@ -325,7 +325,7 @@ async function main() {
     process.exit(1);
   }
 
-  const client = generateClient<Schema>();
+  const client = generateClient<Schema>({ authMode: 'userPool' });
 
   const forceFlag = process.argv.includes('-f') || process.argv.includes('--force');
 

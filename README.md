@@ -54,6 +54,10 @@ For arup
 ```bash
 npx dotenvx run --env-file=.env.local -- ampx sandbox --identifier arup --stream-function-logs
 ```
+For white label :
+```bash
+npx dotenvx run --env-file=.env.local -- ampx sandbox --identifier demo --stream-function-logs
+```
 
 ## Configure custom domain
 
