@@ -731,14 +731,12 @@ export class BestCDOGameComponent extends BaseCDOComponent implements OnInit, On
     this.gameEngineService.stop();
     // Save best score before navigating (weighted scoring)
     const scenarioNameId = this.currentScenarioNameId();
-    const scoreInputs = {
+    const { baseScore, finishBonus, weightedScore } = this.scoringService.calculateFinalScoreBreakdown({
       profit: this.statValue('profit'),
       dataQuality: this.statValue('dataQuality'),
       clientRelationship: this.statValue('clientRelationship'),
-    };
-    const baseScore = this.scoringService.calculateWeightedScore(scoreInputs);
-    const finishBonus = endResult.hasWon ? scoreInputs.profit : 0;
-    const weightedScore = Math.round(baseScore + finishBonus);
+      hasWon: endResult.hasWon,
+    });
     // Store weighted score and breakdown in endResult for display
     endResult.stats = { ...endResult.stats, weightedScore, baseScore, finishBonus };
     if (scenarioNameId) {

@@ -90,7 +90,7 @@ def clean_title(title: str) -> str:
     return s
 
 # Load Data
-filepath = 'amplify/static/ingest/emails.xlsx'
+filepath = 'amplify/static/ingest/emails_final.xlsx'
 # Ensure we are in the root or adjust path. The script is in scripts/ingest/main.py.
 if not os.path.exists(filepath):
     # Try relative to script location if running from there
@@ -234,6 +234,7 @@ card = Card(
 )
 card_pro = Card(
     title="Data or Disaster? (Pro)",
+    plan="pro",
     shortDescription="Test your strategic decision-making skills in a data driven organization. This time with increased difficulty! Maximize long-term profit while balancing data quality, client relationships, and budget constraints.",
     difficulty="Intermediate",
     context=CardContext(

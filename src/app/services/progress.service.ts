@@ -63,15 +63,22 @@ export class ProgressService {
     try {
       const existing = await this.client.models.UserScenarioProgress.get({ userId, scenarioNameId });
       if (existing?.data) {
-        let previousIndicatorScores = existing.data.indicatorScores || [];
-        // Compare using weightedScore (points) if available, falling back to profit
-        let previousScore = previousIndicatorScores.find(s => s && s.indicatorNameId === 'weightedScore')?.value
-          ?? previousIndicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value
-          ?? -Infinity;
-        let currentScore = indicatorScores.find(s => s && s.indicatorNameId === 'weightedScore')?.value
-          ?? indicatorScores.find(s => s && s.indicatorNameId === 'profit')?.value;
-        let currentIsBetter = typeof previousScore === 'number' && typeof currentScore === 'number' && currentScore > previousScore;
-        let chosenIndicators = currentIsBetter ? indicatorScores : previousIndicatorScores;
+        const previousIndicatorScores = existing.data.indicatorScores || [];
+        // Merge indicator scores: keep the best (max) value for each indicator independently
+        const mergedMap = new Map<string, number>();
+        for (const s of previousIndicatorScores) {
+          if (s?.indicatorNameId && typeof s.value === 'number') {
+            mergedMap.set(s.indicatorNameId, s.value);
+          }
+        }
+        for (const s of indicatorScores) {
+          if (s?.indicatorNameId && typeof s.value === 'number') {
+            const prev = mergedMap.get(s.indicatorNameId) ?? -Infinity;
+            mergedMap.set(s.indicatorNameId, Math.max(prev, s.value));
+          }
+        }
+        const chosenIndicators = Array.from(mergedMap.entries())
+          .map(([indicatorNameId, value]) => ({ indicatorNameId, value }));
         const runs = (existing.data.runs ?? 0) + (params.incrementRuns === false ? 0 : 1);
         await this.client.models.UserScenarioProgress.update({
           userId,

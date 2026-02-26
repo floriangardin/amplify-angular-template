@@ -96,8 +96,8 @@ export class EmailQueueService {
         return false;
       }
 
-      // Check maxDataQuality
-      if (email.maxDataQuality !== undefined && filters.maxDataQuality >= email.maxDataQuality) {
+      // Check maxDataQuality (use strict > so emails with maxDataQuality equal to the indicator max are not excluded)
+      if (email.maxDataQuality !== undefined && filters.maxDataQuality > email.maxDataQuality) {
         return false;
       }
 
