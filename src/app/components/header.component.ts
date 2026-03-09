@@ -21,7 +21,7 @@ import { StripeService } from '../services/stripe.service';
 
       <h1 class="hidden md:block text-xl spectral-font font-bold text-center text-primary-500
        absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-        Data or Disaster <span class="text-sm font-normal text-gray-500">Inbox Challenge</span></h1>
+        Data or Despair <span class="text-sm font-normal text-gray-500">Inbox Challenge</span></h1>
 
       <div class="relative" #menuWrapper>
         <button

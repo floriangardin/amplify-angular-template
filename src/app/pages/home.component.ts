@@ -34,7 +34,7 @@ import { LearningResourcesComponent } from '../components/learning-resources.com
   ],
   template: `
   @if(loading()) {
-    <app-main-loading [text]="'Loading Data or Disaster'"></app-main-loading>
+    <app-main-loading [text]="'Loading Data or Despair'"></app-main-loading>
   } @else {
     <app-header></app-header>
 

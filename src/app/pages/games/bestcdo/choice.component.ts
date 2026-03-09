@@ -14,7 +14,7 @@ import { BaseCDOComponent } from './base.component';
       <!-- Header -->
       <div class="text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
-          <span class="text-primary-600">Data or Disaster</span> <span class="text-lg font-normal text-gray-500">Inbox Challenge</span>
+          <span class="text-primary-600">Data or Despair</span> <span class="text-lg font-normal text-gray-500">Inbox Challenge</span>
         </h1>
         <p class="text-lg md:text-xl text-gray-600">
           Engage your team in real-life data governance challenges.
