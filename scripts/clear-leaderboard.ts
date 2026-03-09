@@ -91,14 +91,12 @@ async function main() {
     process.exit(1);
   }
 
-  if (!dryRun) {
-    console.log('Signing in...');
-    await signIn({ username, password });
-    const session = await fetchAuthSession();
-    if (!session.tokens?.idToken) {
-      console.error('Sign-in failed: no tokens returned.');
-      process.exit(1);
-    }
+  console.log('Signing in...');
+  await signIn({ username, password });
+  const session = await fetchAuthSession();
+  if (!session.tokens?.idToken) {
+    console.error('Sign-in failed: no tokens returned.');
+    process.exit(1);
   }
 
   const client = generateClient<Schema>();
@@ -135,6 +133,7 @@ async function main() {
       }
     }
     console.log('\n[dry-run] No changes made.');
+    await signOut();
     return;
   }
 

@@ -634,7 +634,7 @@
             "impact": {
               "profit": 800000,
               "dataQuality": -10,
-              "cdoBudget": 300000,
+              "cdoBudget": -300000,
               "clientRelationship": -5
             },
             "next": []
