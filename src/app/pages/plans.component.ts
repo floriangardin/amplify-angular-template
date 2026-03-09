@@ -1,8 +1,6 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../components/header.component';
-import { StripeService } from '../services/stripe.service';
-import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -98,15 +96,7 @@ import { Router } from '@angular/router';
   styles: [`:host { display:block; min-height:100vh; background: #0d0f17; } table { border-collapse: collapse; }`]
 })
 export class PlansComponent {
-  private stripe = inject(StripeService);
-  private userService = inject(UserService);
   private router = inject(Router);
-  isPro = this.userService.isPro;
-
-  startCheckout(){
-    if(this.isPro()) return; // Guard
-    this.stripe.startCheckout().catch(err => console.error('Stripe checkout failed', err));
-  }
 
   goHome(){
     this.router.navigate(['/']);

@@ -2,7 +2,7 @@
 
 
 
-export type PlanName = 'free' | 'pro' | '' | 'pro_cancelling';
+export type PlanName = 'free' | 'pro' | '';
 
 export interface User {
   id: string;

@@ -48,7 +48,7 @@ export const auth = defineAuth({
       ],
     },
   },
-  groups: ['ADMIN', 'PRO', 'PRO_CANCELLING'],
+  groups: ['ADMIN'],
   userAttributes: {
     'custom:planName': {
       mutable: true,
@@ -58,6 +58,7 @@ export const auth = defineAuth({
       mutable: true,
       dataType: 'String',
     },
+    // Kept because Cognito does not allow removing existing custom attributes
     'custom:stripeCustomerId': {
       mutable: true,
       dataType: 'String',
@@ -73,9 +74,6 @@ export const auth = defineAuth({
   access: (allow) => [
     allow.resource(preTokenGeneration).to([
       'updateUserAttributes',
-      'getUser',
-      'addUserToGroup',
-      'removeUserFromGroup',
     ]),
   ],
 });

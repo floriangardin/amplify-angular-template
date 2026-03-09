@@ -8,7 +8,6 @@ import { UserService } from '../services/user.service';
 import { Scenario } from '../models/game-content';
 import { ConfirmDialogComponent } from '../ui/elements/confirm-dialog.component';
 import { Router } from '@angular/router';
-import {StripeService} from '../services/stripe.service'
 import { GameStateService } from './games/bestcdo/services/game-state.service';
 import { StateService } from '../services/state.service';
 import { MainLoadingComponent } from '../ui/elements/main-loading.component';
@@ -153,7 +152,6 @@ import { LearningResourcesComponent } from '../components/learning-resources.com
 export class HomeComponent implements OnInit{
 
   clientService = inject(ClientService);
-  stripeService = inject(StripeService);
   stateService = inject(StateService);
   gameStateService = inject(GameStateService);
   userService = inject(UserService);
@@ -228,30 +226,6 @@ export class HomeComponent implements OnInit{
   }
   
   async ngOnInit(): Promise<void> {
-    // USER
-    // Detect return from Stripe checkout to refresh token/groups immediately
-    try {
-      const url = new URL(window.location.href);
-      const payment = url.searchParams.get('payment');
-      const sessionId = url.searchParams.get('session_id');
-      if (payment === 'success' || !!sessionId) {
-        if (sessionId) {
-          try { await this.stripeService.verifySubscription(sessionId); } catch {}
-        }
-        await this.userService.refreshNow();
-        
-        // Clean URL params so we don't retrigger
-        url.searchParams.delete('payment');
-        url.searchParams.delete('session_id');
-        const newSearch = url.searchParams.toString();
-        history.replaceState({}, '', url.pathname + (newSearch ? `?${newSearch}` : '') + url.hash);
-      }
-
-    } catch {}
-
-
-    // SCENARIOS
-
     try {
       await this.userService.init();
       const scenarios = await this.stateService.getScenarios();
@@ -321,13 +295,6 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  goPro(){
-    this.stripeService.startCheckout().catch(err => {
-      console.error('Stripe checkout failed', err);
-      // optionally show a toast
-    });
-  }
-  
   onPlay(scenario: Scenario){
     // Navigate with scenario id in query params; game will fetch content based on id
     console.log('Play scenario', scenario);
@@ -339,11 +306,6 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['/leaderboard', scenario.nameId] );
   }
 
-  onUpgrade(){
-    // Intermediary screen before checkout
-    this.router.navigate(['/plans']);
-  }
-  
 
 
 

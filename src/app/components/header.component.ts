@@ -1,10 +1,8 @@
 import { Component, ElementRef, HostListener, ViewChild, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { signOut } from 'aws-amplify/auth';
-import type { PlanName } from '../models/user';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { StripeService } from '../services/stripe.service';
 
 @Component({
   selector: 'app-header',
@@ -73,7 +71,6 @@ import { StripeService } from '../services/stripe.service';
 export class HeaderComponent {
     private router = inject(Router);
     private userService = inject(UserService);
-    private stripeService = inject(StripeService);
     private host = inject(ElementRef<HTMLElement>);
 
     @ViewChild('menuWrapper', { static: true }) private menuWrapper?: ElementRef<HTMLElement>;
@@ -84,7 +81,6 @@ export class HeaderComponent {
     email = computed(() => this.userService.email());
     preferredUsername = computed(() => this.userService.preferredUsername());
     displayName = computed(() => this.preferredUsername() || this.email() || 'Account');
-    planName = computed<PlanName>(() => this.userService.planName());
 
     async onSignOut() {
       try { await signOut(); } catch {}
@@ -122,10 +118,5 @@ export class HeaderComponent {
     }
     goHome() {
       this.router.navigate(['/']);
-    }
-
-    goPro() {
-      // Route to plans page as an intermediary before checkout
-      this.router.navigate(['/plans']);
     }
 }

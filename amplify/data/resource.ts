@@ -1,11 +1,5 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
-import { ResourceType } from 'aws-cdk-lib/aws-config';
 import { sayHello } from "../functions/say-hello/resource"
-import { createCheckoutSession } from '../functions/create-checkout-session/resource';
-import { cancelSubscription } from '../functions/cancel-subscription/resource';
-import { reinstateSubscription } from '../functions/reinstate-subscription/resource';
-import { verifySubscription } from '../functions/verify-subscription/resource';
-import { listInvoices } from '../functions/list-invoices/resource';
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
@@ -14,54 +8,6 @@ specifies that any user authenticated via an API key can "create", "read",
 =========================================================================*/
 
 export const schema = a.schema({
-  InvoiceSummary: a.customType({
-    id: a.string().required(),
-    number: a.string().required(),
-    hostedInvoiceUrl: a.string().required(),
-    invoicePdf: a.string().required(),
-    currency: a.string().required(),
-    total: a.integer().required(),
-    created: a.string().required(),
-    status: a.string().required(),
-  }),
-  
-    createCheckoutSession: a
-    .query()
-    .arguments({})
-    .returns(a.string())
-    .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(createCheckoutSession)),
-
-  cancelSubscription: a
-  .mutation()
-  .arguments({})
-  .returns(a.string())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(cancelSubscription)),
-
-  reinstateSubscription: a
-  .mutation()
-  .arguments({})
-  .returns(a.string())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(reinstateSubscription)),
-
-  verifySubscription: a
-  .mutation()
-  .arguments({
-    sessionId: a.string().required(),
-  })
-  .returns(a.string())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(verifySubscription)),
-
-  listInvoices: a
-  .query()
-  .arguments({})
-  .returns(a.ref('InvoiceSummary').array().required())
-  .authorization(allow => [allow.authenticated()])
-  .handler(a.handler.function(listInvoices)),
-
   sayHello: a
     .query()
     .arguments({

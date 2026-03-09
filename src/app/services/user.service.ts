@@ -15,7 +15,6 @@ export class UserService {
     email = signal<string>('Unknown');
     preferredUsername = signal<string>('');
     planName = signal<PlanName>('');
-    periodEnd = signal<string | null>(null);
     currentUserId = signal<string>('');
 
     constructor() {
@@ -41,10 +40,8 @@ export class UserService {
             let plan = tokens?.idToken?.payload?.['plan'] as PlanName | "free";
             const groups = (tokens?.idToken?.payload?.['cognito:groups'] as string[] | undefined) ?? [];
             this.isAdmin.set(groups.includes('ADMIN'));
-            this.isPro.set(plan === 'pro' || plan === 'pro_cancelling');
+            this.isPro.set(plan === 'pro');
             this.planName.set(plan);
-            const periodEnd = (tokens?.idToken?.payload?.['custom:periodEnd'] as string | undefined) || null;
-            this.periodEnd.set(periodEnd);
             this.currentUserId.set(tokens?.idToken?.payload?.sub as string || '');
         } catch (err) {
             if (showWarnings) console.warn('Could not determine user groups', err);
